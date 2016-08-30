@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.factors.FactorSet &mdash; pgmpy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pgmpy 0.1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          Home</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site Map <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#getting-the-dependencies">Getting the dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#installing-from-source">Installing from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">pgmpy API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.factors">factors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.inference">inference module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.independencies">independencies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.readwrite">readwrite module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.base">base module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Example gallery</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html">GSoC 2015 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#want-to-get-involved">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#ideas">Ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html#gsoc-2014-ideas">GSoC 2014 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id2">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id3">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id5">Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#interested-students">Interested Students</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for pgmpy.factors.FactorSet</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">from</span> <span class="nn">pgmpy.extern.six.moves</span> <span class="kn">import</span> <span class="nb">filter</span><span class="p">,</span> <span class="nb">reduce</span>
+<span class="kn">from</span> <span class="nn">pgmpy.factors</span> <span class="kn">import</span> <span class="n">Factor</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern</span> <span class="kn">import</span> <span class="n">six</span>
+
+
+<div class="viewcode-block" id="FactorSet"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet">[docs]</a><span class="k">class</span> <span class="nc">FactorSet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Base class of *Factor Sets*.</span>
+
+<span class="sd">    A factor set provides a compact representation of  higher dimensional factor</span>
+<span class="sd">    :math:`\phi_1\cdot\phi_2\cdots\phi_n`</span>
+
+<span class="sd">    For example the factor set corresponding to factor :math:`\phi_1\cdot\phi_2` would be the union of the factors</span>
+<span class="sd">    :math:`\phi_1` and :math:`\phi_2` i.e. factor set :math:`\vec\phi = \phi_1 \cup \phi_2`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">factors_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the factor set class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factors_list: Factor1, Factor2, ....</span>
+<span class="sd">            All the factors whose product is represented by the factor set</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; factor_set</span>
+<span class="sd">        &lt;pgmpy.factors.FactorSet.FactorSet at 0x7f8e32af6d50&gt;</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set)</span>
+<span class="sd">        set([&lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7f8e32b4c2d0&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7f8e32b4c710&gt;])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">Factor</span><span class="p">)</span> <span class="k">for</span> <span class="n">phi</span> <span class="ow">in</span> <span class="n">factors_list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input parameters must be all factors&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factors</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">factor</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors_list</span><span class="p">])</span>
+
+<div class="viewcode-block" id="FactorSet.add_factors"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet.add_factors">[docs]</a>    <span class="k">def</span> <span class="nf">add_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">factors</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds factors to the factor set.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factors: Factor1, Factor2, ...., Factorn</span>
+<span class="sd">            factors to be added into the factor set</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; phi3 = Factor([&#39;x5&#39;, &#39;x6&#39;, &#39;x7&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; phi4 = Factor([&#39;x5&#39;, &#39;x7&#39;, &#39;x8&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1.add_factors(phi3, phi4)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set1)</span>
+<span class="sd">        set([&lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7f8e32b4ca10&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x7:2, x8:2) at 0x7f8e4c393690&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f8e32b4c750&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7f8e32b4cb50&gt;])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">factors</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FactorSet.remove_factors"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet.remove_factors">[docs]</a>    <span class="k">def</span> <span class="nf">remove_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">factors</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes factors from the factor set.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factors: Factor1, Factor2, ...., Factorn</span>
+<span class="sd">            factors to be removed from the factor set</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; phi3 = Factor([&#39;x5&#39;, &#39;x6&#39;, &#39;x7&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1.add_factors(phi3)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set1)</span>
+<span class="sd">        set([&lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7f8e32b5b050&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f8e32b5b250&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7f8e32b5b150&gt;])</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1.remove_factors(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set1)</span>
+<span class="sd">        set([&lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f8e32b4cb10&gt;])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FactorSet.get_factors"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet.get_factors">[docs]</a>    <span class="k">def</span> <span class="nf">get_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns all the factors present in factor set.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; phi3 = Factor([&#39;x5&#39;, &#39;x6&#39;, &#39;x7&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1.add_factors(phi3)</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1.get_factors()</span>
+<span class="sd">        {&lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7f827c0a23c8&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7f827c0a2358&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f825243f9e8&gt;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span></div>
+
+<div class="viewcode-block" id="FactorSet.product"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet.product">[docs]</a>    <span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factorset</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Return the factor sets product with the given factor sets</span>
+
+<span class="sd">        Suppose :math:`\vec\phi_1` and :math:`\vec\phi_2` are two factor sets then their product is a another factors</span>
+<span class="sd">        set :math:`\vec\phi_3 = \vec\phi_1 \cup \vec\phi_2`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factorsets: FactorSet1, FactorSet2, ..., FactorSetn</span>
+<span class="sd">            FactorSets to be multiplied</span>
+
+<span class="sd">        inplace: A boolean (Default value True)</span>
+<span class="sd">            If inplace = True , then it will modify the FactorSet object, if False, it will</span>
+<span class="sd">            return a new FactorSet object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        If inpalce = False, will return a new FactorSet object, which is product of two factors</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; phi3 = Factor([&#39;x5&#39;, &#39;x6&#39;, &#39;x7&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; phi4 = Factor([&#39;x5&#39;, &#39;x7&#39;, &#39;x8&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set2 = FactorSet(phi3, phi4)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set2)</span>
+<span class="sd">        set([&lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f8e32b5b050&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x7:2, x8:2) at 0x7f8e32b5b690&gt;])</span>
+<span class="sd">        &gt;&gt;&gt; factor_set2.product(factor_set1)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set2)</span>
+<span class="sd">        set([&lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7f8e32b4c910&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7f8e32b4cc50&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f8e32b5b050&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x7:2, x8:2) at 0x7f8e32b5b690&gt;])</span>
+<span class="sd">        &gt;&gt;&gt; factor_set2 = FactorSet(phi3, phi4)</span>
+<span class="sd">        &gt;&gt;&gt; factor_set3 = factor_set2.product(factor_set1, inplace=False)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set2)</span>
+<span class="sd">        set([&lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f8e32b5b060&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x7:2, x8:2) at 0x7f8e32b5b790&gt;])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">factor_set</span> <span class="o">=</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">inplace</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">factor_set1</span> <span class="o">=</span> <span class="n">factorset</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">factor_set</span><span class="o">.</span><span class="n">add_factors</span><span class="p">(</span><span class="o">*</span><span class="n">factor_set1</span><span class="o">.</span><span class="n">factors</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">factor_set</span></div>
+
+<div class="viewcode-block" id="FactorSet.divide"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet.divide">[docs]</a>    <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factorset</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new factor set instance after division by the factor set</span>
+
+<span class="sd">        Division of two factor sets :math:`\frac{\vec\phi_1}{\vec\phi_2}` basically translates to union of all the</span>
+<span class="sd">        factors present in :math:`\vec\phi_2` and :math:`\frac{1}{\phi_i}` of all the factors present in</span>
+<span class="sd">        :math:`\vec\phi_2`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        factorset: FactorSet</span>
+<span class="sd">            The divisor</span>
+
+<span class="sd">        inplace: A boolean (Default value True)</span>
+<span class="sd">            If inplace = True ,then it will modify the FactorSet object, if False then will</span>
+<span class="sd">            return a new FactorSet object.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        If inplace = False, will return a new FactorSet Object which is division of</span>
+<span class="sd">        given factors.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; phi3 = Factor([&#39;x5&#39;, &#39;x6&#39;, &#39;x7&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; phi4 = Factor([&#39;x5&#39;, &#39;x7&#39;, &#39;x8&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set2 = FactorSet(phi3, phi4)</span>
+<span class="sd">        &gt;&gt;&gt; factor_set3 = factor_set2.divide(factor_set1)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set3)</span>
+<span class="sd">        set([&lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7f8e32b5ba10&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f8e32b5b650&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7f8e32b5b050&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x5:2, x7:2, x8:2) at 0x7f8e32b5b8d0&gt;])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">factor_set</span> <span class="o">=</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">inplace</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">factor_set1</span> <span class="o">=</span> <span class="n">factorset</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">factor_set</span><span class="o">.</span><span class="n">add_factors</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">phi</span><span class="o">.</span><span class="n">identity_factor</span><span class="p">()</span> <span class="o">/</span> <span class="n">phi</span> <span class="k">for</span> <span class="n">phi</span> <span class="ow">in</span> <span class="n">factor_set1</span><span class="o">.</span><span class="n">factors</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">factor_set</span></div>
+
+<div class="viewcode-block" id="FactorSet.marginalize"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet.marginalize">[docs]</a>    <span class="k">def</span> <span class="nf">marginalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Marginalizes the factors present in the factor sets with respect to the given variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        variables: list, array-like</span>
+<span class="sd">            List of the variables to be marginalized.</span>
+
+<span class="sd">        inplace: boolean (Default value True)</span>
+<span class="sd">            If inplace=True it will modify the factor set itself, would create a new factor set</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        If inplace = False, will return a new marginalized FactorSet object.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; factor_set1.marginalize(&#39;x1&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; print(factor_set1)</span>
+<span class="sd">        set([&lt;Factor representing phi(x2:3, x3:2) at 0x7f8e32b4cc10&gt;,</span>
+<span class="sd">             &lt;Factor representing phi(x3:2, x4:2) at 0x7f8e32b4cf90&gt;])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Expected list or array-like type got type str&#39;</span><span class="p">)</span>
+
+        <span class="n">factor_set</span> <span class="o">=</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">inplace</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">factors_to_be_marginalized</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">scope</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">variables</span><span class="p">),</span>
+                                                <span class="n">factor_set</span><span class="o">.</span><span class="n">factors</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors_to_be_marginalized</span><span class="p">:</span>
+            <span class="n">variables_to_be_marginalized</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">factor</span><span class="o">.</span><span class="n">scope</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+                <span class="n">factor</span><span class="o">.</span><span class="n">marginalize</span><span class="p">(</span><span class="n">variables_to_be_marginalized</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">factor_set</span><span class="o">.</span><span class="n">remove_factors</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
+                <span class="n">factor_set</span><span class="o">.</span><span class="n">add_factors</span><span class="p">(</span><span class="n">factor</span><span class="o">.</span><span class="n">marginalize</span><span class="p">(</span><span class="n">variables_to_be_marginalized</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">factor_set</span></div>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="FactorSet.copy"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.FactorSet.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a copy of factor set.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">        &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">        &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">        &gt;&gt;&gt; factor_set = FactorSet(phi1, phi2)</span>
+<span class="sd">        &gt;&gt;&gt; factor_set</span>
+<span class="sd">        &lt;pgmpy.factors.FactorSet.FactorSet at 0x7fa68f390320&gt;</span>
+<span class="sd">        &gt;&gt;&gt; factor_set_copy = factor_set.copy()</span>
+<span class="sd">        &gt;&gt;&gt; factor_set_copy</span>
+<span class="sd">        &lt;pgmpy.factors.FactorSet.FactorSet at 0x7f91a0031160&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># No need to have copies of factors as argument because __init__ method creates copies.</span>
+        <span class="k">return</span> <span class="n">FactorSet</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">factors</span><span class="p">)</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">factorset_product</span><span class="p">(</span><span class="o">*</span><span class="n">factorsets_list</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Base method used for product of factor sets.</span>
+
+<span class="sd">    Suppose :math:`\vec\phi_1` and :math:`\vec\phi_2` are two factor sets then their product is a another factors set</span>
+<span class="sd">    :math:`\vec\phi_3 = \vec\phi_1 \cup \vec\phi_2`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    factorsets_list: FactorSet1, FactorSet2, ..., FactorSetn</span>
+<span class="sd">        All the factor sets to be multiplied</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Product of factorset in factorsets_list</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">    &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">    &gt;&gt;&gt; from pgmpy.factors import factorset_product</span>
+<span class="sd">    &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">    &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">    &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">    &gt;&gt;&gt; phi3 = Factor([&#39;x5&#39;, &#39;x6&#39;, &#39;x7&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">    &gt;&gt;&gt; phi4 = Factor([&#39;x5&#39;, &#39;x7&#39;, &#39;x8&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">    &gt;&gt;&gt; factor_set2 = FactorSet(phi3, phi4)</span>
+<span class="sd">    &gt;&gt;&gt; factor_set3 = factorset_product(factor_set1, factor_set2)</span>
+<span class="sd">    &gt;&gt;&gt; print(factor_set3)</span>
+<span class="sd">    set([&lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7fb3a1933e90&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x5:2, x7:2, x8:2) at 0x7fb3a1933f10&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7fb3a1933f90&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7fb3a1933e10&gt;])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">factorset</span><span class="p">,</span> <span class="n">FactorSet</span><span class="p">)</span> <span class="k">for</span> <span class="n">factorset</span> <span class="ow">in</span> <span class="n">factorsets_list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input parameters must be FactorSet instances&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span> <span class="n">factorsets_list</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">factorset_divide</span><span class="p">(</span><span class="n">factorset1</span><span class="p">,</span> <span class="n">factorset2</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    Base method for dividing two factor sets.</span>
+
+<span class="sd">    Division of two factor sets :math:`\frac{\vec\phi_1}{\vec\phi_2}` basically translates to union of all the factors</span>
+<span class="sd">    present in :math:`\vec\phi_2` and :math:`\frac{1}{\phi_i}` of all the factors present in :math:`\vec\phi_2`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    factorset1: FactorSet</span>
+<span class="sd">        The dividend</span>
+
+<span class="sd">    factorset2: FactorSet</span>
+<span class="sd">        The divisor</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    The division of factorset1 and factorset2</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pgmpy.factors import FactorSet</span>
+<span class="sd">    &gt;&gt;&gt; from pgmpy.factors import Factor</span>
+<span class="sd">    &gt;&gt;&gt; from pgmpy.factors import factorset_divide</span>
+<span class="sd">    &gt;&gt;&gt; phi1 = Factor([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], range(12))</span>
+<span class="sd">    &gt;&gt;&gt; phi2 = Factor([&#39;x3&#39;, &#39;x4&#39;, &#39;x1&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">    &gt;&gt;&gt; factor_set1 = FactorSet(phi1, phi2)</span>
+<span class="sd">    &gt;&gt;&gt; phi3 = Factor([&#39;x5&#39;, &#39;x6&#39;, &#39;x7&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">    &gt;&gt;&gt; phi4 = Factor([&#39;x5&#39;, &#39;x7&#39;, &#39;x8&#39;], [2, 2, 2], range(8))</span>
+<span class="sd">    &gt;&gt;&gt; factor_set2 = FactorSet(phi3, phi4)</span>
+<span class="sd">    &gt;&gt;&gt; factor_set3 = factorset_divide(factor_set2, factor_set1)</span>
+<span class="sd">    &gt;&gt;&gt; print(factor_set3)</span>
+<span class="sd">    set([&lt;Factor representing phi(x3:2, x4:2, x1:2) at 0x7f119ad78f90&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x5:2, x6:2, x7:2) at 0x7f119ad78e50&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x1:2, x2:3, x3:2) at 0x7f119ad78ed0&gt;,</span>
+<span class="sd">         &lt;Factor representing phi(x5:2, x7:2, x8:2) at 0x7f119ad78e90&gt;])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factorset1</span><span class="p">,</span> <span class="n">FactorSet</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factorset2</span><span class="p">,</span> <span class="n">FactorSet</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;factorset1 and factorset2 must be FactorSet instances&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">factorset1</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">factorset2</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, pgmpy Developers (MIT License).<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

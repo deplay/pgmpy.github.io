@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; pgmpy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pgmpy 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="pgmpy API Reference" href="api.html" />
+    <link rel="prev" title="pgmpy" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Home</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site Map <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-the-dependencies">Getting the dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">pgmpy API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.factors">factors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.inference">inference module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.independencies">independencies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.readwrite">readwrite module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.base">base module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Example gallery</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="wiki.html">GSoC 2015 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#want-to-get-involved">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#ideas">Ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wiki.html#gsoc-2014-ideas">GSoC 2014 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#id2">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#id3">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#id5">Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wiki.html#interested-students">Interested Students</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#getting-the-dependencies">Getting the dependencies</a></li>
+<li><a class="reference internal" href="#installing-from-source">Installing from source</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="index.html" title="Previous Chapter: pgmpy"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; pgmpy</span>
+    </a>
+  </li>
+  <li>
+    <a href="api.html" title="Next Chapter: pgmpy API Reference"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">pgmpy API Ref... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/install.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-the-dependencies">
+<h2>Getting the dependencies<a class="headerlink" href="#getting-the-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Installing from source requires you to have installed</p>
+<ul class="simple">
+<li><code class="code docutils literal"><span class="pre">Python3</span></code></li>
+<li><code class="code docutils literal"><span class="pre">networkx</span></code> (==1.8.1)</li>
+<li><code class="code docutils literal"><span class="pre">numpy</span></code> (==1.9.1)</li>
+<li><code class="code docutils literal"><span class="pre">scipy</span></code> (==0.14.0)</li>
+<li><code class="code docutils literal"><span class="pre">cython</span></code> (==0.21)</li>
+<li><code class="code docutils literal"><span class="pre">pandas</span></code> (==0.15.1)</li>
+<li><code class="code docutils literal"><span class="pre">setuptools</span></code></li>
+<li>working <code class="code docutils literal"><span class="pre">C</span></code> and <code class="code docutils literal"><span class="pre">C++</span></code> compiler</li>
+</ul>
+<p>You can install all these requirements by issuing</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ [sudo] apt-get install build-essential python3-dev python3-pip
+$ [sudo] pip3 install -r requirements.txt       # use requirements-dev.txt if you want to run tests
+</pre></div>
+</div>
+<p>On Red Hat and clones (e.g CentOS), install the dependencies using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ [sudo] yum -y install gcc gcc-c++ python3-devel python3-pip
+$ [sudo] pip3 install -r requirements.txt       # use requirements-dev.txt if you want to run tests
+</pre></div>
+</div>
+<p>Or  use some cross-platform binary package manager such as <a class="reference external" href="http://conda.pydata.org/">conda</a> (it is
+recommended as well as the most easiest and hastle-free way)</p>
+<p>Setup a virtual environment in <code class="code docutils literal"><span class="pre">conda</span></code> by</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ conda create -n pgmpy-env python=3.4
+$ source activate pgmpy-env
+</pre></div>
+</div>
+<p>Once you have the virtual environment setup, install the depenedencies using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ conda install -f requirements.txt     # use requirements-dev.txt if you want to run tests
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In order to build the documentation you will need <code class="code docutils literal"><span class="pre">sphinx</span></code> and to run the tests you will need <code class="code docutils literal"><span class="pre">nose</span></code></p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span>$ [sudo] pip3 install sphinx nose
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="installing-from-source">
+<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
+<p>You can install from source by downloading a source archive file (zip) or by checking out the
+source files from <code class="code docutils literal"><span class="pre">git</span></code> source repository.</p>
+<ol class="arabic">
+<li><p class="first">Download the source (zip file) from <a class="reference external" href="https://github.com/pgmpy/pgmpy">https://github.com/pgmpy/pgmpy</a> or clone the pgmpy repository:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git clone https://github.com/pgmpy/pgmpy
+$ git checkout dev
+</pre></div>
+</div>
+</li>
+<li><p class="first">Unpack (if necessary) and change directory to the source directory.</p>
+</li>
+<li><p class="first">Run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ [sudo] python3 setup.py install
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Testing requires having the <code class="code docutils literal"><span class="pre">nose</span></code> library. After installation, the package can be tested by executing
+<em>from</em> the source directory:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ nosetests3
+</pre></div>
+</div>
+<p>This would give you a lot of output (and some warnings) but eventually should finish without errors. Otherwise, please consider
+posting an issue into the <a class="reference external" href="https://github.com/pgmpy/pgmpy/issues">bug tracker</a> or the Mailing List <a class="reference external" href="mailto:pgmpy&#37;&#52;&#48;googlegroups&#46;com">pgmpy<span>&#64;</span>googlegroups<span>&#46;</span>com</a> .</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, pgmpy Developers (MIT License).<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

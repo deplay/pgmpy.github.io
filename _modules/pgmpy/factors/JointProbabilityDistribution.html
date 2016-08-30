@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.factors.JointProbabilityDistribution &mdash; pgmpy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pgmpy 0.1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          Home</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site Map <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#getting-the-dependencies">Getting the dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#installing-from-source">Installing from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">pgmpy API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.factors">factors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.inference">inference module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.independencies">independencies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.readwrite">readwrite module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.base">base module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Example gallery</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html">GSoC 2015 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#want-to-get-involved">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#ideas">Ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html#gsoc-2014-ideas">GSoC 2014 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id2">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id3">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id5">Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#interested-students">Interested Students</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for pgmpy.factors.JointProbabilityDistribution</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">mul</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pgmpy.factors</span> <span class="kn">import</span> <span class="n">Factor</span>
+<span class="kn">from</span> <span class="nn">pgmpy.independencies</span> <span class="kn">import</span> <span class="n">Independencies</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern.six.moves</span> <span class="kn">import</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">zip</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern</span> <span class="kn">import</span> <span class="n">six</span>
+
+
+<div class="viewcode-block" id="JointProbabilityDistribution"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution">[docs]</a><span class="k">class</span> <span class="nc">JointProbabilityDistribution</span><span class="p">(</span><span class="n">Factor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for Joint Probability Distribution</span>
+
+<span class="sd">    Public Methods</span>
+<span class="sd">    --------------</span>
+<span class="sd">    conditional_distribution(values)</span>
+<span class="sd">    create_bayesian_model()</span>
+<span class="sd">    get_independencies()</span>
+<span class="sd">    pmap()</span>
+<span class="sd">    marginal_distribution(variables)</span>
+<span class="sd">    minimal_imap()</span>
+<span class="sd">    is_imap(model)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">cardinality</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Joint Probability Distribution class.</span>
+
+<span class="sd">        Defined above, we have the following mapping from variable</span>
+<span class="sd">        assignments to the index of the row vector in the value field:</span>
+
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        |  x1 |  x2 |  x3 |    P(x1, x2, x2)        |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_0| x2_0| x3_0|    P(x1_0, x2_0, x3_0)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_1| x2_0| x3_0|    P(x1_1, x2_0, x3_0)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_0| x2_1| x3_0|    P(x1_0, x2_1, x3_0)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_1| x2_1| x3_0|    P(x1_1, x2_1, x3_0)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_0| x2_0| x3_1|    P(x1_0, x2_0, x3_1)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_1| x2_0| x3_1|    P(x1_1, x2_0, x3_1)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_0| x2_1| x3_1|    P(x1_0, x2_1, x3_1)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+<span class="sd">        | x1_1| x2_1| x3_1|    P(x1_1, x2_1, x3_1)  |</span>
+<span class="sd">        +-----+-----+-----+-------------------------+</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        variables: list</span>
+<span class="sd">            List of scope of Joint Probability Distribution.</span>
+<span class="sd">        cardinality: list, array_like</span>
+<span class="sd">            List of cardinality of each variable</span>
+<span class="sd">        value: list, array_like</span>
+<span class="sd">            List or array of values of factor.</span>
+<span class="sd">            A Joint Probability Distribution&#39;s values are stored in a row</span>
+<span class="sd">            vector in the value using an ordering such that the left-most</span>
+<span class="sd">            variables as defined in the variable field cycle through their</span>
+<span class="sd">            values the fastest.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; prob = JointProbabilityDistribution([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 2, 2], np.ones(8)/8)</span>
+<span class="sd">        &gt;&gt;&gt; print(prob)</span>
+<span class="sd">        x1    x2    x3      P(x1,x2,x3)</span>
+<span class="sd">        ----  ----  ----  -------------</span>
+<span class="sd">        x1_0  x2_0  x3_0         0.1250</span>
+<span class="sd">        x1_0  x2_0  x3_1         0.1250</span>
+<span class="sd">        x1_0  x2_1  x3_0         0.1250</span>
+<span class="sd">        x1_0  x2_1  x3_1         0.1250</span>
+<span class="sd">        x1_1  x2_0  x3_0         0.1250</span>
+<span class="sd">        x1_1  x2_0  x3_1         0.1250</span>
+<span class="sd">        x1_1  x2_1  x3_0         0.1250</span>
+<span class="sd">        x1_1  x2_1  x3_1         0.1250</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">JointProbabilityDistribution</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">cardinality</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The probability values doesn&#39;t sum to 1.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">var_card</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;{var}:{card}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">card</span><span class="o">=</span><span class="n">card</span><span class="p">)</span>
+                              <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">card</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cardinality</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Joint Distribution representing P({var_card}) at {address}&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)),</span>
+                                                                                     <span class="n">var_card</span><span class="o">=</span><span class="n">var_card</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span><span class="p">(</span><span class="n">phi_or_p</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;pqsl&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span><span class="p">(</span><span class="n">phi_or_p</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.marginal_distribution"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.marginal_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">marginal_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the marginal distribution over variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        variables: string, list, tuple, set, dict</span>
+<span class="sd">                Variable or list of variables over which marginal distribution needs</span>
+<span class="sd">                to be calculated</span>
+<span class="sd">        inplace: Boolean (default True)</span>
+<span class="sd">                If False return a new instance of JointProbabilityDistribution</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; values = np.random.rand(12)</span>
+<span class="sd">        &gt;&gt;&gt; prob = JointProbabilityDistribution([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], values/np.sum(values))</span>
+<span class="sd">        &gt;&gt;&gt; prob.marginal_distribution([&#39;x1&#39;, &#39;x2&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; print(prob)</span>
+<span class="sd">        x1    x2      P(x1,x2)</span>
+<span class="sd">        ----  ----  ----------</span>
+<span class="sd">        x1_0  x2_0      0.1502</span>
+<span class="sd">        x1_0  x2_1      0.1626</span>
+<span class="sd">        x1_0  x2_2      0.1197</span>
+<span class="sd">        x1_1  x2_0      0.2339</span>
+<span class="sd">        x1_1  x2_1      0.1996</span>
+<span class="sd">        x1_1  x2_2      0.1340</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">marginalize</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">))</span> <span class="o">-</span>
+                                     <span class="nb">set</span><span class="p">(</span><span class="n">variables</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+                                         <span class="n">variables</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="k">else</span> <span class="p">[</span><span class="n">variables</span><span class="p">])),</span>
+                                <span class="n">inplace</span><span class="o">=</span><span class="n">inplace</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.check_independence"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.check_independence">[docs]</a>    <span class="k">def</span> <span class="nf">check_independence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event1</span><span class="p">,</span> <span class="n">event2</span><span class="p">,</span> <span class="n">event3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">condition_random_variable</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the Joint Probability Distribution satisfies the given independence condition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        event1: list</span>
+<span class="sd">            random variable whose independence is to be checked.</span>
+<span class="sd">        event2: list</span>
+<span class="sd">            random variable from which event1 is independent.</span>
+<span class="sd">        values: 2D array or list like or 1D array or list like</span>
+<span class="sd">            A 2D list of tuples of the form (variable_name, variable_state).</span>
+<span class="sd">            A 1D list or array-like to condition over randome variables (condition_random_variable must be True)</span>
+<span class="sd">            The values on which to condition the Joint Probability Distribution.</span>
+<span class="sd">        condition_random_variable: Boolean (Default false)</span>
+<span class="sd">            If true and event3 is not None than will check independence condition over random variable.</span>
+
+<span class="sd">        For random variables say X, Y, Z to check if X is independent of Y given Z.</span>
+<span class="sd">        event1 should be either X or Y.</span>
+<span class="sd">        event2 should be either Y or X.</span>
+<span class="sd">        event3 should Z.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution as JPD</span>
+<span class="sd">        &gt;&gt;&gt; prob = JPD([&#39;I&#39;,&#39;D&#39;,&#39;G&#39;],[2,2,3],</span>
+<span class="sd">                       [0.126,0.168,0.126,0.009,0.045,0.126,0.252,0.0224,0.0056,0.06,0.036,0.024])</span>
+<span class="sd">        &gt;&gt;&gt; prob.check_independence([&#39;I&#39;], [&#39;D&#39;])</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; prob.check_independence([&#39;I&#39;], [&#39;D&#39;], [(&#39;G&#39;, 1)])  # Conditioning over G_1</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; # Conditioning over random variable G</span>
+<span class="sd">        &gt;&gt;&gt; prob.check_independence([&#39;I&#39;], [&#39;D&#39;], (&#39;G&#39;,), condition_random_variable=True)</span>
+<span class="sd">        False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">JPD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event1</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Event 1 should be a list or array-like structure&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event2</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Event 2 should be a list or array-like structure&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">event3</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event3</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Event 3 cannot of type string&#39;</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">condition_random_variable</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">event3</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Event3 should be a 1d list of strings&#39;</span><span class="p">)</span>
+                <span class="n">event3</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">event3</span><span class="p">)</span>
+                <span class="c1"># Using the definition of conditional independence</span>
+                <span class="c1"># If P(X,Y|Z) = P(X|Z)*P(Y|Z)</span>
+                <span class="c1"># This can be expanded to P(X,Y,Z)*P(Z) == P(X,Z)*P(Y,Z)</span>
+                <span class="n">phi_z</span> <span class="o">=</span> <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">event3</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">variable_pair</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">event1</span><span class="p">,</span> <span class="n">event2</span><span class="p">):</span>
+                    <span class="n">phi_xyz</span> <span class="o">=</span> <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">event3</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span>
+                    <span class="n">phi_xz</span> <span class="o">=</span> <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">event3</span> <span class="o">+</span> <span class="p">[</span><span class="n">variable_pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span>
+                    <span class="n">phi_yz</span> <span class="o">=</span> <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">event3</span> <span class="o">+</span> <span class="p">[</span><span class="n">variable_pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">phi_xyz</span> <span class="o">*</span> <span class="n">phi_z</span> <span class="o">!=</span> <span class="n">phi_xz</span> <span class="o">*</span> <span class="n">phi_yz</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="bp">False</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">JPD</span><span class="o">.</span><span class="n">conditional_distribution</span><span class="p">(</span><span class="n">event3</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">variable_pair</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">event1</span><span class="p">,</span> <span class="n">event2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">!=</span>
+                    <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">*</span>
+                    <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.get_independencies"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.get_independencies">[docs]</a>    <span class="k">def</span> <span class="nf">get_independencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the independent variables in the joint probability distribution.</span>
+<span class="sd">        Returns marginally independent variables if condition=None.</span>
+<span class="sd">        Returns conditionally independent variables if condition!=None</span>
+
+<span class="sd">        Parameter</span>
+<span class="sd">        ---------</span>
+<span class="sd">        condition: array_like</span>
+<span class="sd">                Random Variable on which to condition the Joint Probability Distribution.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; prob = JointProbabilityDistribution([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], np.ones(12)/12)</span>
+<span class="sd">        &gt;&gt;&gt; prob.get_independencies()</span>
+<span class="sd">        (x1 _|_ x2)</span>
+<span class="sd">        (x1 _|_ x3)</span>
+<span class="sd">        (x2 _|_ x3)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">JPD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
+            <span class="n">JPD</span><span class="o">.</span><span class="n">conditional_distribution</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+        <span class="n">independencies</span> <span class="o">=</span> <span class="n">Independencies</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">variable_pair</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">JPD</span><span class="o">.</span><span class="n">variables</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">==</span>
+                    <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">*</span>
+                    <span class="n">JPD</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)):</span>
+                <span class="n">independencies</span><span class="o">.</span><span class="n">add_assertions</span><span class="p">(</span><span class="n">variable_pair</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">independencies</span></div>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.conditional_distribution"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.conditional_distribution">[docs]</a>    <span class="k">def</span> <span class="nf">conditional_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns Conditional Probability Distribution after setting values to 1.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        values: list or array_like</span>
+<span class="sd">            A list of tuples of the form (variable_name, variable_state).</span>
+<span class="sd">            The values on which to condition the Joint Probability Distribution.</span>
+<span class="sd">        inplace: Boolean (default True)</span>
+<span class="sd">            If False returns a new instance of JointProbabilityDistribution</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; prob = JointProbabilityDistribution([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 2, 2], np.ones(8)/8)</span>
+<span class="sd">        &gt;&gt;&gt; prob.conditional_distribution([(&#39;x1&#39;, 1)])</span>
+<span class="sd">        &gt;&gt;&gt; print(prob)</span>
+<span class="sd">        x2    x3      P(x2,x3)</span>
+<span class="sd">        ----  ----  ----------</span>
+<span class="sd">        x2_0  x3_0      0.2500</span>
+<span class="sd">        x2_0  x3_1      0.2500</span>
+<span class="sd">        x2_1  x3_0      0.2500</span>
+<span class="sd">        x2_1  x3_1      0.2500</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">JPD</span> <span class="o">=</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">inplace</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">JPD</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">JPD</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">JPD</span></div>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.copy"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns A copy of JointProbabilityDistribution object</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        ---------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; prob = JointProbabilityDistribution([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], np.ones(12)/12)</span>
+<span class="sd">        &gt;&gt;&gt; prob_copy = prob.copy()</span>
+<span class="sd">        &gt;&gt;&gt; prob_copy.values == prob.values</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; prob_copy.variables == prob.variables</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; prob_copy.variables[1] = &#39;y&#39;</span>
+<span class="sd">        &gt;&gt;&gt; prob_copy.variables == prob.variables</span>
+<span class="sd">        False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JointProbabilityDistribution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scope</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">cardinality</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.minimal_imap"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.minimal_imap">[docs]</a>    <span class="k">def</span> <span class="nf">minimal_imap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a Bayesian Model which is minimal IMap of the Joint Probability Distribution</span>
+<span class="sd">        considering the order of the variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        order: array-like</span>
+<span class="sd">            The order of the random variables.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; prob = JointProbabilityDistribution([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], np.ones(12)/12)</span>
+<span class="sd">        &gt;&gt;&gt; bayesian_model = prob.minimal_imap(order=[&#39;x2&#39;, &#39;x1&#39;, &#39;x3&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; bayesian_model</span>
+<span class="sd">        &lt;pgmpy.models.models.models at 0x7fd7440a9320&gt;</span>
+<span class="sd">        &gt;&gt;&gt; bayesian_model.edges()</span>
+<span class="sd">        [(&#39;x1&#39;, &#39;x3&#39;), (&#39;x2&#39;, &#39;x3&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianModel</span>
+
+        <span class="k">def</span> <span class="nf">get_subsets</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">i</span>
+
+        <span class="n">G</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">variable_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">)):</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">order</span><span class="p">[:</span><span class="n">variable_index</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">get_subsets</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="ow">and</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">check_independence</span><span class="p">([</span><span class="n">order</span><span class="p">[</span><span class="n">variable_index</span><span class="p">]],</span> <span class="nb">set</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">subset</span><span class="p">),</span> <span class="n">subset</span><span class="p">,</span> <span class="bp">True</span><span class="p">)):</span>
+                    <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="n">variable</span><span class="p">,</span> <span class="n">order</span><span class="p">[</span><span class="n">variable_index</span><span class="p">])</span> <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">G</span></div>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.is_imap"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.is_imap">[docs]</a>    <span class="k">def</span> <span class="nf">is_imap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether the given BayesianModel is Imap of JointProbabilityDistribution</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        model : An instance of BayesianModel Class, for which you want to</span>
+<span class="sd">            check the Imap</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        boolean : True if given bayesian model is Imap for Joint Probability Distribution</span>
+<span class="sd">                False otherwise</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; bm = BayesianModel([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; diff_cpd = TabularCPD(&#39;diff&#39;, 2, [[0.2], [0.8]])</span>
+<span class="sd">        &gt;&gt;&gt; intel_cpd = TabularCPD(&#39;intel&#39;, 3, [[0.5], [0.3], [0.2]])</span>
+<span class="sd">        &gt;&gt;&gt; grade_cpd = TabularCPD(&#39;grade&#39;, 3,</span>
+<span class="sd">        ...                        [[0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                         [0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                         [0.8,0.8,0.8,0.8,0.8,0.8]],</span>
+<span class="sd">        ...                        evidence=[&#39;diff&#39;, &#39;intel&#39;],</span>
+<span class="sd">        ...                        evidence_card=[2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; bm.add_cpds(diff_cpd, intel_cpd, grade_cpd)</span>
+<span class="sd">        &gt;&gt;&gt; val = [0.01, 0.01, 0.08, 0.006, 0.006, 0.048, 0.004, 0.004, 0.032,</span>
+<span class="sd">                   0.04, 0.04, 0.32, 0.024, 0.024, 0.192, 0.016, 0.016, 0.128]</span>
+<span class="sd">        &gt;&gt;&gt; JPD = JointProbabilityDistribution([&#39;diff&#39;, &#39;intel&#39;, &#39;grade&#39;], [2, 3, 3], val)</span>
+<span class="sd">        &gt;&gt;&gt; JPD.is_imap(bm)</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianModel</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">BayesianModel</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;model must be an instance of BayesianModel&quot;</span><span class="p">)</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">cpd</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span> <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">()]</span>
+        <span class="n">factor_prod</span> <span class="o">=</span> <span class="n">six</span><span class="o">.</span><span class="n">moves</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span>
+        <span class="n">JPD_fact</span> <span class="o">=</span> <span class="n">Factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cardinality</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">JPD_fact</span> <span class="o">==</span> <span class="n">factor_prod</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="JointProbabilityDistribution.to_factor"><a class="viewcode-back" href="../../../api.html#pgmpy.factors.JointProbabilityDistribution.to_factor">[docs]</a>    <span class="k">def</span> <span class="nf">to_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns JointProbabilityDistribution as a Factor object</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; prob = JointProbabilityDistribution([&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;], [2, 3, 2], np.ones(12)/12)</span>
+<span class="sd">        &gt;&gt;&gt; phi = prob.to_factor()</span>
+<span class="sd">        &gt;&gt;&gt; type(phi)</span>
+<span class="sd">        pgmpy.factors.Factor.Factor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cardinality</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">pmap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, pgmpy Developers (MIT License).<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

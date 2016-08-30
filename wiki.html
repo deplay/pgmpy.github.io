@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GSoC 2015 Ideas &mdash; pgmpy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pgmpy 0.1.0 documentation" href="index.html" />
+    <link rel="prev" title="Example gallery" href="examples/index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Home</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site Map <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#getting-the-dependencies">Getting the dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#installing-from-source">Installing from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">pgmpy API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.factors">factors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.inference">inference module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.independencies">independencies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.readwrite">readwrite module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-pgmpy.base">base module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Example gallery</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">GSoC 2015 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#want-to-get-involved">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ideas">Ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#gsoc-2014-ideas">GSoC 2014 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interested-students">Interested Students</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">GSoC 2015 Ideas</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#want-to-get-involved">Want to get involved?</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#references-for-pgm">References for PGM:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ideas">Ideas</a><ul>
+<li><a class="reference internal" href="#add-feature-to-accept-and-output-state-names-for-models">1. Add feature to accept and output state names for models.</a></li>
+<li><a class="reference internal" href="#approximate-algorithms">2. Approximate Algorithms</a></li>
+<li><a class="reference internal" href="#adding-support-for-different-types-of-cpds">3. Adding support for different types of CPDs</a></li>
+<li><a class="reference internal" href="#adding-support-for-dynamic-bayesian-networks-dbns">4. Adding support for Dynamic Bayesian Networks (DBNs)</a></li>
+<li><a class="reference internal" href="#parsing-from-and-writing-to-standard-pgm-file-formats">5. Parsing from and writing to standard PGM file formats</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gsoc-2014-ideas">GSoC 2014 Ideas</a><ul>
+<li><a class="reference internal" href="#id1">Introduction</a></li>
+<li><a class="reference internal" href="#id2">Want to get involved?</a></li>
+<li><a class="reference internal" href="#id3">Getting Started</a><ul>
+<li><a class="reference internal" href="#pgmpy">pgmpy</a></li>
+<li><a class="reference internal" href="#pgmpy-viz">pgmpy_viz</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#id5">Ideas</a><ul>
+<li><a class="reference internal" href="#id6"><strong>1. Parsing from and writing to standard PGM file formats</strong></a></li>
+<li><a class="reference internal" href="#adding-features-to-pgmpy-viz"><strong>2. Adding features to pgmpy_viz</strong></a></li>
+<li><a class="reference internal" href="#implementing-markov-networks"><strong>3. Implementing Markov Networks</strong></a></li>
+<li><a class="reference internal" href="#implementing-algorithms"><strong>4. Implementing Algorithms:</strong></a></li>
+<li><a class="reference internal" href="#blue-sky-project"><strong>5. Blue Sky Project</strong></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#interested-students">Interested Students</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="examples/index.html" title="Previous Chapter: Example gallery"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Example gallery</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="_sources/wiki.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="gsoc-2015-ideas">
+<h1>GSoC 2015 Ideas<a class="headerlink" href="#gsoc-2015-ideas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>A graphical model or probabilistic graphical model (PGM) is a probabilistic model for which a graph expresses the conditional dependence structure between random variables. They are most commonly used in probability theory, statistics (particularly Bayesian statistics) and machine learning.</p>
+<p>pgmpy is a Python library to implement Probabilistic Graphical Models and related inference and learning algorithms. Our main focus is on providing a consistent API and flexible approach to its implementation. This is the second year pgmpy is participating in GSoC.</p>
+</div>
+<div class="section" id="want-to-get-involved">
+<h2>Want to get involved?<a class="headerlink" href="#want-to-get-involved" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;re interested in participating in GSoC 2015 as a student, mentor, or community member, you should join the pgmpy&#8217;s <a class="reference external" href="https://groups.google.com/forum/#!forum/pgmpy">mailing list</a>  and post any questions, comments, etc. to <a class="reference external" href="mailto:pgmpy&#37;&#52;&#48;googlegroups&#46;com">pgmpy<span>&#64;</span>googlegroups<span>&#46;</span>com</a></p>
+<p>Additionally, you can find us on IRC at #pgmpy on irc.freenode.org.  If no one is available to answer your question, please be patient and post it to the mailing list as well.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Install dependencies:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ sudo pip3 install -r requirements.txt  # use requirements-dev.txt if you want to run tests
+</pre></div>
+</div>
+</li>
+<li><p class="first">Clone the repo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git clone https://github.com/pgmpy/pgmpy
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install pgmpy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd pgmpy/
+$ sudo python3 setup.py install
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="section" id="references-for-pgm">
+<h3>References for PGM:<a class="headerlink" href="#references-for-pgm" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Notebooks for basic introduction of PGM and pgmpy: <a class="reference external" href="https://github.com/pgmpy/pgmpy_notebook">https://github.com/pgmpy/pgmpy_notebook</a></li>
+<li>Quick intro to Bayesian Networks: <a class="reference external" href="http://people.cs.ubc.ca/~murphyk/Bayes/bnintro.html">http://people.cs.ubc.ca/~murphyk/Bayes/bnintro.html</a></li>
+<li>Reference book for PGM: <a class="reference external" href="http://www.amazon.in/Probabilistic-Graphical-Models-Principles-Computation/dp/0262013193">Probabilistic Graphical Models - Principles and Techniques</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ideas">
+<h2>Ideas<a class="headerlink" href="#ideas" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="add-feature-to-accept-and-output-state-names-for-models">
+<h3>1. Add feature to accept and output state names for models.<a class="headerlink" href="#add-feature-to-accept-and-output-state-names-for-models" title="Permalink to this headline">¶</a></h3>
+<p>At present pgmpy internally assigns a numerical value to each state of a random variable.
+For example, for a variable <code class="docutils literal"><span class="pre">grade</span></code> having states <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">B</span></code> and <code class="docutils literal"><span class="pre">C</span></code>, the internal representation in
+pgmpy would be <code class="docutils literal"><span class="pre">grade_0</span></code>, <code class="docutils literal"><span class="pre">grade_1</span></code> and <code class="docutils literal"><span class="pre">grade_2</span></code>. Also if some method needs to output a state name,
+it gives the state name in this form only.
+We want improve this and allow the user to work with the state names rather than the internal representations.</p>
+<p><strong>Expected Outcome:</strong> The user should be able to completely work with the state names (never need to use internal representation) that he has provided.</p>
+<p><strong>Difficulty Level:</strong> Moderate</p>
+<p><strong>PGM knowledge required:</strong> Basic</p>
+<p><strong>Skills Required:</strong> Intermediate Python</p>
+<p><strong>Potential Mentor(s):</strong> Ankur Ankan, Shashank Garg</p>
+</div>
+<div class="section" id="approximate-algorithms">
+<h3>2. Approximate Algorithms<a class="headerlink" href="#approximate-algorithms" title="Permalink to this headline">¶</a></h3>
+<p>At present in <code class="docutils literal"><span class="pre">pgmpy</span></code>, we have implementation of exact inference algorithms for various graphical models. Although inference algorithms run in polynomial time for simple graphs (such as graphs with low tree-width), they become computationally intractable for larger graphs that arise from real life problem. However there a class of algorithms that can be used to perform approximate inference on the graphical models. This project aims towards implementation of two famous approximate inference algorithms</p>
+<ul class="simple">
+<li>Linear Programming Relaxation</li>
+<li>Cutting Plane Algorithms</li>
+</ul>
+<p><strong>Expected Outcome:</strong> We should be able to run approximate inference algorithms on complex graphical models (used in stereo vision).</p>
+<p><strong>Difficulty Level:</strong> Difficult</p>
+<p><strong>PGM knowledge required:</strong> Very good understanding of Graphical Models and Inference Algorithms</p>
+<p><strong>Skills Required:</strong> Intermediate Python, Cython</p>
+<p><strong>Potential Mentor(s):</strong>  Abinash Panda, Ankur Ankan</p>
+</div>
+<div class="section" id="adding-support-for-different-types-of-cpds">
+<h3>3. Adding support for different types of CPDs<a class="headerlink" href="#adding-support-for-different-types-of-cpds" title="Permalink to this headline">¶</a></h3>
+<p>Right now pgmpy has the feature for creating <code class="docutils literal"><span class="pre">Rule</span> <span class="pre">CPDs</span></code> and <code class="docutils literal"><span class="pre">Tree</span> <span class="pre">CPDs</span></code> but the current implementation of variable elimination or clique tree don&#8217;t accept the models if a <code class="docutils literal"><span class="pre">Rule</span> <span class="pre">CPD</span></code> or <code class="docutils literal"><span class="pre">Tree</span> <span class="pre">CPD</span></code> is associated with it. There are algorithms that are able to do inference much efficiently in the case of Rule and Tree CPDs as compared to normal Tabular CPD. Implement those algorithms.</p>
+<p><strong>Expected Outcome:</strong> We should be able to run inference algorithms over models having associated Rule CPD or Tree CPD.</p>
+<p><strong>Difficulty Level:</strong> Difficult</p>
+<p><strong>PGM knowledge required:</strong> Good understanding of Bayesian Models and inference algorithms.</p>
+<p><strong>Skills Required:</strong> Intermediate Python, Cython</p>
+<p><strong>Potential Mentor(s):</strong>  Jaidev Deshpande, Shashank Garg</p>
+</div>
+<div class="section" id="adding-support-for-dynamic-bayesian-networks-dbns">
+<h3>4. Adding support for Dynamic Bayesian Networks (DBNs)<a class="headerlink" href="#adding-support-for-dynamic-bayesian-networks-dbns" title="Permalink to this headline">¶</a></h3>
+<p>Dynamic Bayesian Networks are used to represent models which have repeating pattern. It is mostly used when we are trying to create a model with time as a variable, so for each instant of time we have the same model and hence a repeating model. Currently pgmpy doesn&#8217;t have support for DBNs.</p>
+<p><strong>Expected Outcome:</strong> Should be able to create DBNs and do inference over it.</p>
+<p><strong>Difficulty Level:</strong> Difficult</p>
+<p><strong>PGM knowledge required:</strong> Very good understanding of PGM.</p>
+<p><strong>Skills Required:</strong> Intermediate Python, Cython</p>
+<p><strong>Potential Mentor(s):</strong>  Ankur Ankan, Abinash Panda</p>
+</div>
+<div class="section" id="parsing-from-and-writing-to-standard-pgm-file-formats">
+<h3>5. Parsing from and writing to standard PGM file formats<a class="headerlink" href="#parsing-from-and-writing-to-standard-pgm-file-formats" title="Permalink to this headline">¶</a></h3>
+<p>There are various standard file formats for representing the PGM data. PGM data basically consists of a Graph, a table corresponding to each node and a few other attributes of the Graph. <a class="reference external" href="https://github.com/pgmpy/pgmpy/issues/65">Here</a> is a list of some of these formats. pgmpy needs functionality to read networks from and write networks to these standard file formats.
+Currently only <strong>ProbModelXML</strong> is supported. pgmpy uses <a class="reference external" href="http://lxml.de">lxml</a> for XML formats and we plan to use <a class="reference external" href="http://pyparsing.wikispaces.com/">pyparsing</a> for non XML formats.</p>
+<p><strong>Expected Outcome:</strong> You are expected to choose at least one file format from the above list and write a sub-module which enables pgmpy to read from and write to the same format.</p>
+<p><strong>Difficulty level:</strong> Easy</p>
+<p><strong>PGM knowledge required:</strong> Basic knowledge about representation of PGM models.</p>
+<p><strong>Skills Required:</strong> Intermediate python</p>
+<p><strong>Potential Mentor(s):</strong> Pranjal Mittal, Shashank Garg</p>
+</div>
+</div>
+</div>
+<div class="section" id="gsoc-2014-ideas">
+<h1>GSoC 2014 Ideas<a class="headerlink" href="#gsoc-2014-ideas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Probabilistic Graphical Models (PGM) use graphs to denote the conditional dependence structure between random variables.
+They are most commonly used in probability theory, statistics (particularly Bayesian statistics) and machine learning.</p>
+<p>pgmpy is a Python library to implement Probabilistic Graphical Models and related algorithms.
+The main focus is on providing a consistent API and flexible approach to its implementation.
+This is the first time pgmpy is applying for GSoC under the Python Software Foundation&#8217;s umbrella.</p>
+</div>
+<div class="section" id="id2">
+<h2>Want to get involved?<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;re interested in participating in GSoC 2014 as a student, mentor, or interested community member, you should join the pgmpy&#8217;s mailing
+list and post any questions, comments, etc. to <a class="reference external" href="mailto:pgmpy&#37;&#52;&#48;googlegroups&#46;com">pgmpy<span>&#64;</span>googlegroups<span>&#46;</span>com</a></p>
+<p>You can also contact the mentors with your ideas.</p>
+<p>Anavil Tripathi: <a class="reference external" href="mailto:anaviltripathi&#37;&#52;&#48;gmail&#46;com">anaviltripathi<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<p>Shikhar Nigam: <a class="reference external" href="mailto:snigam3112&#37;&#52;&#48;gmail&#46;com">snigam3112<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<p>Soumya Kundu: <a class="reference external" href="mailto:samkent&#46;1729&#37;&#52;&#48;gmail&#46;com">samkent<span>&#46;</span>1729<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<p>Additionally, you can find us on IRC at #pgmpy on irc.freenode.org.
+If no one is available to answer your question, please be patient and post it to the mailing list as well.</p>
+</div>
+<div class="section" id="id3">
+<h2>Getting Started<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Reference book for PGM: <a class="reference external" href="http://www.amazon.in/Probabilistic-Graphical-Models-Principles-Computation/dp/0262013193">Probabilistic Graphical Models - Principles and Techniques</a></p>
+<div class="section" id="pgmpy">
+<h3>pgmpy<a class="headerlink" href="#pgmpy" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Install dependencies:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ sudo pip3 install networkx numpy scipy cython
+</pre></div>
+</div>
+</li>
+<li><p class="first">Clone the repo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git clone https://github.com/pgmpy/pgmpy
+</pre></div>
+</div>
+</li>
+<li><p class="first">Install pgmpy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd pgmpy/
+$ sudo python3 setup.py install
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="pgmpy-viz">
+<h3>pgmpy_viz<a class="headerlink" href="#pgmpy-viz" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Install dependencies:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ sudo pip3 install django
+</pre></div>
+</div>
+</li>
+<li><p class="first">Clone the repo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ git clone https://github.com/pgmpy/pgmpy_viz
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run local server:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ cd pgmpy_viz/
+$ python3 manage.py runserver
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Go to <code class="code docutils literal"><span class="pre">localhost:8000</span></code> in your browser to access the pgmpy_viz page.</p>
+</div>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianModel</span>
+<span class="kn">from</span> <span class="nn">pgmpy.factors</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
+<span class="n">student</span> <span class="o">=</span> <span class="n">bm</span><span class="o">.</span><span class="n">BayesianModel</span><span class="p">()</span>
+<span class="c1"># instantiates a new Bayesian Model called &#39;student&#39;</span>
+
+<span class="n">student</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">([</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">])</span>
+<span class="c1"># adds nodes labelled &#39;diff&#39;, &#39;intel&#39;, &#39;grade&#39; to student</span>
+
+<span class="n">student</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">)])</span>
+<span class="c1"># adds directed edges from &#39;diff&#39; to &#39;grade&#39; and &#39;intel&#39; to &#39;grade&#39;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">diff cpd:</span>
+
+<span class="sd">+-------+--------+</span>
+<span class="sd">|diff:  |        |</span>
+<span class="sd">+-------+--------+</span>
+<span class="sd">|easy   |   0.2  |</span>
+<span class="sd">+-------+--------+</span>
+<span class="sd">|hard   |   0.8  |</span>
+<span class="sd">+-------+--------+</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">diff_cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[[</span><span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">]])</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">intel cpd:</span>
+
+<span class="sd">+-------+--------+</span>
+<span class="sd">|intel: |        |</span>
+<span class="sd">+-------+--------+</span>
+<span class="sd">|dumb   |   0.5  |</span>
+<span class="sd">+-------+--------+</span>
+<span class="sd">|avg    |   0.3  |</span>
+<span class="sd">+-------+--------+</span>
+<span class="sd">|smart  |   0.2  |</span>
+<span class="sd">+-------+--------+</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">intel_cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">]])</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">grade cpd:</span>
+
+<span class="sd">+------+-----------------------+---------------------+</span>
+<span class="sd">|diff: |          easy         |         hard        |</span>
+<span class="sd">+------+------+------+---------+------+------+-------+</span>
+<span class="sd">|intel:| dumb |  avg |  smart  | dumb | avg  | smart |</span>
+<span class="sd">+------+------+------+---------+------+------+-------+</span>
+<span class="sd">|gradeA| 0.1  | 0.1  |   0.1   |  0.1 |  0.1 |   0.1 |</span>
+<span class="sd">+------+------+------+---------+------+------+-------+</span>
+<span class="sd">|gradeB| 0.1  | 0.1  |   0.1   |  0.1 |  0.1 |   0.1 |</span>
+<span class="sd">+------+------+------+---------+------+------+-------+</span>
+<span class="sd">|gradeC| 0.8  | 0.8  |   0.8   |  0.8 |  0.8 |   0.8 |</span>
+<span class="sd">+------+------+------+---------+------+------+-------+</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">grade_cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="p">[[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.8</span><span class="p">]],</span>
+                    <span class="n">evidence</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="s1">&#39;intel&#39;</span><span class="p">],</span>
+                    <span class="n">evidence_card</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+<span class="n">student</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">diff_cpd</span><span class="p">,</span> <span class="n">intel_cpd</span><span class="p">,</span> <span class="n">grade_cpd</span><span class="p">)</span>
+
+<span class="c1"># Finding active trail</span>
+<span class="n">student</span><span class="o">.</span><span class="n">active_trail_nodes</span><span class="p">(</span><span class="s1">&#39;diff&#39;</span><span class="p">)</span>
+
+<span class="c1"># Finding active trail with observation</span>
+<span class="n">student</span><span class="o">.</span><span class="n">active_trail_nodes</span><span class="p">(</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="s1">&#39;grades&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Ideas<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3><strong>1. Parsing from and writing to standard PGM file formats</strong><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>There are various standard file formats for representing the PGM data.
+PGM data basically consists of a Graph, a table corresponding to each node and a few other attributes of the Graph.
+<a class="reference external" href="https://github.com/pgmpy/pgmpy/issues/65">Here</a> is a list of some of these formats. pgmpy needs functionality to read networks from and write networks to these standard file formats.
+Currently only ProbModelXML is supported. pgmpy uses lxml for XML formats and we plan to use <a class="reference external" href="http://pyparsing.wikispaces.com/">pyparsing</a> for non XML formats.</p>
+<p><strong>Expected Outcome</strong>: You are expected to choose at least one file format from the above list and write a sub-module which enables pgmpy to read from and write to the same format.</p>
+<p><strong>Difficulty level</strong>: Medium</p>
+<p><strong>PGM knowledge required</strong>: Basic knowledge about representation of PGM models.</p>
+<p><strong>Skills required</strong>: Intermediate python</p>
+<p><strong>Potential Mentor(s)</strong>: Shikhar Nigam</p>
+</div>
+<div class="section" id="adding-features-to-pgmpy-viz">
+<h3><strong>2. Adding features to pgmpy_viz</strong><a class="headerlink" href="#adding-features-to-pgmpy-viz" title="Permalink to this headline">¶</a></h3>
+<p>pgmpy_viz is a web application for creating and visualizing graphical models that runs pgmpy in the back-end.
+It uses cytoscape.js in the front-end for manipulation of the networks. For reference to a similar application you can look at SamIam.</p>
+<p>This project needs you to add:</p>
+<ul class="simple">
+<li>Network validation before posting data to the server.</li>
+<li>Options for inference from networks.</li>
+<li>Porting pgmpy_viz from Django to Flask.</li>
+</ul>
+<p><strong>Expected Outcome</strong>: You are expected to design a Flask based web application which would enable the user to visualize the outcomes of analysis of the network.</p>
+<p><strong>Difficulty level</strong>: Medium</p>
+<p><strong>PGM knowledge required</strong>: None</p>
+<p><strong>Skills required</strong>: HTML5, CSS, JavaScript, Flask</p>
+<p><strong>Potential Mentor(s)</strong>: Soumya Kundu</p>
+</div>
+<div class="section" id="implementing-markov-networks">
+<h3><strong>3. Implementing Markov Networks</strong><a class="headerlink" href="#implementing-markov-networks" title="Permalink to this headline">¶</a></h3>
+<p>There are two common branches of graphical representation of distributions.
+They are Bayesian networks(Directed Acyclic Graphs) and Markov networks(Undirected graphs which may be cyclic).
+Currently, pgmpy supports Bayesian Networks.
+The following features for Markov Networks need to be implemented:</p>
+<ul class="simple">
+<li>Create and edit Markov Networks.</li>
+<li>Finding reduced Markov Networks.</li>
+<li>Finding independencies in Markov Networks.</li>
+</ul>
+<p><strong>Expected Outcome</strong>: You are expected to write a sub-module implementing the above listed features.</p>
+<p><strong>Difficulty level</strong>: Hard</p>
+<p><strong>PGM knowledge required</strong>: Good understanding of Markov Networks</p>
+<p><strong>Skills required</strong>: Intermediate python, Cython</p>
+<p><strong>Potential Mentor(s)</strong>: Anavil Tripathi</p>
+</div>
+<div class="section" id="implementing-algorithms">
+<h3><strong>4. Implementing Algorithms:</strong><a class="headerlink" href="#implementing-algorithms" title="Permalink to this headline">¶</a></h3>
+<p>PGM involves many theorems and algorithms such as Belief-Propagation, Variable Elimination etc.
+The library will eventually implement every PGM algorithm. Here is the proposed set of algorithms to be implemented.</p>
+<p><strong>Expected Outcome</strong>: You are expected to select at least one algorithm from the list and implement it.</p>
+<p><strong>Difficulty level</strong>: Hard</p>
+<p><strong>PGM knowledge required</strong>: Good understanding of PGM</p>
+<p><strong>Skills required</strong>: Intermediate python, Cython</p>
+<p><strong>Potential Mentor(s)</strong>: Shikhar Nigam</p>
+</div>
+<div class="section" id="blue-sky-project">
+<h3><strong>5. Blue Sky Project</strong><a class="headerlink" href="#blue-sky-project" title="Permalink to this headline">¶</a></h3>
+<p>If you have any interesting ideas please discuss it over the mailing list.</p>
+</div>
+</div>
+<div class="section" id="interested-students">
+<h2>Interested Students<a class="headerlink" href="#interested-students" title="Permalink to this headline">¶</a></h2>
+<p>If you are interested in participating in GSoC with pgmpy, please introduce yourself on the mailing list.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, pgmpy Developers (MIT License).<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.readwrite.PomdpX &mdash; pgmpy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pgmpy 0.1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          Home</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site Map <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#getting-the-dependencies">Getting the dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#installing-from-source">Installing from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">pgmpy API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.factors">factors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.inference">inference module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.independencies">independencies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.readwrite">readwrite module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.base">base module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Example gallery</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html">GSoC 2015 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#want-to-get-involved">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#ideas">Ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html#gsoc-2014-ideas">GSoC 2014 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id2">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id3">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id5">Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#interested-students">Interested Students</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for pgmpy.readwrite.PomdpX</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: UTF-8 -*-</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">pgmpy.extern</span> <span class="kn">import</span> <span class="n">six</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern.six.moves</span> <span class="kn">import</span> <span class="nb">range</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">etree</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="c1"># import xml.etree.cElementTree as etree</span>
+        <span class="c1"># print(&quot;running with cElementTree on Python 2.5+&quot;)</span>
+        <span class="c1"># Commented out because behaviour is different from expected</span>
+
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Failed to import ElementTree from any known place&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PomdpXReader"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader">[docs]</a><span class="k">class</span> <span class="nc">PomdpXReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for reading PomdpX file format from files or strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize an instance of PomdpX reader class</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : file or str</span>
+<span class="sd">            Path of the file containing PomdpX information.</span>
+
+<span class="sd">        string : str</span>
+<span class="sd">            String containing PomdpX information.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        reader = PomdpXReader(&#39;TestPomdpX.xml&#39;)</span>
+
+<span class="sd">        Reference</span>
+<span class="sd">        ---------</span>
+<span class="sd">        http://bigbird.comp.nus.edu.sg/pmwiki/farm/appl/index.php?n=Main.PomdpXDocumentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">string</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify either path or string&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PomdpXReader.get_description"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_description">[docs]</a>    <span class="k">def</span> <span class="nf">get_description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the problem description</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&#39;Test_Pomdpx.xml&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_description()</span>
+<span class="sd">        &#39;RockSample problem for map size 1 x 3.</span>
+<span class="sd">        Rock is at 0, Rover’s initial position is at 1.</span>
+<span class="sd">        Exit is at 2.&#39;</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&#39;Test_PomdpX.xml&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_description()</span>
+<span class="sd">        &#39;RockSample problem for map size 1 x 3.</span>
+<span class="sd">         Rock is at 0, Rover’s initial position is at 1.</span>
+<span class="sd">         Exit is at 2.&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Description&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_discount"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_discount">[docs]</a>    <span class="k">def</span> <span class="nf">get_discount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the discount factor for the problem</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&#39;Test_PomdpX.xml&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_discount()</span>
+<span class="sd">        0.95</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Discount&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_variables"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_variables">[docs]</a>    <span class="k">def</span> <span class="nf">get_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns list of variables of the network</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&quot;pomdpx.xml&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_variables()</span>
+<span class="sd">        {&#39;StateVar&#39;: [</span>
+<span class="sd">                        {&#39;vnamePrev&#39;: &#39;rover_0&#39;,</span>
+<span class="sd">                         &#39;vnameCurr&#39;: &#39;rover_1&#39;,</span>
+<span class="sd">                         &#39;ValueEnum&#39;: [&#39;s0&#39;, &#39;s1&#39;, &#39;s2&#39;],</span>
+<span class="sd">                         &#39;fullyObs&#39;: True},</span>
+<span class="sd">                        {&#39;vnamePrev&#39;: &#39;rock_0&#39;,</span>
+<span class="sd">                         &#39;vnameCurr&#39;: &#39;rock_1&#39;,</span>
+<span class="sd">                         &#39;fullyObs&#39;: False,</span>
+<span class="sd">                         &#39;ValueEnum&#39;: [&#39;good&#39;, &#39;bad&#39;]}],</span>
+<span class="sd">                        &#39;ObsVar&#39;: [{&#39;vname&#39;: &#39;obs_sensor&#39;,</span>
+<span class="sd">                                    &#39;ValueEnum&#39;: [&#39;ogood&#39;, &#39;obad&#39;]}],</span>
+<span class="sd">                        &#39;RewardVar&#39;: [{&#39;vname&#39;: &#39;reward_rover&#39;}],</span>
+<span class="sd">                        &#39;ActionVar&#39;: [{&#39;vname&#39;: &#39;action_rover&#39;,</span>
+<span class="sd">                                       &#39;ValueEnum&#39;: [&#39;amw&#39;, &#39;ame&#39;,</span>
+<span class="sd">                                                     &#39;ac&#39;, &#39;as&#39;]}]</span>
+<span class="sd">                        }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Variable&#39;</span><span class="p">):</span>
+            <span class="n">_variables</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;StateVar&#39;</span><span class="p">):</span>
+                <span class="n">state_variables</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">state_variables</span><span class="p">[</span><span class="s1">&#39;vnamePrev&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vnamePrev&#39;</span><span class="p">)</span>
+                <span class="n">state_variables</span><span class="p">[</span><span class="s1">&#39;vnameCurr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vnameCurr&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fullyObs&#39;</span><span class="p">):</span>
+                    <span class="n">state_variables</span><span class="p">[</span><span class="s1">&#39;fullyObs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">state_variables</span><span class="p">[</span><span class="s1">&#39;fullyObs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">state_variables</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;NumValues&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;NumValues&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)):</span>
+                        <span class="n">state_variables</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;s&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">state_variables</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">_variables</span><span class="p">[</span><span class="s1">&#39;StateVar&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state_variables</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;ObsVar&#39;</span><span class="p">):</span>
+                <span class="n">obs_variables</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">obs_variables</span><span class="p">[</span><span class="s1">&#39;vname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vname&#39;</span><span class="p">)</span>
+                <span class="n">obs_variables</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                    <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">_variables</span><span class="p">[</span><span class="s1">&#39;ObsVar&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obs_variables</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;ActionVar&#39;</span><span class="p">):</span>
+                <span class="n">action_variables</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">action_variables</span><span class="p">[</span><span class="s1">&#39;vname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vname&#39;</span><span class="p">)</span>
+                <span class="n">action_variables</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                    <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">_variables</span><span class="p">[</span><span class="s1">&#39;ActionVar&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action_variables</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;RewardVar&#39;</span><span class="p">):</span>
+                <span class="n">reward_variables</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">reward_variables</span><span class="p">[</span><span class="s1">&#39;vname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;vname&#39;</span><span class="p">)</span>
+                <span class="n">_variables</span><span class="p">[</span><span class="s1">&#39;RewardVar&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reward_variables</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_variables</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_initial_beliefs"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_initial_beliefs">[docs]</a>    <span class="k">def</span> <span class="nf">get_initial_beliefs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the state, action and observation variables as a dictionary</span>
+<span class="sd">        in the case of table type parameter and a nested structure in case of</span>
+<span class="sd">        decision diagram parameter</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&#39;Test_PomdpX.xml&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_initial_beliefs()</span>
+<span class="sd">        [{&#39;Var&#39;: &#39;rover_0&#39;,</span>
+<span class="sd">          &#39;Parent&#39;: [&#39;null&#39;],</span>
+<span class="sd">          &#39;Type&#39;: &#39;TBL&#39;,</span>
+<span class="sd">          &#39;Parameter&#39;: [{&#39;Instance&#39;: [&#39;-&#39;],</span>
+<span class="sd">          &#39;ProbTable&#39;: [&#39;0.0&#39;, &#39;1.0&#39;, &#39;0.0&#39;]}]</span>
+<span class="sd">         },</span>
+<span class="sd">         {&#39;Var&#39;: &#39;&#39;,</span>
+<span class="sd">          &#39;...&#39;: ...,&#39;</span>
+<span class="sd">          &#39;...&#39;: &#39;...&#39;,</span>
+<span class="sd">          }]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">initial_state_belief</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;InitialStateBelief&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;CondProb&#39;</span><span class="p">):</span>
+                <span class="n">cond_prob</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Var&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">):</span>
+                    <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TBL&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="n">initial_state_belief</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cond_prob</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">initial_state_belief</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_state_transition_function"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_state_transition_function">[docs]</a>    <span class="k">def</span> <span class="nf">get_state_transition_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the transition of the state variables as nested dict in the</span>
+<span class="sd">        case of table type parameter and a nested structure in case of</span>
+<span class="sd">        decision diagram parameter</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&#39;Test_PomdpX.xml&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_state_transition_function()</span>
+<span class="sd">        [{&#39;Var&#39;: &#39;rover_1&#39;,</span>
+<span class="sd">          &#39;Parent&#39;: [&#39;action_rover&#39;, &#39;rover_0&#39;],</span>
+<span class="sd">          &#39;Type&#39;: &#39;TBL&#39;,</span>
+<span class="sd">          &#39;Parameter&#39;: [{&#39;Instance&#39;: [&#39;amw&#39;, &#39;s0&#39;, &#39;s2&#39;],</span>
+<span class="sd">                         &#39;ProbTable&#39;: [&#39;1.0&#39;]},</span>
+<span class="sd">                         {&#39;Instance&#39;: [&#39;amw&#39;, &#39;s1&#39;, &#39;s0&#39;],</span>
+<span class="sd">                         &#39;ProbTable&#39;: [&#39;1.0&#39;]},</span>
+<span class="sd">                         ...</span>
+<span class="sd">                        ]</span>
+<span class="sd">        }]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state_transition_function</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;StateTransitionFunction&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;CondProb&#39;</span><span class="p">):</span>
+                <span class="n">cond_prob</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Var&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">):</span>
+                    <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TBL&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="n">state_transition_function</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cond_prob</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">state_transition_function</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_obs_function"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_obs_function">[docs]</a>    <span class="k">def</span> <span class="nf">get_obs_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the observation function as nested dict in the case of table-</span>
+<span class="sd">        type parameter and a nested structure in case of</span>
+<span class="sd">        decision diagram parameter</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&#39;Test_PomdpX.xml&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_obs_function()</span>
+<span class="sd">        [{&#39;Var&#39;: &#39;obs_sensor&#39;,</span>
+<span class="sd">              &#39;Parent&#39;: [&#39;action_rover&#39;, &#39;rover_1&#39;, &#39;rock_1&#39;],</span>
+<span class="sd">              &#39;Type&#39;: &#39;TBL&#39;,</span>
+<span class="sd">              &#39;Parameter&#39;: [{&#39;Instance&#39;: [&#39;amw&#39;, &#39;*&#39;, &#39;*&#39;, &#39;-&#39;],</span>
+<span class="sd">                             &#39;ProbTable&#39;: [&#39;1.0&#39;, &#39;0.0&#39;]},</span>
+<span class="sd">                         ...</span>
+<span class="sd">                        ]</span>
+<span class="sd">        }]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obs_function</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;ObsFunction&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;CondProb&#39;</span><span class="p">):</span>
+                <span class="n">cond_prob</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Var&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">):</span>
+                    <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TBL&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+                <span class="n">cond_prob</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="n">obs_function</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cond_prob</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">obs_function</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_reward_function"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_reward_function">[docs]</a>    <span class="k">def</span> <span class="nf">get_reward_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the reward function as nested dict in the case of table-</span>
+<span class="sd">        type parameter and a nested structure in case of</span>
+<span class="sd">        decision diagram parameter</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; reader = PomdpXReader(&#39;Test_PomdpX.xml&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_reward_function()</span>
+<span class="sd">        [{&#39;Var&#39;: &#39;reward_rover&#39;,</span>
+<span class="sd">              &#39;Parent&#39;: [&#39;action_rover&#39;, &#39;rover_0&#39;, &#39;rock_0&#39;],</span>
+<span class="sd">              &#39;Type&#39;: &#39;TBL&#39;,</span>
+<span class="sd">              &#39;Parameter&#39;: [{&#39;Instance&#39;: [&#39;ame&#39;, &#39;s1&#39;, &#39;*&#39;],</span>
+<span class="sd">                             &#39;ValueTable&#39;: [&#39;10&#39;]},</span>
+<span class="sd">                         ...</span>
+<span class="sd">                        ]</span>
+<span class="sd">        }]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reward_function</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;RewardFunction&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Func&#39;</span><span class="p">):</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">func</span><span class="p">[</span><span class="s1">&#39;Var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Var&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="n">func</span><span class="p">[</span><span class="s1">&#39;Parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parent&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">):</span>
+                    <span class="n">func</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TBL&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">func</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+                <span class="n">func</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                <span class="n">reward_function</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">reward_function</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_parameter"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method supports the functional tags by providing the actual</span>
+<span class="sd">        values in the function as list of dict in case of table type parameter or as</span>
+<span class="sd">        nested dict in case of decision diagram</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parameter</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">parameter_tag</span> <span class="ow">in</span> <span class="n">var</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Parameter&#39;</span><span class="p">):</span>
+            <span class="n">parameter_type</span> <span class="o">=</span> <span class="s1">&#39;TBL&#39;</span>
+            <span class="k">if</span> <span class="n">parameter_tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">parameter_type</span> <span class="o">=</span> <span class="n">parameter_tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">parameter_type</span> <span class="o">==</span> <span class="s1">&#39;TBL&#39;</span><span class="p">:</span>
+                <span class="n">parameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter_tbl</span><span class="p">(</span><span class="n">parameter_tag</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">parameter_type</span> <span class="o">==</span> <span class="s1">&#39;DD&#39;</span><span class="p">:</span>
+                <span class="n">parameter</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">parameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameter_dd</span><span class="p">(</span><span class="n">parameter_tag</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">parameter</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_parameter_tbl"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_parameter_tbl">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameter_tbl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method returns parameters as list of dict in case of table type</span>
+<span class="sd">        parameter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">par</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">parameter</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">):</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;Instance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Instance&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ProbTable&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;ValueTable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ValueTable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;ProbTable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ProbTable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">par</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">par</span></div>
+
+<div class="viewcode-block" id="PomdpXReader.get_parameter_dd"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXReader.get_parameter_dd">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameter_dd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method returns parameters as nested dicts in case of decision</span>
+<span class="sd">        diagram parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dag</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">dag_elem</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;DAG&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">dag_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Node&#39;</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;var&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">get_param</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Edge&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Terminal&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">edges</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Terminal&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">elif</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Node&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">node_cpd</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                    <span class="n">node_cpd</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Node&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;var&#39;</span><span class="p">)]</span> <span class="o">=</span> \
+                        <span class="n">get_param</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Node&#39;</span><span class="p">))</span>
+                    <span class="n">edges</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">node_cpd</span>
+                <span class="k">elif</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAG&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">subdag_attribute</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                    <span class="n">subdag_attribute</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">subdag_attribute</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;template&#39;</span><span class="p">:</span>
+                        <span class="n">subdag_attribute</span><span class="p">[</span><span class="s1">&#39;idref&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                            <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;idref&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;var&#39;</span><span class="p">):</span>
+                        <span class="n">subdag_attribute</span><span class="p">[</span><span class="s1">&#39;var&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                            <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;var&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">):</span>
+                        <span class="n">subdag_attribute</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                            <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAG&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+                    <span class="n">edges</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">subdag_attribute</span>
+            <span class="k">return</span> <span class="n">edges</span>
+
+        <span class="k">if</span> <span class="n">parameter</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAGTemplate&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">SubDAGTemplate</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;SubDAGTemplate&#39;</span><span class="p">)</span>
+            <span class="n">subdag_root</span> <span class="o">=</span> <span class="n">SubDAGTemplate</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Node&#39;</span><span class="p">)</span>
+            <span class="n">subdag_node</span> <span class="o">=</span> <span class="n">subdag_root</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;var&#39;</span><span class="p">)</span>
+            <span class="n">subdag_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">subdag_dict</span><span class="p">[</span><span class="n">subdag_node</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_param</span><span class="p">(</span><span class="n">subdag_root</span><span class="p">)</span>
+            <span class="n">dag</span><span class="p">[</span><span class="s1">&#39;SubDAGTemplate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subdag_dict</span>
+            <span class="n">dag</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SubDAGTemplate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="n">dag</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_param</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dag</span></div></div>
+
+
+<div class="viewcode-block" id="PomdpXWriter"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter">[docs]</a><span class="k">class</span> <span class="nc">PomdpXWriter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for writing models in PomdpX</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_data</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">prettyprint</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialise a PomdpXWriter Object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        model: A Bayesian of Markov Model</span>
+<span class="sd">            The model to write</span>
+<span class="sd">        encoding: String(optional)</span>
+<span class="sd">            Encoding for text data</span>
+<span class="sd">        prettyprint: Bool(optional)</span>
+<span class="sd">            Indentation in output XML if true</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model_data</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prettyprint</span> <span class="o">=</span> <span class="n">prettyprint</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;pomdpx&quot;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;1.0&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">discount</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;Discount&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_belief</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;InitialStateBelief&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transition_function</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;StateTransitionFunction&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation_function</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;ObsFunction&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_function</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;RewardFunction&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xml</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the XML as string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prettyprint</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">xml</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">etree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">xml</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PomdpXWriter.indent"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.indent">[docs]</a>    <span class="k">def</span> <span class="nf">indent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inplace prettyprint formatter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">level</span><span class="o">*</span><span class="s2">&quot;  &quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">level</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">()):</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span></div>
+
+    <span class="k">def</span> <span class="nf">_add_value_enum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        supports adding variables to the xml</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        var: The SubElement variable</span>
+<span class="sd">        tag: The SubElement tag to which enum value is to be added</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;s0&#39;</span><span class="p">:</span>
+                <span class="n">numvalues_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="s1">&#39;NumValues&#39;</span><span class="p">)</span>
+                <span class="n">numvalues_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">valueenum_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="s1">&#39;ValueEnum&#39;</span><span class="p">)</span>
+            <span class="n">valueenum_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;ValueEnum&#39;</span><span class="p">]:</span>
+                <span class="n">valueenum_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">+=</span> <span class="n">value</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+            <span class="n">valueenum_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">valueenum_tag</span><span class="o">.</span><span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<div class="viewcode-block" id="PomdpXWriter.get_variables"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.get_variables">[docs]</a>    <span class="k">def</span> <span class="nf">get_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add variables to PomdpX</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        xml containing variables tag</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state_variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;variables&#39;</span><span class="p">][</span><span class="s1">&#39;StateVar&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">state_variables</span><span class="p">:</span>
+            <span class="n">state_var_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="s1">&#39;StateVar&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vnamePrev&#39;</span><span class="p">:</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;vnamePrev&#39;</span><span class="p">],</span>
+                                                                                <span class="s1">&#39;vnameCurr&#39;</span><span class="p">:</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;vnameCurr&#39;</span><span class="p">],</span>
+                                                                                <span class="s1">&#39;fullyObs&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span> <span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;fullyObs&#39;</span><span class="p">]</span>
+                                                                                <span class="k">else</span> <span class="s1">&#39;false&#39;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_value_enum</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">state_var_tag</span><span class="p">)</span>
+
+        <span class="n">obs_variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;variables&#39;</span><span class="p">][</span><span class="s1">&#39;ObsVar&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">obs_variables</span><span class="p">:</span>
+            <span class="n">obs_var_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="s1">&#39;ObsVar&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vname&#39;</span><span class="p">:</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;vname&#39;</span><span class="p">]})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_value_enum</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">obs_var_tag</span><span class="p">)</span>
+
+        <span class="n">action_variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;variables&#39;</span><span class="p">][</span><span class="s1">&#39;ActionVar&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">action_variables</span><span class="p">:</span>
+            <span class="n">action_var_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="s1">&#39;ActionVar&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vname&#39;</span><span class="p">:</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;vname&#39;</span><span class="p">]})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_value_enum</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">action_var_tag</span><span class="p">)</span>
+
+        <span class="n">reward_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;variables&#39;</span><span class="p">][</span><span class="s1">&#39;RewardVar&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">reward_var</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">,</span> <span class="s1">&#39;RewardVar&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;vname&#39;</span><span class="p">:</span> <span class="n">var</span><span class="p">[</span><span class="s1">&#39;vname&#39;</span><span class="p">]})</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variable</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PomdpXWriter.add_parameter_dd"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.add_parameter_dd">[docs]</a>    <span class="k">def</span> <span class="nf">add_parameter_dd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dag_tag</span><span class="p">,</span> <span class="n">node_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        helper function for adding parameters in condition</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        dag_tag: etree SubElement</span>
+<span class="sd">                 the DAG tag is contained in this subelement</span>
+<span class="sd">        node_dict: dictionary</span>
+<span class="sd">                   the decision diagram dictionary</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_dict</span><span class="p">,</span> <span class="n">defaultdict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">node_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">dag_tag</span><span class="p">,</span> <span class="s1">&#39;Node&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;var&#39;</span><span class="p">:</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">node_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))})</span>
+            <span class="n">edge_dict</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">node_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">edge_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">tuple</span><span class="p">):</span>
+                <span class="n">edge_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">node_tag</span><span class="p">,</span> <span class="s1">&#39;Edge&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">edge</span><span class="p">})</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">edge_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+                    <span class="n">terminal_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">edge_tag</span><span class="p">,</span> <span class="s1">&#39;Terminal&#39;</span><span class="p">)</span>
+                    <span class="n">terminal_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">elif</span> <span class="s1">&#39;type&#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s1">&#39;val&#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                        <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">edge_tag</span><span class="p">,</span> <span class="s1">&#39;SubDAG&#39;</span><span class="p">,</span>
+                                         <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="s1">&#39;var&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;var&#39;</span><span class="p">],</span> <span class="s1">&#39;val&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;val&#39;</span><span class="p">]})</span>
+                    <span class="k">elif</span> <span class="s1">&#39;idref&#39;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                        <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">edge_tag</span><span class="p">,</span> <span class="s1">&#39;SubDAG&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="s1">&#39;idref&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;idref&#39;</span><span class="p">]})</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">edge_tag</span><span class="p">,</span> <span class="s1">&#39;SubDAG&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="s1">&#39;var&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;var&#39;</span><span class="p">]})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter_dd</span><span class="p">(</span><span class="n">edge_tag</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PomdpXWriter.add_conditions"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.add_conditions">[docs]</a>    <span class="k">def</span> <span class="nf">add_conditions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">condprob</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        helper function for adding probability conditions for model\</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------------</span>
+
+<span class="sd">        condition:  dictionary</span>
+<span class="sd">                    contains and element of conditions list</span>
+<span class="sd">        condprob:   etree SubElement</span>
+<span class="sd">                    the tag to which condition is added</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">var_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">condprob</span><span class="p">,</span> <span class="s1">&#39;Var&#39;</span><span class="p">)</span>
+        <span class="n">var_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">condition</span><span class="p">[</span><span class="s1">&#39;Var&#39;</span><span class="p">]</span>
+        <span class="n">parent_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">condprob</span><span class="p">,</span> <span class="s1">&#39;Parent&#39;</span><span class="p">)</span>
+        <span class="n">parent_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">condition</span><span class="p">[</span><span class="s1">&#39;Parent&#39;</span><span class="p">]:</span>
+            <span class="n">parent_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">+=</span> <span class="n">parent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+        <span class="n">parent_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">parent_tag</span><span class="o">.</span><span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">parameter_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">condprob</span><span class="p">,</span> <span class="s1">&#39;Parameter&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">condition</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span>
+                                                                        <span class="k">if</span> <span class="n">condition</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+                                                                        <span class="k">else</span> <span class="s1">&#39;TBL&#39;</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">condition</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;DD&#39;</span><span class="p">:</span>
+            <span class="n">dag_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parameter_tag</span><span class="p">,</span> <span class="s1">&#39;DAG&#39;</span><span class="p">)</span>
+            <span class="n">parameter_dict</span> <span class="o">=</span> <span class="n">condition</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;SubDAGTemplate&#39;</span> <span class="ow">in</span> <span class="n">parameter_dict</span><span class="p">:</span>
+                <span class="n">subdag_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parameter_tag</span><span class="p">,</span> <span class="s1">&#39;SubDAGTemplate&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">parameter_dict</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter_dd</span><span class="p">(</span><span class="n">subdag_tag</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">[</span><span class="s1">&#39;SubDAGTemplate&#39;</span><span class="p">])</span>
+                <span class="k">del</span> <span class="n">parameter_dict</span><span class="p">[</span><span class="s1">&#39;SubDAGTemplate&#39;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">parameter_dict</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter_dd</span><span class="p">(</span><span class="n">dag_tag</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter_dd</span><span class="p">(</span><span class="n">dag_tag</span><span class="p">,</span> <span class="n">parameter_dict</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">condition</span><span class="p">[</span><span class="s1">&#39;Parameter&#39;</span><span class="p">]:</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parameter_tag</span><span class="p">,</span> <span class="s1">&#39;Entry&#39;</span><span class="p">)</span>
+                <span class="n">instance</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="s1">&#39;Instance&#39;</span><span class="p">)</span>
+                <span class="n">instance</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="k">for</span> <span class="n">instance_var</span> <span class="ow">in</span> <span class="n">parameter</span><span class="p">[</span><span class="s1">&#39;Instance&#39;</span><span class="p">]:</span>
+                    <span class="n">instance</span><span class="o">.</span><span class="n">text</span> <span class="o">+=</span> <span class="n">instance_var</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+                <span class="n">length_instance</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameter</span><span class="p">[</span><span class="s1">&#39;Instance&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameter</span><span class="p">[</span><span class="s1">&#39;Instance&#39;</span><span class="p">][</span><span class="n">length_instance</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">instance</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameter</span><span class="p">[</span><span class="s1">&#39;Instance&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">instance</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">instance</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">if</span> <span class="n">condprob</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Func&#39;</span><span class="p">:</span>
+                    <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;ValueTable&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">table</span> <span class="o">=</span> <span class="s1">&#39;ProbTable&#39;</span>
+                <span class="n">prob_table</span> <span class="o">=</span> <span class="n">parameter</span><span class="p">[</span><span class="n">table</span><span class="p">]</span>
+                <span class="n">prob_table_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+                <span class="n">prob_table_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="k">for</span> <span class="n">probability</span> <span class="ow">in</span> <span class="n">prob_table</span><span class="p">:</span>
+                    <span class="n">prob_table_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">+=</span> <span class="n">probability</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+                <span class="n">prob_table_tag</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">prob_table_tag</span><span class="o">.</span><span class="n">text</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PomdpXWriter.add_initial_belief"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.add_initial_belief">[docs]</a>    <span class="k">def</span> <span class="nf">add_initial_belief</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add initial belief tag to pomdpx model</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        string containing the xml for initial belief tag</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">initial_belief</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;initial_state_belief&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">initial_belief</span><span class="p">:</span>
+            <span class="n">condprob</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_belief</span><span class="p">,</span> <span class="s1">&#39;CondProb&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_conditions</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">condprob</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_belief</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PomdpXWriter.add_state_transition_function"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.add_state_transition_function">[docs]</a>    <span class="k">def</span> <span class="nf">add_state_transition_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add state transition function tag to pomdpx model</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        string containing the xml for state transition tag</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">state_transition_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;state_transition_function&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">state_transition_function</span><span class="p">:</span>
+            <span class="n">condprob</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transition_function</span><span class="p">,</span> <span class="s1">&#39;CondProb&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_conditions</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">condprob</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transition_function</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PomdpXWriter.add_obs_function"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.add_obs_function">[docs]</a>    <span class="k">def</span> <span class="nf">add_obs_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add observation function tag to pomdpx model</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        string containing the xml for observation function tag</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obs_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;obs_function&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">obs_function</span><span class="p">:</span>
+            <span class="n">condprob</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation_function</span><span class="p">,</span> <span class="s1">&#39;CondProb&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_conditions</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">condprob</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">observation_function</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PomdpXWriter.add_reward_function"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.PomdpXWriter.add_reward_function">[docs]</a>    <span class="k">def</span> <span class="nf">add_reward_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        add reward function tag to pomdpx model</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        string containing the xml for reward function tag</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reward_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">[</span><span class="s1">&#39;reward_function&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">condition</span> <span class="ow">in</span> <span class="n">reward_function</span><span class="p">:</span>
+            <span class="n">condprob</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reward_function</span><span class="p">,</span> <span class="s1">&#39;Func&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_conditions</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">condprob</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reward_function</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, pgmpy Developers (MIT License).<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

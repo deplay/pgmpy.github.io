@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.readwrite.ProbModelXML &mdash; pgmpy 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="pgmpy 0.1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          Home</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site Map <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#getting-the-dependencies">Getting the dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#installing-from-source">Installing from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install.html#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">pgmpy API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.models">models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.factors">factors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.inference">inference module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.independencies">independencies module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.readwrite">readwrite module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-pgmpy.base">base module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Example gallery</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html">GSoC 2015 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#want-to-get-involved">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#ideas">Ideas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../wiki.html#gsoc-2014-ideas">GSoC 2014 Ideas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id1">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id2">Want to get involved?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id3">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#id5">Ideas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wiki.html#interested-students">Interested Students</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <h1>Source code for pgmpy.readwrite.ProbModelXML</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: UTF-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">For the student example the ProbModelXML file should be:</span>
+
+<span class="sd">&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;</span>
+<span class="sd">&lt;ProbModelXML formatVersion=“1.0”&gt;</span>
+<span class="sd">    &lt;ProbNet type=&quot;BayesianNetwork&quot;&gt;</span>
+<span class="sd">        &lt;AdditionalConstraints /&gt;</span>
+<span class="sd">        &lt;Comment&gt;</span>
+<span class="sd">            Student example model from Probabilistic Graphical Models:</span>
+<span class="sd">            Principles and Techniques by Daphne Koller</span>
+<span class="sd">        &lt;/Comment&gt;</span>
+<span class="sd">        &lt;Language&gt;</span>
+<span class="sd">            English</span>
+<span class="sd">        &lt;/Language&gt;</span>
+<span class="sd">        &lt;AdditionalProperties /&gt;</span>
+<span class="sd">        &lt;Variables&gt;</span>
+<span class="sd">            &lt;Variable name=&quot;intelligence&quot; type=&quot;FiniteState&quot; role=&quot;Chance&quot;&gt;</span>
+<span class="sd">                &lt;Comment /&gt;</span>
+<span class="sd">                &lt;Coordinates /&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">                &lt;States&gt;</span>
+<span class="sd">                    &lt;State name=&quot;smart&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                    &lt;State name=&quot;dumb&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                &lt;/States&gt;</span>
+<span class="sd">            &lt;/Variable&gt;</span>
+<span class="sd">            &lt;Variable name=&quot;difficulty&quot; type=&quot;FiniteState&quot; role=&quot;Chance&quot;&gt;</span>
+<span class="sd">                &lt;Comment /&gt;</span>
+<span class="sd">                &lt;Coordinates /&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">                &lt;States&gt;</span>
+<span class="sd">                    &lt;State name=&quot;difficult&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                    &lt;State name=&quot;easy&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                &lt;/States&gt;</span>
+<span class="sd">            &lt;/Variable&gt;</span>
+<span class="sd">            &lt;Variable name=&quot;grade&quot; type=&quot;FiniteState&quot; role=&quot;Chance&quot;&gt;</span>
+<span class="sd">                &lt;Comment /&gt;</span>
+<span class="sd">                &lt;Coordinates /&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">                &lt;States&gt;</span>
+<span class="sd">                    &lt;State name=&quot;grade_A&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                    &lt;State name=&quot;grade_B&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                    &lt;State name=&quot;grade_C&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                &lt;/States&gt;</span>
+<span class="sd">            &lt;/Variable&gt;</span>
+<span class="sd">            &lt;Variable name=&quot;recommendation_letter&quot; type=&quot;FiniteState&quot;</span>
+<span class="sd">                    role=&quot;Chance&quot;&gt;</span>
+<span class="sd">                &lt;Comment /&gt;</span>
+<span class="sd">                &lt;Coordinates /&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">                &lt;States&gt;</span>
+<span class="sd">                    &lt;State name=&quot;good&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                    &lt;State name=&quot;bad&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                &lt;/States&gt;</span>
+<span class="sd">            &lt;/Variable&gt;</span>
+<span class="sd">            &lt;Variable name=&quot;SAT&quot; type=&quot;FiniteState&quot; role=&quot;Chance&quot;&gt;</span>
+<span class="sd">                &lt;Comment /&gt;</span>
+<span class="sd">                &lt;Coordinates /&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">                &lt;States&gt;</span>
+<span class="sd">                    &lt;State name=&quot;high&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                    &lt;State name=&quot;low&quot;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</span>
+<span class="sd">                &lt;/States&gt;</span>
+<span class="sd">            &lt;/Variable&gt;</span>
+<span class="sd">        &lt;/Variables&gt;</span>
+<span class="sd">        &lt;Links&gt;</span>
+<span class="sd">            &lt;Link var1=&quot;difficulty&quot; var2=&quot;grade&quot; directed=1&gt;</span>
+<span class="sd">                &lt;Comment&gt;Directed Edge from difficulty to grade&lt;/Comment&gt;</span>
+<span class="sd">                &lt;Label&gt;diff_to_grad&lt;/Label&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">            &lt;/Link&gt;</span>
+<span class="sd">            &lt;Link var1=&quot;intelligence&quot; var2=&quot;grade&quot; directed=1&gt;</span>
+<span class="sd">                &lt;Comment&gt;Directed Edge from intelligence to grade&lt;/Comment&gt;</span>
+<span class="sd">                &lt;Label&gt;intel_to_grad&lt;/Label&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">            &lt;/Link&gt;</span>
+<span class="sd">            &lt;Link var1=&quot;intelligence&quot; var2=&quot;SAT&quot; directed=1&gt;</span>
+<span class="sd">                &lt;Comment&gt;Directed Edge from intelligence to SAT&lt;/Comment&gt;</span>
+<span class="sd">                &lt;Label&gt;intel_to_sat&lt;/Label&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">            &lt;/Link&gt;</span>
+<span class="sd">            &lt;Link var1=&quot;grade&quot; var2=&quot;recommendation_letter&quot; directed=1&gt;</span>
+<span class="sd">                &lt;Comment&gt;Directed Edge from grade to</span>
+<span class="sd">                    recommendation_letter&lt;/Comment&gt;</span>
+<span class="sd">                &lt;Label&gt;grad_to_reco&lt;/Label&gt;</span>
+<span class="sd">                &lt;AdditionalProperties /&gt;</span>
+<span class="sd">            &lt;/Link&gt;</span>
+<span class="sd">        &lt;/Links&gt;</span>
+<span class="sd">        &lt;Potential type=&quot;Table&quot; role=&quot;ConditionalProbability&quot; label=string&gt;</span>
+<span class="sd">            &lt;Comment&gt;CPDs in the form of table&lt;/Comment&gt;</span>
+<span class="sd">            &lt;AdditionalProperties /&gt;</span>
+<span class="sd">            &lt;!--</span>
+<span class="sd">                There is no specification in the paper about</span>
+<span class="sd">                how the tables should be represented.</span>
+<span class="sd">            --&gt;</span>
+<span class="sd">        &lt;/Potential&gt;</span>
+<span class="sd">    &lt;/ProbNet&gt;</span>
+<span class="sd">    &lt;Policies /&gt;</span>
+<span class="sd">    &lt;InferenceOptions /&gt;</span>
+<span class="sd">    &lt;Evidence&gt;</span>
+<span class="sd">        &lt;EvidenceCase&gt;</span>
+<span class="sd">            &lt;Finding variable=string state=string stateIndex=integer</span>
+<span class="sd">                numericValue=number/&gt;</span>
+<span class="sd">        &lt;/EvidenceCase&gt;</span>
+<span class="sd">    &lt;/Evidence&gt;</span>
+<span class="sd">&lt;/ProbModelXML&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">etree</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="c1"># import xml.etree.cElementTree as etree</span>
+        <span class="c1"># print(&quot;running with cElementTree on Python 2.5+&quot;)</span>
+        <span class="c1"># Commented out because behaviour is different from expected</span>
+
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Failed to import ElementTree from any known place&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianModel</span>
+<span class="kn">from</span> <span class="nn">pgmpy.factors</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern</span> <span class="kn">import</span> <span class="n">six</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern.six.moves</span> <span class="kn">import</span> <span class="nb">map</span>
+
+<span class="c1"># warnings.warn(&quot;Not Complete. Please use only for &quot;</span>
+<span class="c1">#               &quot;reading and writing Bayesian Models.&quot;)</span>
+
+
+<span class="k">def</span> <span class="nf">generate_probmodelxml</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">prettyprint</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate ProbModelXML lines for model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : Graph</span>
+<span class="sd">        The Bayesian or Markov Model</span>
+<span class="sd">    encoding : string (optional)</span>
+<span class="sd">        Encoding for text data</span>
+<span class="sd">    prettyprint: bool (optional)</span>
+<span class="sd">        If True uses line breaks and indenting in output XML.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; G = nx.path_graph(5)</span>
+<span class="sd">    &gt;&gt;&gt; s = pgmpy.readwrite.generate_ProbModelXML(G) # doctest: +SKIP</span>
+<span class="sd">    &gt;&gt;&gt; for line in pgmpy.readwrite.generate_ProbModelXML(G):  #doctest: +SKIP</span>
+<span class="sd">    ...     print(line)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">ProbModelXMLWriter</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">prettyprint</span><span class="o">=</span><span class="n">prettyprint</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">writer</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+        <span class="k">yield</span> <span class="n">line</span>
+
+
+<span class="c1"># @open_file(1, mode=&#39;wb&#39;)</span>
+<span class="k">def</span> <span class="nf">write_probmodelxml</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">prettyprint</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Write model in ProbModelXML format to path.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : A NetworkX graph</span>
+<span class="sd">            Bayesian network or Markov network</span>
+<span class="sd">    path : file or string</span>
+<span class="sd">            File or filename to write.</span>
+<span class="sd">            Filenames ending in .gz or .bz2 will be compressed.</span>
+<span class="sd">    encoding : string (optional)</span>
+<span class="sd">            Encoding for text data.</span>
+<span class="sd">    prettyprint : bool (optional)</span>
+<span class="sd">            If True use line breaks and indenting in output XML.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; G = nx.path_graph(4)</span>
+<span class="sd">    &gt;&gt;&gt; pgmpy.readwrite.write_probmodelxml(G, &quot;test.probmodelxml&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">ProbModelXMLWriter</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
+                                <span class="n">prettyprint</span><span class="o">=</span><span class="n">prettyprint</span><span class="p">)</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+
+<span class="c1"># @open_file(0, mode=&#39;rb&#39;)</span>
+<span class="k">def</span> <span class="nf">read_probmodelxml</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read model in ProbModelXML format from path.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : file or string</span>
+<span class="sd">        file or filename from which to read.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model : NetworkX Graph</span>
+<span class="sd">            A BayesianModel or MarkovModel object depending on the</span>
+<span class="sd">            type of model the XML represents.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; G = pgmpy.readwrite.read_probmodelxml(&#39;test.probModelXML&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">ProbModelXMLReader</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reader</span><span class="o">.</span><span class="n">make_network</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">parse_probmodelxml</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read model in ProbModelXML format from string.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    string : string</span>
+<span class="sd">        String containing ProbModelXML information.</span>
+<span class="sd">        (e.g., contents of a ProbModelXML file).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    model : NetworkX Graph</span>
+<span class="sd">        A BayesianModel or MarkovModel object depending on the XML given.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; G = nx.path_graph(4)</span>
+<span class="sd">    &gt;&gt;&gt; linefeed = chr(10)</span>
+<span class="sd">    &gt;&gt;&gt; s = linefeed.join(pgmpy.readwrite.generate_probmodelxml(G))</span>
+<span class="sd">    &gt;&gt;&gt; H = pgmpy.readwrite.parse_probmodelxml(s)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">ProbModelXMLReader</span><span class="p">(</span><span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reader</span><span class="o">.</span><span class="n">make_network</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">get_probmodel_data</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the model_data based on the given model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model: BayesianModel instance</span>
+<span class="sd">        Model to write</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    model_data: dict</span>
+<span class="sd">        dictionary containing model data of the given model.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; model_data = pgmpy.readwrite.get_model_data(model)</span>
+<span class="sd">    &gt;&gt;&gt; writer.get_model_data(model)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">BayesianModel</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Model must an instance of BayesianModel.&quot;</span><span class="p">)</span>
+    <span class="n">model_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;probnet&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;BayesianNetwork&#39;</span><span class="p">,</span> <span class="s1">&#39;Variables&#39;</span><span class="p">:</span> <span class="p">{}}}</span>
+
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+        <span class="n">model_data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+    <span class="n">model_data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+        <span class="n">model_data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;edges&#39;</span><span class="p">][</span><span class="nb">str</span><span class="p">(</span><span class="n">edge</span><span class="p">)]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="n">model_data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Potentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cpds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="n">cpds</span><span class="p">:</span>
+        <span class="n">potential_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">evidence</span> <span class="o">=</span> <span class="n">cpd</span><span class="o">.</span><span class="n">variables</span><span class="p">[:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">evidence</span><span class="p">:</span>
+            <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">cpd</span><span class="o">.</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">evidence</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">cpd</span><span class="o">.</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Table&quot;</span>
+        <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;role&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;conditionalProbability&quot;</span>
+        <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">cpd</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)])</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+        <span class="n">model_data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Potentials&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">potential_dict</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">model_data</span>
+
+
+<div class="viewcode-block" id="ProbModelXMLWriter"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLWriter">[docs]</a><span class="k">class</span> <span class="nc">ProbModelXMLWriter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for writing models in ProbModelXML format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_data</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">prettyprint</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ProbModelXMLWriter Object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : A BayesianModel or MarkovModel</span>
+<span class="sd">            The model to write.</span>
+<span class="sd">        encoding : string (optional)</span>
+<span class="sd">            Encoding for text data</span>
+<span class="sd">        prettyprint : bool (optional)</span>
+<span class="sd">            If True uses line breaks and indentation in output XML.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        Refernces</span>
+<span class="sd">        ---------</span>
+<span class="sd">        [1] http://leo.ugr.es/pgm2012/submissions/pgm2012_submission_43.pdf</span>
+<span class="sd">        [2] http://www.cisiad.uned.es/techreports/ProbModelXML.pdf</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: add policies, InferenceOptions, Evidence</span>
+        <span class="c1"># TODO: add parsing of language and comments and additional properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">model_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">encoding</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prettyprint</span> <span class="o">=</span> <span class="n">prettyprint</span>
+
+        <span class="c1"># Creating initial tags</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s2">&quot;ProbModelXML&quot;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;formatVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;1.0&#39;</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;ProbNet&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;Variables&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;Links&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">potentials</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;Potentials&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">additional_constraints</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;AdditionalConstraints&#39;</span><span class="p">)</span>
+
+        <span class="c1"># adding information for probnet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;Language&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Language&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;Comment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Comment&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_additional_properties</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_decision_criteria</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;DecisionCriteria&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">,</span> <span class="s1">&#39;DecisionCriteria&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Add Additional Constraints</span>
+        <span class="k">if</span> <span class="s1">&#39;AdditionalConstraints&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;AdditionalConstraints&#39;</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_constraint</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span>
+
+        <span class="c1"># Add variables</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Variables&#39;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_variable</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+
+        <span class="c1"># Add edges</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;edges&#39;</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_link</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+
+        <span class="c1"># Add Potentials</span>
+        <span class="k">for</span> <span class="n">potential</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Potentials&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_potential</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">potentials</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the XML as string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prettyprint</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">etree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_add_additional_properties</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">properties_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets AdditionalProperties of the ProbModelXML.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">add_prop</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">properties_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">add_prop</span><span class="p">,</span> <span class="s1">&#39;Property&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">_add_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a node to the ProbModelXML.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Add feature for accepting additional properties of states.</span>
+        <span class="n">variable_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable</span><span class="p">]</span>
+        <span class="n">variable_element</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+                                                                                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">variable_data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span>
+                                                                                <span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="n">variable_data</span><span class="p">[</span><span class="s1">&#39;role&#39;</span><span class="p">]})</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">variable_element</span><span class="p">,</span> <span class="s1">&#39;Comment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">variable_data</span><span class="p">[</span><span class="s1">&#39;Comment&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">variable_element</span><span class="p">,</span> <span class="s1">&#39;Coordinates&#39;</span><span class="p">,</span> <span class="n">variable_data</span><span class="p">[</span><span class="s1">&#39;Coordinates&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">variable_data</span><span class="p">[</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">variable_element</span><span class="p">,</span> <span class="s1">&#39;Property&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">variable_element</span><span class="p">,</span> <span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">)</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">variable_element</span><span class="p">,</span> <span class="s1">&#39;States&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">variable_data</span><span class="p">[</span><span class="s1">&#39;States&#39;</span><span class="p">]):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">})</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_additional_properties</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">variable_data</span><span class="p">[</span><span class="s1">&#39;States&#39;</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds an edge to the ProbModelXML.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edge_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;edges&#39;</span><span class="p">][</span><span class="n">edge</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+            <span class="n">edge</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+        <span class="n">link</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">,</span> <span class="s1">&#39;Link&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;var1&#39;</span><span class="p">:</span> <span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;var2&#39;</span><span class="p">:</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                            <span class="s1">&#39;directed&#39;</span><span class="p">:</span> <span class="n">edge_data</span><span class="p">[</span><span class="s1">&#39;directed&#39;</span><span class="p">]})</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s1">&#39;Comment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">edge_data</span><span class="p">[</span><span class="s1">&#39;Comment&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">edge_data</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_additional_properties</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">edge_data</span><span class="p">[</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds constraint to the ProbModelXML.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">constraint_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;probnet&#39;</span><span class="p">][</span><span class="s1">&#39;AdditionalConstraints&#39;</span><span class="p">][</span><span class="n">constraint</span><span class="p">]</span>
+        <span class="n">constraint_element</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">additional_constraints</span><span class="p">,</span> <span class="s1">&#39;Constraint&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">constraint</span><span class="p">})</span>
+        <span class="k">for</span> <span class="n">argument</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">constraint_data</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">argument</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">constraint_data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">constraint_element</span><span class="p">,</span> <span class="s1">&#39;Argument&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">_add_decision_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">criteria_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Decision Criteria to the ProbModelXML.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        criteria_dict: dict</span>
+<span class="sd">            Dictionary containing Deecision Criteria data.</span>
+<span class="sd">            For example: {&#39;effectiveness&#39;: {}, &#39;cost&#39;: {}}</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; writer = ProbModelXMLWriter(model)</span>
+<span class="sd">        &gt;&gt;&gt; writer._add_decision_criteria(criteria_dict)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">decision_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">,</span> <span class="s1">&#39;DecisionCriteria&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{})</span>
+        <span class="k">for</span> <span class="n">criteria</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">criteria_dict</span><span class="p">):</span>
+            <span class="n">criteria_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">decision_tag</span><span class="p">,</span> <span class="s1">&#39;Criterion&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">criteria</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_additional_properties</span><span class="p">(</span><span class="n">criteria_tag</span><span class="p">,</span> <span class="n">criteria_dict</span><span class="p">[</span><span class="n">criteria</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_add_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">parent_tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Potentials to the ProbModelXML.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        potential: dict</span>
+<span class="sd">            Dictionary containing Potential data.</span>
+<span class="sd">            For example: {&#39;role&#39;: &#39;Utility&#39;,</span>
+<span class="sd">                          &#39;Variables&#39;: [&#39;D0&#39;, &#39;D1&#39;, &#39;C0&#39;, &#39;C1&#39;],</span>
+<span class="sd">                          &#39;type&#39;: &#39;Tree/ADD&#39;,</span>
+<span class="sd">                          &#39;UtilityVaribale&#39;: &#39;U1&#39;}</span>
+<span class="sd">        parent_tag: etree Element</span>
+<span class="sd">            etree element which would contain potential tag</span>
+<span class="sd">            For example: &lt;Element Potentials at 0x7f315fc44b08&gt;</span>
+<span class="sd">                         &lt;Element Branch at 0x7f315fc44c88&gt;</span>
+<span class="sd">                         &lt;Element Branch at 0x7f315fc44d88&gt;</span>
+<span class="sd">                         &lt;Element Subpotentials at 0x7f315fc44e48&gt;</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; writer = ProbModelXMLWriter(model)</span>
+<span class="sd">        &gt;&gt;&gt; writer._add_potential(potential, parent_tag)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">potential_type</span> <span class="o">=</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">potential_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parent_tag</span><span class="p">,</span> <span class="s1">&#39;Potential&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;role&#39;</span><span class="p">]})</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">potential_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">parent_tag</span><span class="p">,</span> <span class="s1">&#39;Potential&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;Comment&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;AdditionalProperties&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_additional_properties</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">potential_type</span> <span class="o">==</span> <span class="s2">&quot;delta&quot;</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;Variable&#39;</span><span class="p">]})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;StateIndex&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;NumericValue&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;UtilityVariable&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;UtilityVariable&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;UtilityVariable&#39;</span><span class="p">]})</span>
+            <span class="k">if</span> <span class="s1">&#39;Variables&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="n">variable_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;Variables&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">potential</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">]):</span>
+                    <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">variable_tag</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">var</span><span class="p">})</span>
+                    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">potential</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">var</span><span class="p">]):</span>
+                        <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">variable_tag</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">child</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;UncertainValues&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="n">value_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;UncertainValues&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{})</span>
+                <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">potential</span><span class="p">[</span><span class="s1">&#39;UncertainValues&#39;</span><span class="p">]):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">value_tag</span><span class="p">,</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s1">&#39;distribution&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;distribution&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]})</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                        <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">value_tag</span><span class="p">,</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s1">&#39;distribution&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;distribution&#39;</span><span class="p">]})</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;TopVariable&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;TopVariable&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;TopVariable&#39;</span><span class="p">]})</span>
+            <span class="k">if</span> <span class="s1">&#39;Branches&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="n">branches_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;Branches&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;Branches&#39;</span><span class="p">]:</span>
+                    <span class="n">branch_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">branches_tag</span><span class="p">,</span> <span class="s1">&#39;Branch&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s1">&#39;States&#39;</span> <span class="ow">in</span> <span class="n">branch</span><span class="p">:</span>
+                        <span class="n">states_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">branch_tag</span><span class="p">,</span> <span class="s1">&#39;States&#39;</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">branch</span><span class="p">[</span><span class="s1">&#39;States&#39;</span><span class="p">]):</span>
+                            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">states_tag</span><span class="p">,</span> <span class="s1">&#39;State&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]})</span>
+                    <span class="k">if</span> <span class="s1">&#39;Potential&#39;</span> <span class="ow">in</span> <span class="n">branch</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_add_potential</span><span class="p">(</span><span class="n">branch</span><span class="p">[</span><span class="s1">&#39;Potential&#39;</span><span class="p">],</span> <span class="n">branch_tag</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;Reference&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="s1">&#39;Thresholds&#39;</span> <span class="ow">in</span> <span class="n">branch</span><span class="p">:</span>
+                        <span class="n">thresholds_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">branch_tag</span><span class="p">,</span> <span class="s1">&#39;Thresholds&#39;</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">branch</span><span class="p">[</span><span class="s1">&#39;Thresholds&#39;</span><span class="p">]:</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">thresholds_tag</span><span class="p">,</span> <span class="s1">&#39;Threshold&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span>
+                                    <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">threshold</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;belongsTo&#39;</span><span class="p">:</span> <span class="n">threshold</span><span class="p">[</span><span class="s1">&#39;belongsTo&#39;</span><span class="p">]})</span>
+                            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                                <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">thresholds_tag</span><span class="p">,</span> <span class="s1">&#39;Threshold&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span>
+                                    <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">threshold</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;Model&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;Coefficients&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="s1">&#39;CovarianceMatrix&#39;</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;Subpotentials&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="n">subpotentials</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;Subpotentials&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">subpotential</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">[</span><span class="s1">&#39;Subpotentials&#39;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_potential</span><span class="p">(</span><span class="n">subpotential</span><span class="p">,</span> <span class="n">subpotentials</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;Potential&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_potential</span><span class="p">(</span><span class="n">potential</span><span class="p">[</span><span class="s1">&#39;Potential&#39;</span><span class="p">],</span> <span class="n">potential_tag</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;NumericVariables&#39;</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+                <span class="n">numvar_tag</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="s1">&#39;NumericVariables&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">potential</span><span class="p">[</span><span class="s1">&#39;NumericVariables&#39;</span><span class="p">]):</span>
+                    <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">numvar_tag</span><span class="p">,</span> <span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">var</span><span class="p">})</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_add_element</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">potential_tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function to add variable tag to the potential_tag</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        potential: dict</span>
+<span class="sd">            Dictionary containing Potential data.</span>
+<span class="sd">            For example: {&#39;role&#39;: &#39;Utility&#39;,</span>
+<span class="sd">                          &#39;Variables&#39;: [&#39;D0&#39;, &#39;D1&#39;, &#39;C0&#39;, &#39;C1&#39;],</span>
+<span class="sd">                          &#39;type&#39;: &#39;Tree/ADD&#39;,</span>
+<span class="sd">                          &#39;UtilityVaribale&#39;: &#39;U1&#39;}</span>
+<span class="sd">        var: string</span>
+<span class="sd">            New Element tag which needs to be added to the potential tag.</span>
+<span class="sd">            For example: &#39;type&#39;</span>
+<span class="sd">        potential_tag: etree Element</span>
+<span class="sd">            etree element which would contain potential tag</span>
+<span class="sd">            For example: &lt;Element Potentials at 0x7f315fc44b08&gt;</span>
+<span class="sd">                         &lt;Element Branch at 0x7f315fc44c88&gt;</span>
+<span class="sd">                         &lt;Element Branch at 0x7f315fc44d88&gt;</span>
+<span class="sd">                         &lt;Element Subpotentials at 0x7f315fc44e48&gt;</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; writer = ProbModelXMLWriter(model)</span>
+<span class="sd">        &gt;&gt;&gt; writer._add_element(potential, &#39;State&#39;, parent_tag)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">potential</span><span class="p">:</span>
+            <span class="n">etree</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">potential_tag</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">potential</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ProbModelXMLWriter.dump"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLWriter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dumps the data to stream after appending header.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prettyprint</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">)</span>
+        <span class="n">document</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;</span><span class="si">%s</span><span class="s1">&quot;?&gt;&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoding</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">))</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLWriter.indent"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLWriter.indent">[docs]</a>    <span class="k">def</span> <span class="nf">indent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Inplace prettyprint formatter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">level</span><span class="o">*</span><span class="s2">&quot;  &quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="s2">&quot;  &quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">level</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">()):</span>
+                <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLWriter.write_file"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLWriter.write_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write the xml data into the file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename: Name of the file.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; writer = ProbModelXMLWriter(model)</span>
+<span class="sd">        &gt;&gt;&gt; writer.write_file(test_file)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fout</span><span class="p">:</span>
+            <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">writer</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ProbModelXMLReader"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader">[docs]</a><span class="k">class</span> <span class="nc">ProbModelXMLReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for reading ProbModelXML format from files or strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: add methods to parse policies, inferenceoption, evidence etc.</span>
+    <span class="c1"># TODO: add reading formatVersion</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize an instance of ProbModelXMLReader class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : file or string</span>
+<span class="sd">            File containing ProbModelXML information.</span>
+<span class="sd">        string : string</span>
+<span class="sd">            String containing ProbModelXML information.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader(&#39;test.ProbModelXML&#39;)</span>
+
+<span class="sd">        Structure of Probnet Object</span>
+<span class="sd">        ---------------------------</span>
+<span class="sd">        { probnet: { type:</span>
+<span class="sd">                     Comment:</span>
+<span class="sd">                     Language:</span>
+<span class="sd">                     AdditionalProperties: { property_name1: property_value1,</span>
+<span class="sd">                                           property_name2: property_value2,</span>
+<span class="sd">                                                        ....</span>
+<span class="sd">                                         }</span>
+<span class="sd">                     Variables: { variable_name1: { type:</span>
+<span class="sd">                                                    roles:</span>
+<span class="sd">                                                    Comment:</span>
+<span class="sd">                                                    Coordinates:</span>
+<span class="sd">                                                    AdditionalProperties: { property_name1: property_value1,</span>
+<span class="sd">                                                                            property_name2: property_value2,</span>
+<span class="sd">                                                                                        ....</span>
+<span class="sd">                                                                          }</span>
+<span class="sd">                                                    states: { state1: {AdditionalProperties: {</span>
+<span class="sd">                                                                                               ....</span>
+<span class="sd">                                                                                               ....</span>
+<span class="sd">                                                                                             }</span>
+<span class="sd">                                                              state2: {AdditionalProperties: {</span>
+<span class="sd">                                                                                               ....</span>
+<span class="sd">                                                                                               ....</span>
+<span class="sd">                                                                                             }</span>
+<span class="sd">                                                                 .....</span>
+<span class="sd">                                                            }</span>
+<span class="sd">                                                  }</span>
+<span class="sd">                                  variable_name2: {</span>
+<span class="sd">                                                    ...........</span>
+<span class="sd">                                                  }</span>
+<span class="sd">                                      .........</span>
+<span class="sd">                                 }</span>
+<span class="sd">                     edges: { (var1, var2): { directed:</span>
+<span class="sd">                                              Comment:</span>
+<span class="sd">                                              Label:</span>
+<span class="sd">                                              AdditionalProperties: { property_name1: property_value1,</span>
+<span class="sd">                                                                      property_name2: property_value2,</span>
+<span class="sd">                                                                                 .....</span>
+<span class="sd">                                                                    }</span>
+<span class="sd">                              (var3, var4): {</span>
+<span class="sd">                                              .....</span>
+<span class="sd">                                              .....</span>
+<span class="sd">                                            }</span>
+<span class="sd">                                   ........</span>
+<span class="sd">                            }</span>
+<span class="sd">                    }</span>
+<span class="sd">        }</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        [1] http://leo.ugr.es/pgm2012/submissions/pgm2012_submission_43.pdf</span>
+<span class="sd">        [2] http://www.cisiad.uned.es/techreports/ProbModelXML.pdf</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">string</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xml</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify either &#39;path&#39; or &#39;string&#39; as kwarg.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_probnet</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ProbModelXMLReader.create_probnet"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.create_probnet">[docs]</a>    <span class="k">def</span> <span class="nf">create_probnet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a BayesianModel or MarkovModel object depending on the</span>
+<span class="sd">        type of ProbModelXML passed to ProbModelXMLReader class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># Add general properties</span>
+        <span class="n">probnet_elem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;ProbNet&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_comment</span><span class="p">(</span><span class="n">probnet_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Language&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_language</span><span class="p">(</span><span class="n">probnet_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Language&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_additional_property</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">],</span> <span class="n">prop</span><span class="p">)</span>
+
+        <span class="c1"># Add additional Constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;AdditionalConstraints&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">constraint</span> <span class="ow">in</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;AdditionalConstraints/Constraint&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_probnet_additionalconstraints</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span>
+
+        <span class="c1"># Add Decision Criterion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;DecisionCriteria&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">criterion</span> <span class="ow">in</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;DecisionCriteria/Criterion&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_criterion</span><span class="p">(</span><span class="n">criterion</span><span class="p">)</span>
+
+        <span class="c1"># Add nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Variables&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+
+        <span class="c1"># Add edges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Links/Link&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+
+        <span class="c1"># Add CPD</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Potentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">potential</span> <span class="ow">in</span> <span class="n">probnet_elem</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Potentials/Potential&#39;</span><span class="p">):</span>
+            <span class="n">probnet_dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_potential</span><span class="p">(</span><span class="n">potential</span><span class="p">,</span> <span class="n">probnet_dict</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Potentials&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">probnet_dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLReader.add_probnet_additionalconstraints"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.add_probnet_additionalconstraints">[docs]</a>    <span class="k">def</span> <span class="nf">add_probnet_additionalconstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraint</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Additional Constraints to the probnet dict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        criterion: &lt;Element Constraint at AdditionalConstraints Node in XML&gt;</span>
+<span class="sd">            etree Element consisting Constraint tag.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.add_additionalconstraints(constraint)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">constraint_name</span> <span class="o">=</span> <span class="n">constraint</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;AdditionalConstraints&#39;</span><span class="p">][</span><span class="n">constraint_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">argument</span> <span class="ow">in</span> <span class="n">constraint</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Argument&#39;</span><span class="p">):</span>
+            <span class="n">argument_name</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="n">argument_value</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;AdditionalConstraints&#39;</span><span class="p">][</span><span class="n">constraint_name</span><span class="p">][</span><span class="n">argument_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">argument_value</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLReader.add_criterion"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.add_criterion">[docs]</a>    <span class="k">def</span> <span class="nf">add_criterion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">criterion</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Decision Criteria to the probnet dict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        criterion: &lt;Element Criterion at Decision Criteria Node in XML&gt;</span>
+<span class="sd">            etree Element consisting DecisionCritera tag.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.add_criterion(criterion)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">criterion_name</span> <span class="o">=</span> <span class="n">criterion</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;DecisionCriteria&#39;</span><span class="p">][</span><span class="n">criterion_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">criterion</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">criterion</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">):</span>
+                <span class="n">prop_name</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                <span class="n">prop_value</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;DecisionCriteria&#39;</span><span class="p">][</span><span class="n">criterion_name</span><span class="p">][</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">][</span><span class="n">prop_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop_value</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLReader.add_comment"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.add_comment">[docs]</a>    <span class="k">def</span> <span class="nf">add_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Comment to the probnet dict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comment: string</span>
+<span class="sd">            String consisting of comment.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.add_comment(comment)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Comment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">comment</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLReader.add_language"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.add_language">[docs]</a>    <span class="k">def</span> <span class="nf">add_language</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Language to the probnet dict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comment: string</span>
+<span class="sd">            String consisting of language.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.add_language(language)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">language</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_additional_property</span><span class="p">(</span><span class="n">place</span><span class="p">,</span> <span class="n">prop</span><span class="p">):</span>
+        <span class="n">place</span><span class="p">[</span><span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ProbModelXMLReader.add_node"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.add_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Variables to the probnet dict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        variable: &lt;Element Variable at Variables Node in XML&gt;</span>
+<span class="sd">            etree Element consisting Variable tag.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.add_node(variable)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: Do some checks with variable type and roles. Right now I don&#39;t know when they are to be used.</span>
+        <span class="n">variable_name</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">][</span><span class="s1">&#39;role&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;role&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">][</span><span class="s1">&#39;Comment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Coordinates&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">][</span><span class="s1">&#39;Coordinates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Coordinates&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">][</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">][</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">][</span><span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> \
+                    <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;States/State&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;States not available for node: &quot;</span> <span class="o">+</span> <span class="n">variable_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">variable_name</span><span class="p">][</span><span class="s1">&#39;States&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">state</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]:</span> <span class="p">{</span>
+                <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]:</span> <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="k">for</span>
+                <span class="n">prop</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">)}</span> <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">variable</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
+                <span class="s1">&#39;States/State&#39;</span><span class="p">)}</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLReader.add_edge"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Edges to the probnet dict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        edge: &lt;Element Link at Links Node in XML&gt;</span>
+<span class="sd">            etree Element consisting Variable tag.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.add_edge(edge)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">var1</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Variable&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">var2</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Variable&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">][(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">][(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">)][</span><span class="s1">&#39;directed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;directed&#39;</span><span class="p">]</span>
+        <span class="c1"># TODO: check for the case of undirected graphs if we need to add to both elements of the dic for a single edge.</span>
+        <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">][(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">)][</span><span class="s1">&#39;Comment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">][(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">)][</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">][(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">)][</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">edge</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">][(</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">)][</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">][</span><span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLReader.add_potential"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.add_potential">[docs]</a>    <span class="k">def</span> <span class="nf">add_potential</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">potential_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds Potential to the potential dict.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        potential: &lt;Element Potential at Potentials node in XML&gt;</span>
+<span class="sd">            etree Element consisting Potential tag.</span>
+<span class="sd">        potential_dict: dict{}</span>
+<span class="sd">            Dictionary to parse Potential tag.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.add_potential(potential, potential_dict)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">potential_type</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential_type</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;role&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;role&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Comment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Comment&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;AdditionalProperties/Property&#39;</span><span class="p">):</span>
+            <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;AdditionalProperties&#39;</span><span class="p">][</span><span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">prop</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">potential_type</span> <span class="o">==</span> <span class="s2">&quot;delta&quot;</span><span class="p">:</span>
+            <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Variable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Variable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;State&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;State&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;State&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;StateIndex&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;StateIndex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;StateIndex&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;NumericValue&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;NumericValue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;NumericValue&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;UtilityVariable&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;UtilityVaribale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;UtilityVariable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Variables/Variable&#39;</span><span class="p">)):</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">var_list</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Variables/Variable&#39;</span><span class="p">):</span>
+                    <span class="n">var_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">var_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">var_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Values&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;UncertainValues/Value&#39;</span><span class="p">)):</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;UncertainValues&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;UncertainValues/Value&#39;</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;UncertainValues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;distribution&#39;</span><span class="p">],</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                             <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">text</span><span class="p">})</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                        <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;UncertainValues&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;distribution&#39;</span><span class="p">],</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">text</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;TopVariable&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;TopVariable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;TopVariable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Branches/Branch&#39;</span><span class="p">)):</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Branches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Branches/Branch&#39;</span><span class="p">):</span>
+                    <span class="n">branch_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;States/State&#39;</span><span class="p">)):</span>
+                        <span class="n">states</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">branch</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;States/State&#39;</span><span class="p">):</span>
+                            <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">state</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]})</span>
+                        <span class="n">branch_dict</span><span class="p">[</span><span class="s1">&#39;States&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">states</span>
+                    <span class="k">if</span> <span class="n">branch</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Potential&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">branch_potential</span> <span class="o">=</span> <span class="p">{}</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_potential</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Potential&#39;</span><span class="p">),</span> <span class="n">branch_potential</span><span class="p">)</span>
+                        <span class="n">branch_dict</span><span class="p">[</span><span class="s1">&#39;Potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_potential</span>
+                    <span class="k">if</span> <span class="n">branch</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="n">branch</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                        <span class="n">branch_dict</span><span class="p">[</span><span class="s1">&#39;Label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+                    <span class="k">if</span> <span class="n">branch</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Reference&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">reference</span> <span class="o">=</span> <span class="n">branch</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Reference&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                        <span class="n">branch_dict</span><span class="p">[</span><span class="s1">&#39;Reference&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reference</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Thresholds/Threshold&#39;</span><span class="p">)):</span>
+                        <span class="n">thresholds</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="n">branch</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Thresholds/Threshold&#39;</span><span class="p">):</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">thresholds</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                                    <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">threshold</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="s1">&#39;belongsTo&#39;</span><span class="p">:</span> <span class="n">threshold</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;belongsTo&#39;</span><span class="p">]})</span>
+                            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                                <span class="n">thresholds</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">threshold</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]})</span>
+                        <span class="n">branch_dict</span><span class="p">[</span><span class="s1">&#39;Thresholds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thresholds</span>
+                    <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Branches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">branch_dict</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Model&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Model&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Subpotentials/Potential&#39;</span><span class="p">)):</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Subpotentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">subpotential</span> <span class="ow">in</span> <span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Subpotentials/Potential&#39;</span><span class="p">):</span>
+                    <span class="n">subpotential_dict</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_potential</span><span class="p">(</span><span class="n">subpotential</span><span class="p">,</span> <span class="n">subpotential_dict</span><span class="p">)</span>
+                    <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Subpotentials&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subpotential_dict</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Coefficients&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Coefficients&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Coefficients&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;CovarianceMatrix&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;CovarianceMatrix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;CovarianceMatrix&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Potential&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Potential&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_potential</span><span class="p">(</span><span class="n">potential</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Potential&#39;</span><span class="p">),</span> <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;Potential&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;NumericVariables/Variable&#39;</span><span class="p">)):</span>
+                <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;NumericVariables&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">potential</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;NumericVariables/Variable&#39;</span><span class="p">):</span>
+                    <span class="n">potential_dict</span><span class="p">[</span><span class="s1">&#39;NumericVariables&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="ProbModelXMLReader.get_model"><a class="viewcode-back" href="../../../api.html#pgmpy.readwrite.ProbModelXMLReader.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model instance of the ProbModel.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        model: an instance of BayesianModel.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; reader = ProbModelXMLReader()</span>
+<span class="sd">        &gt;&gt;&gt; reader.get_model()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;BayesianNetwork&quot;</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+            <span class="n">tabular_cpds</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">cpds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Potentials&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="n">cpds</span><span class="p">:</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cpd</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">var</span><span class="p">][</span><span class="s1">&#39;States&#39;</span><span class="p">]</span>
+                <span class="n">evidence</span> <span class="o">=</span> <span class="n">cpd</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
+                <span class="n">evidence_card</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">evidence_var</span><span class="p">][</span><span class="s1">&#39;States&#39;</span><span class="p">])</span>
+                                 <span class="k">for</span> <span class="n">evidence_var</span> <span class="ow">in</span> <span class="n">evidence</span><span class="p">]</span>
+                <span class="n">arr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">cpd</span><span class="p">[</span><span class="s1">&#39;Values&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="n">values</span><span class="o">.</span><span class="n">size</span><span class="o">//</span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)))</span>
+                <span class="n">tabular_cpds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TabularCPD</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="n">values</span><span class="p">,</span> <span class="n">evidence</span><span class="p">,</span> <span class="n">evidence_card</span><span class="p">))</span>
+
+            <span class="n">model</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="o">*</span><span class="n">tabular_cpds</span><span class="p">)</span>
+
+            <span class="n">variables</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">prop_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;Variables&#39;</span><span class="p">][</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">model</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="n">prop_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop_value</span>
+
+            <span class="n">edges</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">prop_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">probnet</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">][</span><span class="n">edge</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">model</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="n">prop_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop_value</span>
+            <span class="k">return</span> <span class="n">model</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please specify only Bayesian Network.&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2014, pgmpy Developers (MIT License).<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
