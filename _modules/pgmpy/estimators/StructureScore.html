@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.estimators.StructureScore &#8212; pgmpy 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pgmpy.estimators.StructureScore</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">BaseEstimator</span>
+
+
+<div class="viewcode-block" id="StructureScore"><a class="viewcode-back" href="../../../estimators.html#pgmpy.estimators.StructureScore.StructureScore">[docs]</a><span class="k">class</span> <span class="nc">StructureScore</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstract base class for structure scoring classes in pgmpy. Use any of the derived classes</span>
+<span class="sd">        K2Score, BdeuScore, or BicScore. Scoring classes are</span>
+<span class="sd">        used to measure how well a model is able to describe the given data set.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data: pandas DataFrame object</span>
+<span class="sd">            datafame object where each column represents one variable.</span>
+<span class="sd">            (If some values in the data are missing the data cells should be set to `numpy.NaN`.</span>
+<span class="sd">            Note that pandas converts each column containing `numpy.NaN`s to dtype `float`.)</span>
+
+<span class="sd">        state_names: dict (optional)</span>
+<span class="sd">            A dict indicating, for each variable, the discrete set of states (or values)</span>
+<span class="sd">            that the variable can take. If unspecified, the observed values in the data set</span>
+<span class="sd">            are taken to be the only possible states.</span>
+
+<span class="sd">        complete_samples_only: bool (optional, default `True`)</span>
+<span class="sd">            Specifies how to deal with missing data, if present. If set to `True` all rows</span>
+<span class="sd">            that contain `np.Nan` somewhere are ignored. If `False` then, for each variable,</span>
+<span class="sd">            every row where neither the variable nor its parents are `np.NaN` is used.</span>
+<span class="sd">            This sets the behavior of the `state_count`-method.</span>
+
+<span class="sd">        Reference</span>
+<span class="sd">        ---------</span>
+<span class="sd">        Koller &amp; Friedman, Probabilistic Graphical Models - Principles and Techniques, 2009</span>
+<span class="sd">        Section 18.3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StructureScore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="StructureScore.score"><a class="viewcode-back" href="../../../estimators.html#pgmpy.estimators.StructureScore.StructureScore.score">[docs]</a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes a score to measure how well the given `BayesianModel` fits to the data set.</span>
+<span class="sd">        (This method relies on the `local_score`-method that is implemented in each subclass.)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model: `BayesianModel` instance</span>
+<span class="sd">            The Bayesian network that is to be scored. Nodes of the BayesianModel need to coincide</span>
+<span class="sd">            with column names of data set.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        score: float</span>
+<span class="sd">            A number indicating the degree of fit between data and model</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.estimators import K2Score</span>
+<span class="sd">        &gt;&gt;&gt; # create random data sample with 3 variables, where B and C are identical:</span>
+<span class="sd">        &gt;&gt;&gt; data = pd.DataFrame(np.random.randint(0, 5, size=(5000, 2)), columns=list(&#39;AB&#39;))</span>
+<span class="sd">        &gt;&gt;&gt; data[&#39;C&#39;] = data[&#39;B&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; K2Score(data).score(BayesianModel([[&#39;A&#39;,&#39;B&#39;], [&#39;A&#39;,&#39;C&#39;]]))</span>
+<span class="sd">        -24242.367348745247</span>
+<span class="sd">        &gt;&gt;&gt; K2Score(data).score(BayesianModel([[&#39;A&#39;,&#39;B&#39;], [&#39;B&#39;,&#39;C&#39;]]))</span>
+<span class="sd">        -16273.793897051042</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_score</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="n">score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structure_prior</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">score</span></div>
+
+<div class="viewcode-block" id="StructureScore.structure_prior"><a class="viewcode-back" href="../../../estimators.html#pgmpy.estimators.StructureScore.StructureScore.structure_prior">[docs]</a>    <span class="k">def</span> <span class="nf">structure_prior</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="s2">&quot;A (log) prior distribution over models. Currently unused (= uniform).&quot;</span>
+        <span class="k">return</span> <span class="mi">0</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Ankur Ankan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

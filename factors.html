@@ -1,0 +1,1825 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Factor &#8212; pgmpy 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sampling Methods" href="sampling.html" />
+    <link rel="prev" title="Models" href="models.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sampling.html" title="Sampling Methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pgmpy 0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Factor</a><ul>
+<li><a class="reference internal" href="#discrete">Discrete</a><ul>
+<li><a class="reference internal" href="#module-pgmpy.factors.discrete.CPD">TabularCPD</a></li>
+<li><a class="reference internal" href="#module-pgmpy.factors.discrete.DiscreteFactor">Discrete Factor</a></li>
+<li><a class="reference internal" href="#module-pgmpy.factors.discrete.JointProbabilityDistribution">Joint Probability Distribution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#continuous">Continuous</a><ul>
+<li><a class="reference internal" href="#canonical-factor">Canonical Factor</a></li>
+<li><a class="reference internal" href="#module-pgmpy.factors.continuous.ContinuousFactor">Continuous Factor</a></li>
+<li><a class="reference internal" href="#joint-gaussian-distribution">Joint Gaussian Distribution</a></li>
+<li><a class="reference internal" href="#module-pgmpy.factors.continuous.LinearGaussianCPD">Linear Gaussian CPD</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pgmpy.factors.continuous.discretize">Discretizing Methods</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="previous chapter">Models</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sampling.html"
+                        title="next chapter">Sampling Methods</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/factors.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="factor">
+<h1>Factor<a class="headerlink" href="#factor" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="discrete">
+<h2>Discrete<a class="headerlink" href="#discrete" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pgmpy.factors.discrete.CPD">
+<span id="tabularcpd"></span><h3>TabularCPD<a class="headerlink" href="#module-pgmpy.factors.discrete.CPD" title="Permalink to this headline">¶</a></h3>
+<p>Contains the different formats of CPDs used in PGM</p>
+<dl class="class">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.discrete.CPD.</code><code class="descname">TabularCPD</code><span class="sig-paren">(</span><em>variable</em>, <em>variable_card</em>, <em>values</em>, <em>evidence=None</em>, <em>evidence_card=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the conditional probability distribution table (cpd table)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>variable: int, string (any hashable python object)</strong></p>
+<blockquote>
+<div><p>The variable whose CPD is defined.</p>
+</div></blockquote>
+<p><strong>variable_card: integer</strong></p>
+<blockquote>
+<div><p>cardinality of variable</p>
+</div></blockquote>
+<p><strong>values: 2d array, 2d list or 2d tuple</strong></p>
+<blockquote>
+<div><p>values of the cpd table</p>
+</div></blockquote>
+<p><strong>evidence: array-like</strong></p>
+<blockquote>
+<div><p>evidences(if any) w.r.t. which cpd is defined</p>
+</div></blockquote>
+<p><strong>evidence_card: integer, array-like</strong></p>
+<blockquote class="last">
+<div><p>cardinality of evidences (if any)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>For a distribution of P(grade|diff, intel)</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="12%" />
+<col width="15%" />
+<col width="17%" />
+<col width="15%" />
+<col width="10%" />
+<col width="15%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>diff</td>
+<td colspan="3">easy</td>
+<td colspan="3">hard</td>
+</tr>
+<tr class="row-even"><td>intel</td>
+<td>dumb</td>
+<td>avg</td>
+<td>smart</td>
+<td>dumb</td>
+<td>avg</td>
+<td>smart</td>
+</tr>
+<tr class="row-odd"><td>gradeA</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+</tr>
+<tr class="row-even"><td>gradeB</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>0.1</td>
+</tr>
+<tr class="row-odd"><td>gradeC</td>
+<td>0.8</td>
+<td>0.8</td>
+<td>0.8</td>
+<td>0.8</td>
+<td>0.8</td>
+<td>0.8</td>
+</tr>
+</tbody>
+</table>
+<p>values should be
+[[0.1,0.1,0.1,0.1,0.1,0.1],
+[0.1,0.1,0.1,0.1,0.1,0.1],
+[0.8,0.8,0.8,0.8,0.8,0.8]]</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,[[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span>
+<span class="go">                                [0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="go">                                [0.8,0.8,0.8,0.8,0.8,0.8]],</span>
+<span class="go">                                evidence=[&#39;diff&#39;, &#39;intel&#39;], evidence_card=[2,3])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cpd</span><span class="p">)</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| diff    | diff_0  | diff_0  | diff_0  | diff_1  | diff_1  | diff_1  |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| intel   | intel_0 | intel_1 | intel_2 | intel_0 | intel_1 | intel_2 |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_0 | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_1 | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_2 | 0.8     | 0.8     | 0.8     | 0.8     | 0.8     | 0.8     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0.1,  0.1,  0.1],</span>
+<span class="go">        [ 0.1,  0.1,  0.1]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 0.1,  0.1,  0.1],</dt>
+<dd>[ 0.1,  0.1,  0.1]],</dd>
+<dt>[[ 0.8,  0.8,  0.8],</dt>
+<dd>[ 0.8,  0.8,  0.8]]])</dd>
+</dl>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;grade&#39;, &#39;diff&#39;, &#39;intel&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([3, 2, 3])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variable</span>
+<span class="go">&#39;grade&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variable_card</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a copy of the TabularCPD object.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                 <span class="p">[[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]],</span>
+<span class="gp">... </span>                 <span class="p">[</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;diff&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span> <span class="o">=</span> <span class="n">cpd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="o">.</span><span class="n">variable</span>
+<span class="go">&#39;grade&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="o">.</span><span class="n">variable_card</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="o">.</span><span class="n">evidence</span>
+<span class="go">[&#39;intel&#39;, &#39;diff&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0.7,  0.6],</span>
+<span class="go">        [ 0.6,  0.2]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 0.3,  0.4],</dt>
+<dd>[ 0.4,  0.8]]])</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD.get_values">
+<code class="descname">get_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD.get_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD.get_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the cpd</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]],</span>
+<span class="gp">... </span>                 <span class="n">evidence</span><span class="o">=</span><span class="s1">&#39;evi1&#39;</span><span class="p">,</span> <span class="n">evidence_card</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
+<span class="go">array([[ 0.1,  0.1],</span>
+<span class="go">       [ 0.1,  0.1],</span>
+<span class="go">       [ 0.8,  0.8]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD.marginalize">
+<code class="descname">marginalize</code><span class="sig-paren">(</span><em>variables</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD.marginalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD.marginalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies the cpd table with marginalized values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>variables: list, array-like</strong></p>
+<blockquote>
+<div><p>list of variable to be marginalized</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote class="last">
+<div><p>If inplace=True it will modify the CPD itself, else would return
+a new CPD</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="p">[[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;diff&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span><span class="o">.</span><span class="n">marginalize</span><span class="p">([</span><span class="s1">&#39;diff&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
+<span class="go">array([[ 0.65,  0.4 ],</span>
+<span class="go">        [ 0.35,  0.6 ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD.normalize">
+<code class="descname">normalize</code><span class="sig-paren">(</span><em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD.normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes the cpd table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inplace: boolean</strong></p>
+<blockquote class="last">
+<div><p>If inplace=True it will modify the CPD itself, else would return
+a new CPD</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="p">[[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;diff&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
+<span class="go">array([[ 0.63636364,  0.33333333,  0.6       ,  0.2       ],</span>
+<span class="go">       [ 0.36363636,  0.66666667,  0.4       ,  0.8       ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD.reduce">
+<code class="descname">reduce</code><span class="sig-paren">(</span><em>values</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD.reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD.reduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the cpd table to the context of given variable values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values: list, array-like</strong></p>
+<blockquote>
+<div><p>A list of tuples of the form (variable_name, variable_state).</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote class="last">
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>                       <span class="p">[[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;diff&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span><span class="o">.</span><span class="n">reduce</span><span class="p">([(</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_table</span><span class="o">.</span><span class="n">get_values</span><span class="p">()</span>
+<span class="go">array([[ 0.7,  0.6],</span>
+<span class="go">       [ 0.3,  0.4]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD.reorder_parents">
+<code class="descname">reorder_parents</code><span class="sig-paren">(</span><em>new_order</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD.reorder_parents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD.reorder_parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new cpd table according to provided order.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>new_order: list</strong></p>
+<blockquote>
+<div><p>list of new ordering of variables</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote class="last">
+<div><p>If inplace == True it will modify the CPD itself
+otherwise new value will be returned without affecting old values</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Consider a CPD P(grade| diff, intel)
+&gt;&gt;&gt; cpd = TabularCPD(&#8216;grade&#8217;,3,[[0.1,0.1,0.1,0.1,0.1,0.1],</p>
+<blockquote>
+<div><blockquote>
+<div>[0.1,0.1,0.1,0.1,0.1,0.1],
+[0.8,0.8,0.8,0.8,0.8,0.8]],</div></blockquote>
+<p>evidence=[&#8216;diff&#8217;, &#8216;intel&#8217;], evidence_card=[2,3])</p>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cpd</span><span class="p">)</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| diff    | diff_0  | diff_0  | diff_0  | diff_1  | diff_1  | diff_1  |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| intel   | intel_0 | intel_1 | intel_2 | intel_0 | intel_1 | intel_2 |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_0 | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_1 | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_2 | 0.8     | 0.8     | 0.8     | 0.8     | 0.8     | 0.8     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0.1,  0.1,  0.1],</span>
+<span class="go">        [ 0.1,  0.1,  0.1]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 0.1,  0.1,  0.1],</dt>
+<dd>[ 0.1,  0.1,  0.1]],</dd>
+<dt>[[ 0.8,  0.8,  0.8],</dt>
+<dd>[ 0.8,  0.8,  0.8]]])</dd>
+</dl>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;grade&#39;, &#39;diff&#39;, &#39;intel&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([3, 2, 3])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variable</span>
+<span class="go">&#39;grade&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variable_card</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">reorder_parents</span><span class="p">([</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;diff&#39;</span><span class="p">])</span>
+<span class="go">array([[ 0.1,  0.1,  0.2,  0.2,  0.1,  0.1],</span>
+<span class="go">       [ 0.1,  0.1,  0.1,  0.1,  0.1,  0.1],</span>
+<span class="go">       [ 0.8,  0.8,  0.7,  0.7,  0.8,  0.8]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cpd</span><span class="p">)</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| intel   | intel_0 | intel_0 | intel_1 | intel_1 | intel_2 | intel_2 |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| diff    | diff_0  | diff_1  | diff_0  | diff_1  | diff_0  | diff_1  |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_0 | 0.1     | 0.1     | 0.2     | 0.2     | 0.1     | 0.1     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_1 | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     | 0.1     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+<span class="go">| grade_2 | 0.8     | 0.8     | 0.7     | 0.7     | 0.8     | 0.8     |</span>
+<span class="go">+---------+---------+---------+---------+---------+---------+---------+</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0.1,  0.1],</span>
+<span class="go">        [ 0.2,  0.2],</span>
+<span class="go">        [ 0.1,  0.1]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 0.1,  0.1],</dt>
+<dd>[ 0.1,  0.1],
+[ 0.1,  0.1]],</dd>
+<dt>[[ 0.8,  0.8],</dt>
+<dd>[ 0.7,  0.7],
+[ 0.8,  0.8]]])</dd>
+</dl>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;grade&#39;, &#39;intel&#39;, &#39;diff&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([3, 3, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variable</span>
+<span class="go">&#39;grade&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span><span class="o">.</span><span class="n">variable_card</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.CPD.TabularCPD.to_factor">
+<code class="descname">to_factor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/CPD.html#TabularCPD.to_factor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.CPD.TabularCPD.to_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an equivalent factor with the same variables, cardinality, values as that of the cpd</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]],</span>
+<span class="gp">... </span>                 <span class="n">evidence</span><span class="o">=</span><span class="s1">&#39;evi1&#39;</span><span class="p">,</span> <span class="n">evidence_card</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">factor</span> <span class="o">=</span> <span class="n">cpd</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">factor</span>
+<span class="go">&lt;DiscreteFactor representing phi(grade:3, evi1:2) at 0x7f847a4f2d68&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pgmpy.factors.discrete.DiscreteFactor">
+<span id="discrete-factor"></span><h3>Discrete Factor<a class="headerlink" href="#module-pgmpy.factors.discrete.DiscreteFactor" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.discrete.DiscreteFactor.</code><code class="descname">DiscreteFactor</code><span class="sig-paren">(</span><em>variables</em>, <em>cardinality</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for DiscreteFactor.</p>
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.assignment">
+<code class="descname">assignment</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.assignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.assignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of assignments for the corresponding index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>index: list, array-like</strong></p>
+<blockquote>
+<div><p>List of indices whose assignment is to be computed</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list: Returns a list of full assignments of all the variables of the factor.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="s1">&#39;intel&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">assignment</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">[[(&#39;diff&#39;, 0), (&#39;intel&#39;, 1)], [(&#39;diff&#39;, 1), (&#39;intel&#39;, 0)]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a copy of the factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">DiscreteFactor: copy of the factor</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">18</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi_copy</span> <span class="o">=</span> <span class="n">phi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi_copy</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi_copy</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([2, 3, 3])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi_copy</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0,  1,  2],</span>
+<span class="go">        [ 3,  4,  5],</span>
+<span class="go">        [ 6,  7,  8]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 9, 10, 11],</dt>
+<dd>[12, 13, 14],
+[15, 16, 17]]])</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.divide">
+<code class="descname">divide</code><span class="sig-paren">(</span><em>phi1</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.divide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.divide" title="Permalink to this definition">¶</a></dt>
+<dd><p>DiscreteFactor division by <cite>phi1</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>phi1</strong> : <cite>DiscreteFactor</cite> instance</p>
+<blockquote>
+<div><p>The denominator for division.</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi1</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi2</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x3&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi1</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">phi2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi1</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi1</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([2, 3, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi1</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0.        ,  0.33333333],</span>
+<span class="go">        [ 2.        ,  1.        ],</span>
+<span class="go">        [ 4.        ,  1.66666667]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 3.        ,  1.75      ],</dt>
+<dd>[ 4.        ,  2.25      ],
+[ 5.        ,  2.75      ]]])</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.get_cardinality">
+<code class="descname">get_cardinality</code><span class="sig-paren">(</span><em>variables</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.get_cardinality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.get_cardinality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns cardinality of a given variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>variables: list, array-like</strong></p>
+<blockquote>
+<div><p>A list of variable names.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">dict: Dictionary of the form {variable: variable_cardinality}</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">get_cardinality</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">])</span>
+<span class="go">{&#39;x1&#39;: 2}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">get_cardinality</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="go">{&#39;x1&#39;: 2, &#39;x2&#39;: 3}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.identity_factor">
+<code class="descname">identity_factor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.identity_factor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.identity_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the identity factor.</p>
+<dl class="docutils">
+<dt>Def: The identity factor of a factor has the same scope and cardinality as the original factor,</dt>
+<dd>but the values for all the assignments is 1. When the identity factor is multiplied with
+the factor it returns the factor itself.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">DiscreteFactor: The identity factor.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi_identity</span> <span class="o">=</span> <span class="n">phi</span><span class="o">.</span><span class="n">identity_factor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi_identity</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi_identity</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 1.,  1.],</span>
+<span class="go">        [ 1.,  1.],</span>
+<span class="go">        [ 1.,  1.]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 1.,  1.],</dt>
+<dd>[ 1.,  1.],
+[ 1.,  1.]]])</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.marginalize">
+<code class="descname">marginalize</code><span class="sig-paren">(</span><em>variables</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.marginalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.marginalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies the factor with marginalized values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>variables: list, array-like</strong></p>
+<blockquote>
+<div><p>List of variables over which to marginalize.</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">marginalize</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([ 14.,  22.,  30.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x2&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.maximize">
+<code class="descname">maximize</code><span class="sig-paren">(</span><em>variables</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.maximize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.maximize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximizes the factor with respect to <cite>variables</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>variables: list, array-like</strong></p>
+<blockquote>
+<div><p>List of variables with respect to which factor is to be maximized</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.16</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">,</span>
+<span class="gp">... </span>                                             <span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.21</span><span class="p">,</span> <span class="mf">0.09</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x1&#39;,&#39;x2&#39;,&#39;x3&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">maximize</span><span class="p">([</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x1&#39;, &#39;x3&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([3, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[ 0.25,  0.35],</span>
+<span class="go">       [ 0.05,  0.07],</span>
+<span class="go">       [ 0.15,  0.21]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.normalize">
+<code class="descname">normalize</code><span class="sig-paren">(</span><em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes the values of factor so that they sum to 1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0,  1],</span>
+<span class="go">        [ 2,  3],</span>
+<span class="go">        [ 4,  5]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 6,  7],</dt>
+<dd>[ 8,  9],
+[10, 11]]])</dd>
+</dl>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([2, 3, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([[[ 0.        ,  0.01515152],</span>
+<span class="go">        [ 0.03030303,  0.04545455],</span>
+<span class="go">        [ 0.06060606,  0.07575758]],</span>
+</pre></div>
+</div>
+<blockquote>
+<div><dl class="docutils">
+<dt>[[ 0.09090909,  0.10606061],</dt>
+<dd>[ 0.12121212,  0.13636364],
+[ 0.15151515,  0.16666667]]])</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.product">
+<code class="descname">product</code><span class="sig-paren">(</span><em>phi1</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.product"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.product" title="Permalink to this definition">¶</a></dt>
+<dd><p>DiscreteFactor product with <cite>phi1</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>phi1: `DiscreteFactor` instance</strong></p>
+<blockquote>
+<div><p>DiscreteFactor to be multiplied.</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.reduce">
+<code class="descname">reduce</code><span class="sig-paren">(</span><em>values</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.reduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the factor to the context of given variable values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values: list, array-like</strong></p>
+<blockquote>
+<div><p>A list of tuples of the form (variable_name, variable_state).</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">reduce</span><span class="p">([(</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x3&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">array([2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">values</span>
+<span class="go">array([0., 1.])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.scope">
+<code class="descname">scope</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.scope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.scope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the scope of the factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list: List of variable names in the scope of the factor.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">DiscreteFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">scope</span><span class="p">()</span>
+<span class="go">[&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.sum">
+<code class="descname">sum</code><span class="sig-paren">(</span><em>phi1</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/DiscreteFactor.html#DiscreteFactor.sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.DiscreteFactor.sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>DiscreteFactor sum with <cite>phi1</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>phi1: `DiscreteFactor` instance.</strong></p>
+<blockquote>
+<div><p>DiscreteFactor to be added.</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.State">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.discrete.DiscreteFactor.</code><code class="descname">State</code><span class="sig-paren">(</span><em>var</em>, <em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.State" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.State.state">
+<code class="descname">state</code><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.State.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pgmpy.factors.discrete.DiscreteFactor.State.var">
+<code class="descname">var</code><a class="headerlink" href="#pgmpy.factors.discrete.DiscreteFactor.State.var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pgmpy.factors.discrete.JointProbabilityDistribution">
+<span id="joint-probability-distribution"></span><h3>Joint Probability Distribution<a class="headerlink" href="#module-pgmpy.factors.discrete.JointProbabilityDistribution" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.discrete.JointProbabilityDistribution.</code><code class="descname">JointProbabilityDistribution</code><span class="sig-paren">(</span><em>variables</em>, <em>cardinality</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for Joint Probability Distribution</p>
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.check_independence">
+<code class="descname">check_independence</code><span class="sig-paren">(</span><em>event1</em>, <em>event2</em>, <em>event3=None</em>, <em>condition_random_variable=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.check_independence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.check_independence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the Joint Probability Distribution satisfies the given independence condition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>event1: list</strong></p>
+<blockquote>
+<div><p>random variable whose independence is to be checked.</p>
+</div></blockquote>
+<p><strong>event2: list</strong></p>
+<blockquote>
+<div><p>random variable from which event1 is independent.</p>
+</div></blockquote>
+<p><strong>values: 2D array or list like or 1D array or list like</strong></p>
+<blockquote>
+<div><p>A 2D list of tuples of the form (variable_name, variable_state).
+A 1D list or array-like to condition over randome variables (condition_random_variable must be True)
+The values on which to condition the Joint Probability Distribution.</p>
+</div></blockquote>
+<p><strong>condition_random_variable: Boolean (Default false)</strong></p>
+<blockquote>
+<div><p>If true and event3 is not None than will check independence condition over random variable.</p>
+</div></blockquote>
+<p><strong>For random variables say X, Y, Z to check if X is independent of Y given Z.</strong></p>
+<p><strong>event1 should be either X or Y.</strong></p>
+<p><strong>event2 should be either Y or X.</strong></p>
+<p class="last"><strong>event3 should Z.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span> <span class="k">as</span> <span class="n">JPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">JPD</span><span class="p">([</span><span class="s1">&#39;I&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="s1">&#39;G&#39;</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+<span class="go">               [0.126,0.168,0.126,0.009,0.045,0.126,0.252,0.0224,0.0056,0.06,0.036,0.024])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span><span class="o">.</span><span class="n">check_independence</span><span class="p">([</span><span class="s1">&#39;I&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">])</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span><span class="o">.</span><span class="n">check_independence</span><span class="p">([</span><span class="s1">&#39;I&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">],</span> <span class="p">[(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>  <span class="c1"># Conditioning over G_1</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Conditioning over random variable G</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span><span class="o">.</span><span class="n">check_independence</span><span class="p">([</span><span class="s1">&#39;I&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">],</span> <span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,),</span> <span class="n">condition_random_variable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.conditional_distribution">
+<code class="descname">conditional_distribution</code><span class="sig-paren">(</span><em>values</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.conditional_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.conditional_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Conditional Probability Distribution after setting values to 1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values: list or array_like</strong></p>
+<blockquote>
+<div><p>A list of tuples of the form (variable_name, variable_state).
+The values on which to condition the Joint Probability Distribution.</p>
+</div></blockquote>
+<p><strong>inplace: Boolean (default True)</strong></p>
+<blockquote class="last">
+<div><p>If False returns a new instance of JointProbabilityDistribution</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">JointProbabilityDistribution</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span><span class="o">.</span><span class="n">conditional_distribution</span><span class="p">([(</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="go">x2    x3      P(x2,x3)</span>
+<span class="go">----  ----  ----------</span>
+<span class="go">x2_0  x3_0      0.2500</span>
+<span class="go">x2_0  x3_1      0.2500</span>
+<span class="go">x2_1  x3_0      0.2500</span>
+<span class="go">x2_1  x3_1      0.2500</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns A copy of JointProbabilityDistribution object</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">JointProbabilityDistribution</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob_copy</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob_copy</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="n">prob</span><span class="o">.</span><span class="n">values</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob_copy</span><span class="o">.</span><span class="n">variables</span> <span class="o">==</span> <span class="n">prob</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob_copy</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob_copy</span><span class="o">.</span><span class="n">variables</span> <span class="o">==</span> <span class="n">prob</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.get_independencies">
+<code class="descname">get_independencies</code><span class="sig-paren">(</span><em>condition=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.get_independencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.get_independencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the independent variables in the joint probability distribution.
+Returns marginally independent variables if condition=None.
+Returns conditionally independent variables if condition!=None</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">JointProbabilityDistribution</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span><span class="o">.</span><span class="n">get_independencies</span><span class="p">()</span>
+<span class="go">(x1 _|_ x2)</span>
+<span class="go">(x1 _|_ x3)</span>
+<span class="go">(x2 _|_ x3)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.is_imap">
+<code class="descname">is_imap</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.is_imap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.is_imap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether the given BayesianModel is Imap of JointProbabilityDistribution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : An instance of BayesianModel Class, for which you want to</p>
+<blockquote>
+<div><p>check the Imap</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>boolean</strong> : True if given bayesian model is Imap for Joint Probability Distribution</p>
+<blockquote>
+<div><p>False otherwise</p>
+</div></blockquote>
+<p>Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bm</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">([(</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">diff_cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[[</span><span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">intel_cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">grade_cpd</span> <span class="o">=</span> <span class="n">TabularCPD</span><span class="p">(</span><span class="s1">&#39;grade&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>...                        [[0.1,0.1,0.1,0.1,0.1,0.1],</p>
+<p>...                         [0.1,0.1,0.1,0.1,0.1,0.1],</p>
+<p>...                         [0.8,0.8,0.8,0.8,0.8,0.8]],</p>
+<p>...                        evidence=[&#8216;diff&#8217;, &#8216;intel&#8217;],</p>
+<p>...                        evidence_card=[2, 3])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bm</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="n">diff_cpd</span><span class="p">,</span> <span class="n">intel_cpd</span><span class="p">,</span> <span class="n">grade_cpd</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">val</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.006</span><span class="p">,</span> <span class="mf">0.006</span><span class="p">,</span> <span class="mf">0.048</span><span class="p">,</span> <span class="mf">0.004</span><span class="p">,</span> <span class="mf">0.004</span><span class="p">,</span> <span class="mf">0.032</span><span class="p">,</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>0.04, 0.04, 0.32, 0.024, 0.024, 0.192, 0.016, 0.016, 0.128]</p>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">JPD</span> <span class="o">=</span> <span class="n">JointProbabilityDistribution</span><span class="p">([</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="s1">&#39;intel&#39;</span><span class="p">,</span> <span class="s1">&#39;grade&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">val</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">JPD</span><span class="o">.</span><span class="n">is_imap</span><span class="p">(</span><span class="n">bm</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">True</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.marginal_distribution">
+<code class="descname">marginal_distribution</code><span class="sig-paren">(</span><em>variables</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.marginal_distribution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.marginal_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the marginal distribution over variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>variables: string, list, tuple, set, dict</strong></p>
+<blockquote>
+<div><p>Variable or list of variables over which marginal distribution needs
+to be calculated</p>
+</div></blockquote>
+<p><strong>inplace: Boolean (default True)</strong></p>
+<blockquote class="last">
+<div><p>If False return a new instance of JointProbabilityDistribution</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">JointProbabilityDistribution</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">values</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span><span class="o">.</span><span class="n">marginal_distribution</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+<span class="go">x1    x2      P(x1,x2)</span>
+<span class="go">----  ----  ----------</span>
+<span class="go">x1_0  x2_0      0.1502</span>
+<span class="go">x1_0  x2_1      0.1626</span>
+<span class="go">x1_0  x2_2      0.1197</span>
+<span class="go">x1_1  x2_0      0.2339</span>
+<span class="go">x1_1  x2_1      0.1996</span>
+<span class="go">x1_1  x2_2      0.1340</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.minimal_imap">
+<code class="descname">minimal_imap</code><span class="sig-paren">(</span><em>order</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.minimal_imap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.minimal_imap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Bayesian Model which is minimal IMap of the Joint Probability Distribution
+considering the order of the variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>order: array-like</strong></p>
+<blockquote class="last">
+<div><p>The order of the random variables.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">JointProbabilityDistribution</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bayesian_model</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">minimal_imap</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bayesian_model</span>
+<span class="go">&lt;pgmpy.models.models.models at 0x7fd7440a9320&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bayesian_model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;x1&#39;, &#39;x3&#39;), (&#39;x2&#39;, &#39;x3&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.to_factor">
+<code class="descname">to_factor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/discrete/JointProbabilityDistribution.html#JointProbabilityDistribution.to_factor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.discrete.JointProbabilityDistribution.JointProbabilityDistribution.to_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns JointProbabilityDistribution as a DiscreteFactor object</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">JointProbabilityDistribution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prob</span> <span class="o">=</span> <span class="n">JointProbabilityDistribution</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+<span class="go">pgmpy.factors.DiscreteFactor.DiscreteFactor</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="continuous">
+<h2>Continuous<a class="headerlink" href="#continuous" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="canonical-factor">
+<h3>Canonical Factor<a class="headerlink" href="#canonical-factor" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="module-pgmpy.factors.continuous.ContinuousFactor">
+<span id="continuous-factor"></span><h3>Continuous Factor<a class="headerlink" href="#module-pgmpy.factors.continuous.ContinuousFactor" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.continuous.ContinuousFactor.</code><code class="descname">ContinuousFactor</code><span class="sig-paren">(</span><em>variables</em>, <em>pdf</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for factors representing various multivariate
+representations.</p>
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.assignment">
+<code class="descname">assignment</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.assignment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.assignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of pdf assignments for the corresponding values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>*args: values</strong></p>
+<blockquote class="last">
+<div><p>Values whose assignment is to be computed.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">multivariate_normal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normal_pdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">:</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">ContinuousFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">],</span> <span class="n">normal_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">assignment</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">0.013064233284684921</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">ContinuousFactor object: copy of the distribution</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="k">import</span> <span class="n">beta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="go"># Two variable dirichlet distribution with alpha = (1,2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">dirichlet_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">beta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dirichlet_factor</span> <span class="o">=</span> <span class="n">ContinuousFactor</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">dirichlet_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dirichlet_factor</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x&#39;, &#39;y&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy_factor</span> <span class="o">=</span> <span class="n">dirichlet_factor</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy_factor</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x&#39;, &#39;y&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.discretize">
+<code class="descname">discretize</code><span class="sig-paren">(</span><em>method</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.discretize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.discretize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Discretizes the continuous distribution into discrete
+probability masses using various methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>method</strong> : A Discretizer Class from pgmpy.discretize</p>
+<p><strong>*args, **kwargs:</strong></p>
+<blockquote>
+<div><p>The parameters to be given to the Discretizer Class.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An n-D array or a DiscreteFactor object according to the discretiztion</p>
+<p class="last">method used.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="k">import</span> <span class="n">beta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">RoundingDiscretizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">dirichlet_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">beta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dirichlet_factor</span> <span class="o">=</span> <span class="n">ContinuousFactor</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">dirichlet_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dirichlet_factor</span><span class="o">.</span><span class="n">discretize</span><span class="p">(</span><span class="n">RoundingDiscretizer</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cardinality</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go"># TODO: finish this</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.divide">
+<code class="descname">divide</code><span class="sig-paren">(</span><em>other</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.divide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.divide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the ContinuousFactor divide with the other factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other: ContinuousFactor</strong></p>
+<blockquote>
+<div><p>The ContinuousFactor to be multiplied.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ContinuousFactor or None:</p>
+<blockquote class="last">
+<div><p>if inplace=True (default) returns None
+if inplace=False returns a new <cite>DiscreteFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.marginalize">
+<code class="descname">marginalize</code><span class="sig-paren">(</span><em>variables</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.marginalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.marginalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Marginalize the factor with respect to the given variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>variables: list, array-like</strong></p>
+<blockquote>
+<div><p>List of variables with respect to which factor is to be maximized.</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new ContinuousFactor instance.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">DiscreteFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new ContinuousFactor instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">multivariate_normal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal_pdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">x</span><span class="p">:</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span> <span class="o">=</span> <span class="n">ContinuousFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">],</span> <span class="n">std_normal_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">scope</span><span class="p">()</span>
+<span class="go">[&#39;x1&#39;, &#39;x2&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">assignment</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="go">0.058549831524319168</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">marginalize</span><span class="p">([</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">scope</span><span class="p">()</span>
+<span class="go">[&#39;x1&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">assignment</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.normalize">
+<code class="descname">normalize</code><span class="sig-paren">(</span><em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes the pdf of the continuous factor so that it integrates to
+1 over all the variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new factor.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ContinuousFactor or None:</p>
+<blockquote class="last">
+<div><p>if inplace=True (default) returns None
+if inplace=False returns a new ContinuousFactor instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">multivariate_normal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal_pdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span> <span class="o">=</span> <span class="n">ContinuousFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">],</span> <span class="n">std_normal_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">assignment</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.117099663049</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">assignment</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">0.0585498315243</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.pdf">
+<code class="descname">pdf</code><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the pdf of the ContinuousFactor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.product">
+<code class="descname">product</code><span class="sig-paren">(</span><em>other</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.product"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.product" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the ContinuousFactor product with the other factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other: ContinuousFactor</strong></p>
+<blockquote>
+<div><p>The ContinuousFactor to be multiplied.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ContinuousFactor or None:</p>
+<blockquote class="last">
+<div><p>if inplace=True (default) returns None
+if inplace=False returns a new <cite>ContinuousFactor</cite> instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.reduce">
+<code class="descname">reduce</code><span class="sig-paren">(</span><em>values</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.reduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reduces the factor to the context of the given variable values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values: list, array-like</strong></p>
+<blockquote>
+<div><p>A list of tuples of the form (variable_name, variable_value).</p>
+</div></blockquote>
+<p><strong>inplace: boolean</strong></p>
+<blockquote>
+<div><p>If inplace=True it will modify the factor itself, else would return
+a new ContinuosFactor object.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ContinuousFactor or None: if inplace=True (default) returns None</p>
+<blockquote class="last">
+<div><p>if inplace=False returns a new ContinuousFactor instance.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="k">import</span> <span class="n">beta</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">custom_pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">z</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">beta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">custom_factor</span> <span class="o">=</span> <span class="n">ContinuousFactor</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">],</span> <span class="n">custom_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">custom_factor</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">custom_factor</span><span class="o">.</span><span class="n">assignment</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">24.0</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">custom_factor</span><span class="o">.</span><span class="n">reduce</span><span class="p">([(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">custom_factor</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;x&#39;, &#39;z&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">custom_factor</span><span class="o">.</span><span class="n">assignment</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">24.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.scope">
+<code class="descname">scope</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/ContinuousFactor.html#ContinuousFactor.scope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.ContinuousFactor.ContinuousFactor.scope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the scope of the factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list: List of variable names in the scope of the factor.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">multivariate_normal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normal_pdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span> <span class="o">=</span> <span class="n">ContinuousFactor</span><span class="p">([</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">],</span> <span class="n">normal_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">phi</span><span class="o">.</span><span class="n">scope</span><span class="p">()</span>
+<span class="go">[&#39;x1&#39;, &#39;x2&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="joint-gaussian-distribution">
+<h3>Joint Gaussian Distribution<a class="headerlink" href="#joint-gaussian-distribution" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="module-pgmpy.factors.continuous.LinearGaussianCPD">
+<span id="linear-gaussian-cpd"></span><h3>Linear Gaussian CPD<a class="headerlink" href="#module-pgmpy.factors.continuous.LinearGaussianCPD" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="pgmpy.factors.continuous.LinearGaussianCPD.LinearGaussianCPD">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.continuous.LinearGaussianCPD.</code><code class="descname">LinearGaussianCPD</code><span class="sig-paren">(</span><em>variable</em>, <em>beta</em>, <em>variance</em>, <em>evidence=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/LinearGaussianCPD.html#LinearGaussianCPD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.LinearGaussianCPD.LinearGaussianCPD" title="Permalink to this definition">¶</a></dt>
+<dd><p>For, X -&gt; Y the Linear Gaussian model assumes that the mean
+of Y is a linear function of mean of X and the variance of Y does
+not depend on X.</p>
+<p>For example,
+p(Y|X) = N(-2x + 0.9 ; 1)
+Here, x is the mean of the variable X.</p>
+<p>Let Y be a continuous variable with continuous parents
+X1 ............ Xk . We say that Y has a linear Gaussian CPD
+if there are parameters β0,.........βk and σ2 such that,</p>
+<p>p(Y <a href="#id1"><span class="problematic" id="id2">|</span></a>x1.......xk) = N(β0 + x1*β1 + ......... + xk*βk ; σ2)</p>
+<p>In vector notation,</p>
+<p>p(Y <a href="#id3"><span class="problematic" id="id4">|</span></a>x) = N(β0 + β.T * x ; σ2)</p>
+<dl class="method">
+<dt id="pgmpy.factors.continuous.LinearGaussianCPD.LinearGaussianCPD.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/LinearGaussianCPD.html#LinearGaussianCPD.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.LinearGaussianCPD.LinearGaussianCPD.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">LinearGaussianCPD: copy of the distribution</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">LinearGaussianCPD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd</span> <span class="o">=</span> <span class="n">LinearGaussianCPD</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span>  <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="mf">9.6</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;X1&#39;</span><span class="p">,</span> <span class="s1">&#39;X2&#39;</span><span class="p">,</span> <span class="s1">&#39;X3&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy_cpd</span> <span class="o">=</span> <span class="n">cpd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy_cpd</span><span class="o">.</span><span class="n">variable</span>
+<span class="go">&#39;Y&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy_cpd</span><span class="o">.</span><span class="n">evidence</span>
+<span class="go">[&#39;X1&#39;, &#39;X2&#39;, &#39;X3&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-pgmpy.factors.continuous.discretize">
+<span id="discretizing-methods"></span><h2>Discretizing Methods<a class="headerlink" href="#module-pgmpy.factors.continuous.discretize" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.factors.continuous.discretize.BaseDiscretizer">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.continuous.discretize.</code><code class="descname">BaseDiscretizer</code><span class="sig-paren">(</span><em>factor</em>, <em>low</em>, <em>high</em>, <em>cardinality</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/discretize.html#BaseDiscretizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.discretize.BaseDiscretizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for the discretizer classes in pgmpy. The discretizer
+classes are used to discretize a continuous random variable
+distribution into discrete probability masses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>factor: A ContinuousNode or a ContinuousFactor object</strong></p>
+<blockquote>
+<div><p>the continuous node or factor representing the distribution
+to be discretized.</p>
+</div></blockquote>
+<p><strong>low, high: float</strong></p>
+<blockquote>
+<div><p>the range over which the function will be discretized.</p>
+</div></blockquote>
+<p><strong>cardinality: int</strong></p>
+<blockquote class="last">
+<div><p>the number of states required in the discretized output.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousNode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normal</span> <span class="o">=</span> <span class="n">ContinuousNode</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.discretize</span> <span class="k">import</span> <span class="n">BaseDiscretizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">ChildDiscretizer</span><span class="p">(</span><span class="n">BaseDiscretizer</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">get_discrete_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span> <span class="o">=</span> <span class="n">ChildDiscretizer</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">factor</span>
+<span class="go">&lt;pgmpy.factors.continuous.ContinuousNode.ContinuousNode object at 0x04C98190&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">cardinality</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">discretizer</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="go">[&#39;x=-3.0&#39;, &#39;x=-2.4&#39;, &#39;x=-1.8&#39;, &#39;x=-1.2&#39;, &#39;x=-0.6&#39;, &#39;x=0.0&#39;, &#39;x=0.6&#39;, &#39;x=1.2&#39;, &#39;x=1.8&#39;, &#39;x=2.4&#39;]</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pgmpy.factors.continuous.discretize.BaseDiscretizer.get_discrete_values">
+<code class="descname">get_discrete_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/discretize.html#BaseDiscretizer.get_discrete_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.discretize.BaseDiscretizer.get_discrete_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method implements the algorithm to discretize the given
+continuous distribution.</p>
+<p>It must be implemented by all the subclasses of BaseDiscretizer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of discrete values or a DiscreteFactor object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.factors.continuous.discretize.BaseDiscretizer.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/discretize.html#BaseDiscretizer.get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.discretize.BaseDiscretizer.get_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of strings representing the values about
+which the discretization method calculates the probabilty
+masses.</p>
+<p>Default value is the points -
+[low, low+step, low+2*step, ......... , high-step]
+unless the method is overridden by a subclass.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors</span> <span class="k">import</span> <span class="n">ContinuousNode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.discretize</span> <span class="k">import</span> <span class="n">BaseDiscretizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">ChildDiscretizer</span><span class="p">(</span><span class="n">BaseDiscretizer</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">get_discrete_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">node</span> <span class="o">=</span> <span class="n">ContinuousNode</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">child</span> <span class="o">=</span> <span class="n">ChildDiscretizer</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chld</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="go">[&#39;x=-5.0&#39;, &#39;x=-4.5&#39;, &#39;x=-4.0&#39;, &#39;x=-3.5&#39;, &#39;x=-3.0&#39;, &#39;x=-2.5&#39;,</span>
+<span class="go"> &#39;x=-2.0&#39;, &#39;x=-1.5&#39;, &#39;x=-1.0&#39;, &#39;x=-0.5&#39;, &#39;x=0.0&#39;, &#39;x=0.5&#39;, &#39;x=1.0&#39;,</span>
+<span class="go"> &#39;x=1.5&#39;, &#39;x=2.0&#39;, &#39;x=2.5&#39;, &#39;x=3.0&#39;, &#39;x=3.5&#39;, &#39;x=4.0&#39;, &#39;x=4.5&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pgmpy.factors.continuous.discretize.RoundingDiscretizer">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.continuous.discretize.</code><code class="descname">RoundingDiscretizer</code><span class="sig-paren">(</span><em>factor</em>, <em>low</em>, <em>high</em>, <em>cardinality</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/discretize.html#RoundingDiscretizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.discretize.RoundingDiscretizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class uses the rounding method for discretizing the
+given continuous distribution.</p>
+<p>For the rounding method,</p>
+<p>The probability mass is,
+cdf(x+step/2)-cdf(x), for x = low</p>
+<p>cdf(x+step/2)-cdf(x-step/2), for low &lt; x &lt;= high</p>
+<p>where, cdf is the cumulative density function of the distribution
+and step = (high-low)/cardinality.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousNode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">RoundingDiscretizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal_pdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span> <span class="o">=</span> <span class="n">ContinuousNode</span><span class="p">(</span><span class="n">std_normal_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">std_normal</span><span class="o">.</span><span class="n">discretize</span><span class="p">(</span><span class="n">RoundingDiscretizer</span><span class="p">,</span> <span class="n">low</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>                      <span class="n">cardinality</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="go">[0.001629865203424451, 0.009244709419989363, 0.027834684208773178,</span>
+<span class="go"> 0.065590616803038182, 0.120977578710013, 0.17466632194020804,</span>
+<span class="go"> 0.19741265136584729, 0.17466632194020937, 0.12097757871001302,</span>
+<span class="go"> 0.065590616803036905, 0.027834684208772664, 0.0092447094199902269]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="pgmpy.factors.continuous.discretize.UnbiasedDiscretizer">
+<em class="property">class </em><code class="descclassname">pgmpy.factors.continuous.discretize.</code><code class="descname">UnbiasedDiscretizer</code><span class="sig-paren">(</span><em>factor</em>, <em>low</em>, <em>high</em>, <em>cardinality</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/factors/continuous/discretize.html#UnbiasedDiscretizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.factors.continuous.discretize.UnbiasedDiscretizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class uses the unbiased method for discretizing the
+given continuous distribution.</p>
+<p>The unbiased method for discretization is the matching of the
+first moment method. It involves calculating the first order
+limited moment of the distribution which is done by the _lim_moment
+method.</p>
+<p>For this method,</p>
+<p>The probability mass is,
+(E(x) - E(x + step))/step + 1 - cdf(x), for x = low</p>
+<p>(2 * E(x) - E(x - step) - E(x + step))/step, for low &lt; x &lt; high</p>
+<p>(E(x) - E(x - step))/step - 1 + cdf(x), for x = high</p>
+<p>where, E(x) is the first limiting moment of the distribution
+about the point x, cdf is the cumulative density function
+and step = (high-low)/cardinality.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors</span> <span class="k">import</span> <span class="n">ContinuousNode</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">UnbiasedDiscretizer</span>
+<span class="go"># exponential distribution with rate = 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp_pdf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp_node</span> <span class="o">=</span> <span class="n">ContinuousNode</span><span class="p">(</span><span class="n">exp_pdf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp_node</span><span class="o">.</span><span class="n">discretize</span><span class="p">(</span><span class="n">UnbiasedDiscretizer</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cardinality</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">[0.39627368905806137, 0.4049838434034298, 0.13331784003148325,</span>
+<span class="go"> 0.043887287876647259, 0.014447413395300212, 0.0047559685431339703,</span>
+<span class="go"> 0.0015656350182896128, 0.00051540201980112557, 0.00016965346326140994,</span>
+<span class="go"> 3.7867260839208328e-05]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sampling.html" title="Sampling Methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pgmpy 0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Ankur Ankan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reading and Writing from files &#8212; pgmpy 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Estimators for Parameter and Structure Learning" href="estimators.html" />
+    <link rel="prev" title="Algorithms for Inference" href="inference.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="estimators.html" title="Estimators for Parameter and Structure Learning"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="inference.html" title="Algorithms for Inference"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pgmpy 0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Reading and Writing from files</a><ul>
+<li><a class="reference internal" href="#module-pgmpy.readwrite.BIF">BIF</a></li>
+<li><a class="reference internal" href="#module-pgmpy.readwrite.PomdpX">PomdpX</a></li>
+<li><a class="reference internal" href="#module-pgmpy.readwrite.ProbModelXML">ProbModelXML</a></li>
+<li><a class="reference internal" href="#module-pgmpy.readwrite.UAI">UAI</a></li>
+<li><a class="reference internal" href="#module-pgmpy.readwrite.XMLBeliefNetwork">XMLBeliefNetwork</a></li>
+<li><a class="reference internal" href="#module-pgmpy.readwrite.XMLBIF">XMLBIF</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="inference.html"
+                        title="previous chapter">Algorithms for Inference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="estimators.html"
+                        title="next chapter">Estimators for Parameter and Structure Learning</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readwrite.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="reading-and-writing-from-files">
+<h1>Reading and Writing from files<a class="headerlink" href="#reading-and-writing-from-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pgmpy.readwrite.BIF">
+<span id="bif"></span><h2>BIF<a class="headerlink" href="#module-pgmpy.readwrite.BIF" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.readwrite.BIF.BIFReader">
+<em class="property">class </em><code class="descclassname">pgmpy.readwrite.BIF.</code><code class="descname">BIFReader</code><span class="sig-paren">(</span><em>path=None</em>, <em>string=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for reading network file in bif format</p>
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_edges">
+<code class="descname">get_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_edges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the edges of the network</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_model">
+<code class="descname">get_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the fitted bayesian model</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_network_name">
+<code class="descname">get_network_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_network_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_network_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retruns the name of the network</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_parents">
+<code class="descname">get_parents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_parents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the parents of the variables present in the network</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_probability_grammar">
+<code class="descname">get_probability_grammar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_probability_grammar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_probability_grammar" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method that returns probability grammar</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_property">
+<code class="descname">get_property</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the property of the variable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_states">
+<code class="descname">get_states</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the states of variables present in the network</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_values">
+<code class="descname">get_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the CPD of the variables present in the network</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_variable_grammar">
+<code class="descname">get_variable_grammar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_variable_grammar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_variable_grammar" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method that returns variable grammar</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFReader.get_variables">
+<code class="descname">get_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFReader.get_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFReader.get_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of variables of the network</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pgmpy.readwrite.BIF.BIFWriter">
+<em class="property">class </em><code class="descclassname">pgmpy.readwrite.BIF.</code><code class="descname">BIFWriter</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for writing BIF network file format</p>
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFWriter.BIF_templates">
+<code class="descname">BIF_templates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter.BIF_templates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter.BIF_templates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create template for writing in BIF format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFWriter.get_cpds">
+<code class="descname">get_cpds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter.get_cpds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter.get_cpds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds tables to BIF</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict: dict of type {variable: array}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFWriter.get_parents">
+<code class="descname">get_parents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter.get_parents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter.get_parents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the parents to BIF</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict: dict of type {variable: a list of parents}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFWriter.get_properties">
+<code class="descname">get_properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter.get_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter.get_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add property to variables in BIF</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict: dict of type {variable: list of properties }</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFWriter.get_states">
+<code class="descname">get_states</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter.get_states"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter.get_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add states to variable of BIF</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict: dict of type {variable: a list of states}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFWriter.get_variables">
+<code class="descname">get_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter.get_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter.get_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add variables to BIF</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list: a list containing names of variable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.readwrite.BIF.BIFWriter.write_bif">
+<code class="descname">write_bif</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/readwrite/BIF.html#BIFWriter.write_bif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.readwrite.BIF.BIFWriter.write_bif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the BIF data into a file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> : Name of the file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pgmpy.readwrite.PomdpX">
+<span id="pomdpx"></span><h2>PomdpX<a class="headerlink" href="#module-pgmpy.readwrite.PomdpX" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pgmpy.readwrite.ProbModelXML">
+<span id="probmodelxml"></span><h2>ProbModelXML<a class="headerlink" href="#module-pgmpy.readwrite.ProbModelXML" title="Permalink to this headline">¶</a></h2>
+<p>For the student example the ProbModelXML file should be:</p>
+<p>&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;
+&lt;ProbModelXML formatVersion=“1.0”&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;ProbNet type=&#8221;BayesianNetwork&#8221;&gt;</dt>
+<dd><p class="first">&lt;AdditionalConstraints /&gt;
+&lt;Comment&gt;</p>
+<blockquote>
+<div>Student example model from Probabilistic Graphical Models:
+Principles and Techniques by Daphne Koller</div></blockquote>
+<p>&lt;/Comment&gt;
+&lt;Language&gt;</p>
+<blockquote>
+<div>English</div></blockquote>
+<p>&lt;/Language&gt;
+&lt;AdditionalProperties /&gt;
+&lt;Variables&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;Variable name=&#8221;intelligence&#8221; type=&#8221;FiniteState&#8221; role=&#8221;Chance&#8221;&gt;</dt>
+<dd><p class="first">&lt;Comment /&gt;
+&lt;Coordinates /&gt;
+&lt;AdditionalProperties /&gt;
+&lt;States&gt;</p>
+<blockquote>
+<div>&lt;State name=&#8221;smart&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;
+&lt;State name=&#8221;dumb&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</div></blockquote>
+<p class="last">&lt;/States&gt;</p>
+</dd>
+</dl>
+<p>&lt;/Variable&gt;
+&lt;Variable name=&#8221;difficulty&#8221; type=&#8221;FiniteState&#8221; role=&#8221;Chance&#8221;&gt;</p>
+<blockquote>
+<div><p>&lt;Comment /&gt;
+&lt;Coordinates /&gt;
+&lt;AdditionalProperties /&gt;
+&lt;States&gt;</p>
+<blockquote>
+<div>&lt;State name=&#8221;difficult&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;
+&lt;State name=&#8221;easy&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</div></blockquote>
+<p>&lt;/States&gt;</p>
+</div></blockquote>
+<p>&lt;/Variable&gt;
+&lt;Variable name=&#8221;grade&#8221; type=&#8221;FiniteState&#8221; role=&#8221;Chance&#8221;&gt;</p>
+<blockquote>
+<div><p>&lt;Comment /&gt;
+&lt;Coordinates /&gt;
+&lt;AdditionalProperties /&gt;
+&lt;States&gt;</p>
+<blockquote>
+<div>&lt;State name=&#8221;grade_A&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;
+&lt;State name=&#8221;grade_B&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;
+&lt;State name=&#8221;grade_C&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</div></blockquote>
+<p>&lt;/States&gt;</p>
+</div></blockquote>
+<p>&lt;/Variable&gt;
+&lt;Variable name=&#8221;recommendation_letter&#8221; type=&#8221;FiniteState&#8221;</p>
+<blockquote>
+<div><blockquote>
+<div>role=&#8221;Chance&#8221;&gt;</div></blockquote>
+<p>&lt;Comment /&gt;
+&lt;Coordinates /&gt;
+&lt;AdditionalProperties /&gt;
+&lt;States&gt;</p>
+<blockquote>
+<div>&lt;State name=&#8221;good&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;
+&lt;State name=&#8221;bad&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</div></blockquote>
+<p>&lt;/States&gt;</p>
+</div></blockquote>
+<p>&lt;/Variable&gt;
+&lt;Variable name=&#8221;SAT&#8221; type=&#8221;FiniteState&#8221; role=&#8221;Chance&#8221;&gt;</p>
+<blockquote>
+<div><p>&lt;Comment /&gt;
+&lt;Coordinates /&gt;
+&lt;AdditionalProperties /&gt;
+&lt;States&gt;</p>
+<blockquote>
+<div>&lt;State name=&#8221;high&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;
+&lt;State name=&#8221;low&#8221;&gt;&lt;AdditionalProperties /&gt;&lt;/State&gt;</div></blockquote>
+<p>&lt;/States&gt;</p>
+</div></blockquote>
+<p>&lt;/Variable&gt;</p>
+</div></blockquote>
+<p>&lt;/Variables&gt;
+&lt;Links&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;Link var1=&#8221;difficulty&#8221; var2=&#8221;grade&#8221; directed=1&gt;</dt>
+<dd>&lt;Comment&gt;Directed Edge from difficulty to grade&lt;/Comment&gt;
+&lt;Label&gt;diff_to_grad&lt;/Label&gt;
+&lt;AdditionalProperties /&gt;</dd>
+</dl>
+<p>&lt;/Link&gt;
+&lt;Link var1=&#8221;intelligence&#8221; var2=&#8221;grade&#8221; directed=1&gt;</p>
+<blockquote>
+<div>&lt;Comment&gt;Directed Edge from intelligence to grade&lt;/Comment&gt;
+&lt;Label&gt;intel_to_grad&lt;/Label&gt;
+&lt;AdditionalProperties /&gt;</div></blockquote>
+<p>&lt;/Link&gt;
+&lt;Link var1=&#8221;intelligence&#8221; var2=&#8221;SAT&#8221; directed=1&gt;</p>
+<blockquote>
+<div>&lt;Comment&gt;Directed Edge from intelligence to SAT&lt;/Comment&gt;
+&lt;Label&gt;intel_to_sat&lt;/Label&gt;
+&lt;AdditionalProperties /&gt;</div></blockquote>
+<p>&lt;/Link&gt;
+&lt;Link var1=&#8221;grade&#8221; var2=&#8221;recommendation_letter&#8221; directed=1&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;Comment&gt;Directed Edge from grade to</dt>
+<dd>recommendation_letter&lt;/Comment&gt;</dd>
+</dl>
+<p>&lt;Label&gt;grad_to_reco&lt;/Label&gt;
+&lt;AdditionalProperties /&gt;</p>
+</div></blockquote>
+<p>&lt;/Link&gt;</p>
+</div></blockquote>
+<p>&lt;/Links&gt;
+&lt;Potential type=&#8221;Table&#8221; role=&#8221;ConditionalProbability&#8221; label=string&gt;</p>
+<blockquote>
+<div><p>&lt;Comment&gt;CPDs in the form of table&lt;/Comment&gt;
+&lt;AdditionalProperties /&gt;
+&lt;!&#8211;</p>
+<blockquote>
+<div>There is no specification in the paper about
+how the tables should be represented.</div></blockquote>
+<p>&#8211;&gt;</p>
+</div></blockquote>
+<p class="last">&lt;/Potential&gt;</p>
+</dd>
+</dl>
+<p>&lt;/ProbNet&gt;
+&lt;Policies /&gt;
+&lt;InferenceOptions /&gt;
+&lt;Evidence&gt;</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&lt;EvidenceCase&gt;</dt>
+<dd><dl class="first last docutils">
+<dt>&lt;Finding variable=string state=string stateIndex=integer</dt>
+<dd>numericValue=number/&gt;</dd>
+</dl>
+</dd>
+</dl>
+<p>&lt;/EvidenceCase&gt;</p>
+</div></blockquote>
+<p>&lt;/Evidence&gt;</p>
+</div></blockquote>
+<p>&lt;/ProbModelXML&gt;</p>
+</div>
+<div class="section" id="module-pgmpy.readwrite.UAI">
+<span id="uai"></span><h2>UAI<a class="headerlink" href="#module-pgmpy.readwrite.UAI" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pgmpy.readwrite.XMLBeliefNetwork">
+<span id="xmlbeliefnetwork"></span><h2>XMLBeliefNetwork<a class="headerlink" href="#module-pgmpy.readwrite.XMLBeliefNetwork" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pgmpy.readwrite.XMLBIF">
+<span id="xmlbif"></span><h2>XMLBIF<a class="headerlink" href="#module-pgmpy.readwrite.XMLBIF" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="estimators.html" title="Estimators for Parameter and Structure Learning"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="inference.html" title="Algorithms for Inference"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pgmpy 0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Ankur Ankan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

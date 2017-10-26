@@ -1,0 +1,1092 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.models.BayesianModel &#8212; pgmpy 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pgmpy.models.BayesianModel</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="k">import</span> <span class="n">mul</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pgmpy.base</span> <span class="k">import</span> <span class="n">DirectedGraph</span>
+<span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="k">import</span> <span class="n">TabularCPD</span><span class="p">,</span> <span class="n">JointProbabilityDistribution</span><span class="p">,</span> <span class="n">DiscreteFactor</span>
+<span class="kn">from</span> <span class="nn">pgmpy.factors.continuous</span> <span class="k">import</span> <span class="n">ContinuousFactor</span>
+<span class="kn">from</span> <span class="nn">pgmpy.independencies</span> <span class="k">import</span> <span class="n">Independencies</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern</span> <span class="k">import</span> <span class="n">six</span>
+<span class="kn">from</span> <span class="nn">pgmpy.extern.six.moves</span> <span class="k">import</span> <span class="nb">range</span><span class="p">,</span> <span class="n">reduce</span>
+<span class="kn">from</span> <span class="nn">pgmpy.models.MarkovModel</span> <span class="k">import</span> <span class="n">MarkovModel</span>
+
+
+<div class="viewcode-block" id="BayesianModel"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel">[docs]</a><span class="k">class</span> <span class="nc">BayesianModel</span><span class="p">(</span><span class="n">DirectedGraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for bayesian model.</span>
+
+<span class="sd">    A models stores nodes and edges with conditional probability</span>
+<span class="sd">    distribution (cpd) and other attributes.</span>
+
+<span class="sd">    models hold directed edges.  Self loops are not allowed neither</span>
+<span class="sd">    multiple (parallel) edges.</span>
+
+<span class="sd">    Nodes can be any hashable python object.</span>
+
+<span class="sd">    Edges are represented as links between nodes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : input graph</span>
+<span class="sd">        Data to initialize graph.  If data=None (default) an empty</span>
+<span class="sd">        graph is created.  The data can be an edge list, or any</span>
+<span class="sd">        NetworkX graph object.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create an empty bayesian model with no nodes and no edges.</span>
+
+<span class="sd">    &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">    &gt;&gt;&gt; G = BayesianModel()</span>
+
+<span class="sd">    G can be grown in several ways.</span>
+
+<span class="sd">    **Nodes:**</span>
+
+<span class="sd">    Add one node at a time:</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_node(&#39;a&#39;)</span>
+
+<span class="sd">    Add the nodes from any container (a list, set or tuple or the nodes</span>
+<span class="sd">    from another graph).</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_nodes_from([&#39;a&#39;, &#39;b&#39;])</span>
+
+<span class="sd">    **Edges:**</span>
+
+<span class="sd">    G can also be grown by adding edges.</span>
+
+<span class="sd">    Add one edge,</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_edge(&#39;a&#39;, &#39;b&#39;)</span>
+
+<span class="sd">    a list of edges,</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_edges_from([(&#39;a&#39;, &#39;b&#39;), (&#39;b&#39;, &#39;c&#39;)])</span>
+
+<span class="sd">    If some edges connect nodes not yet in the model, the nodes</span>
+<span class="sd">    are added automatically.  There are no errors when adding</span>
+<span class="sd">    nodes or edges that already exist.</span>
+
+<span class="sd">    **Shortcuts:**</span>
+
+<span class="sd">    Many common graph features allow python syntax for speed reporting.</span>
+
+<span class="sd">    &gt;&gt;&gt; &#39;a&#39; in G     # check if node in graph</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; len(G)  # number of nodes in graph</span>
+<span class="sd">    3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ebunch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BayesianModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ebunch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">ebunch</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cardinalities</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BayesianModel.add_edge"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add an edge between u and v.</span>
+
+<span class="sd">        The nodes u and v will be automatically added if they are</span>
+<span class="sd">        not already in the graph</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u,v : nodes</span>
+<span class="sd">              Nodes can be any hashable python object.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel/home/abinash/software_packages/numpy-1.7.1</span>
+<span class="sd">        &gt;&gt;&gt; G = BayesianModel()</span>
+<span class="sd">        &gt;&gt;&gt; G.add_nodes_from([&#39;grade&#39;, &#39;intel&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edge(&#39;grade&#39;, &#39;intel&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Self loops are not allowed.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="ow">and</span> <span class="n">nx</span><span class="o">.</span><span class="n">has_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Loops are not allowed. Adding the edge from (</span><span class="si">%s</span><span class="s1">-&gt;</span><span class="si">%s</span><span class="s1">) forms a loop.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">BayesianModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BayesianModel.remove_node"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.remove_node">[docs]</a>    <span class="k">def</span> <span class="nf">remove_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove node from the model.</span>
+
+<span class="sd">        Removing a node also removes all the associated edges, removes the CPD</span>
+<span class="sd">        of the node and marginalizes the CPDs of it&#39;s children.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : node</span>
+<span class="sd">            Node which is to be removed from the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; model = BayesianModel([(&#39;A&#39;, &#39;B&#39;), (&#39;B&#39;, &#39;C&#39;),</span>
+<span class="sd">        ...                        (&#39;A&#39;, &#39;D&#39;), (&#39;D&#39;, &#39;C&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; values = pd.DataFrame(np.random.randint(low=0, high=2, size=(1000, 4)),</span>
+<span class="sd">        ...                       columns=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(values)</span>
+<span class="sd">        &gt;&gt;&gt; model.get_cpds()</span>
+<span class="sd">        [&lt;TabularCPD representing P(A:2) at 0x7f28248e2438&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(B:2 | A:2) at 0x7f28248e23c8&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(C:2 | B:2, D:2) at 0x7f28248e2748&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(D:2 | A:2) at 0x7f28248e26a0&gt;]</span>
+<span class="sd">        &gt;&gt;&gt; model.remove_node(&#39;A&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; model.get_cpds()</span>
+<span class="sd">        [&lt;TabularCPD representing P(B:2) at 0x7f28248e23c8&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(C:2 | B:2, D:2) at 0x7f28248e2748&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(D:2) at 0x7f28248e26a0&gt;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">affected_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span> <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">node</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">affected_node</span> <span class="ow">in</span> <span class="n">affected_nodes</span><span class="p">:</span>
+            <span class="n">node_cpd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">affected_node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">node_cpd</span><span class="p">:</span>
+                <span class="n">node_cpd</span><span class="o">.</span><span class="n">marginalize</span><span class="p">([</span><span class="n">node</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_cpds</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BayesianModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BayesianModel.remove_nodes_from"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.remove_nodes_from">[docs]</a>    <span class="k">def</span> <span class="nf">remove_nodes_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove multiple nodes from the model.</span>
+
+<span class="sd">        Removing a node also removes all the associated edges, removes the CPD</span>
+<span class="sd">        of the node and marginalizes the CPDs of it&#39;s children.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        nodes : list, set (iterable)</span>
+<span class="sd">            Nodes which are to be removed from the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; model = BayesianModel([(&#39;A&#39;, &#39;B&#39;), (&#39;B&#39;, &#39;C&#39;),</span>
+<span class="sd">        ...                        (&#39;A&#39;, &#39;D&#39;), (&#39;D&#39;, &#39;C&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; values = pd.DataFrame(np.random.randint(low=0, high=2, size=(1000, 4)),</span>
+<span class="sd">        ...                       columns=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(values)</span>
+<span class="sd">        &gt;&gt;&gt; model.get_cpds()</span>
+<span class="sd">        [&lt;TabularCPD representing P(A:2) at 0x7f28248e2438&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(B:2 | A:2) at 0x7f28248e23c8&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(C:2 | B:2, D:2) at 0x7f28248e2748&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(D:2 | A:2) at 0x7f28248e26a0&gt;]</span>
+<span class="sd">        &gt;&gt;&gt; model.remove_nodes_from([&#39;A&#39;, &#39;B&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; model.get_cpds()</span>
+<span class="sd">        [&lt;TabularCPD representing P(C:2 | D:2) at 0x7f28248e2a58&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(D:2) at 0x7f28248e26d8&gt;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BayesianModel.add_cpds"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.add_cpds">[docs]</a>    <span class="k">def</span> <span class="nf">add_cpds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">cpds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add CPD (Conditional Probability Distribution) to the Bayesian Model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cpds  :  list, set, tuple (array-like)</span>
+<span class="sd">            List of CPDs which will be associated with the model</span>
+
+<span class="sd">        EXAMPLE</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete.CPD import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel([(&#39;diff&#39;, &#39;grades&#39;), (&#39;intel&#39;, &#39;grades&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; grades_cpd = TabularCPD(&#39;grades&#39;, 3, [[0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                                       [0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                                       [0.8,0.8,0.8,0.8,0.8,0.8]],</span>
+<span class="sd">        ...                         evidence=[&#39;diff&#39;, &#39;intel&#39;], evidence_card=[2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; student.add_cpds(grades_cpd)</span>
+
+<span class="sd">        +------+-----------------------+---------------------+</span>
+<span class="sd">        |diff: |          easy         |         hard        |</span>
+<span class="sd">        +------+------+------+---------+------+------+-------+</span>
+<span class="sd">        |intel:| dumb |  avg |  smart  | dumb | avg  | smart |</span>
+<span class="sd">        +------+------+------+---------+------+------+-------+</span>
+<span class="sd">        |gradeA| 0.1  | 0.1  |   0.1   |  0.1 |  0.1 |   0.1 |</span>
+<span class="sd">        +------+------+------+---------+------+------+-------+</span>
+<span class="sd">        |gradeB| 0.1  | 0.1  |   0.1   |  0.1 |  0.1 |   0.1 |</span>
+<span class="sd">        +------+------+------+---------+------+------+-------+</span>
+<span class="sd">        |gradeC| 0.8  | 0.8  |   0.8   |  0.8 |  0.8 |   0.8 |</span>
+<span class="sd">        +------+------+------+---------+------+------+-------+</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="n">cpds</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cpd</span><span class="p">,</span> <span class="p">(</span><span class="n">TabularCPD</span><span class="p">,</span> <span class="n">ContinuousFactor</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Only TabularCPD or ContinuousFactor can be added.&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">cpd</span><span class="o">.</span><span class="n">scope</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">cpd</span><span class="o">.</span><span class="n">scope</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;CPD defined on variable not in the model&#39;</span><span class="p">,</span> <span class="n">cpd</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">prev_cpd_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">[</span><span class="n">prev_cpd_index</span><span class="p">]</span><span class="o">.</span><span class="n">variable</span> <span class="o">==</span> <span class="n">cpd</span><span class="o">.</span><span class="n">variable</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Replacing existing CPD for </span><span class="si">{var}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">var</span><span class="o">=</span><span class="n">cpd</span><span class="o">.</span><span class="n">variable</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">[</span><span class="n">prev_cpd_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpd</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cpd</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BayesianModel.get_cpds"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.get_cpds">[docs]</a>    <span class="k">def</span> <span class="nf">get_cpds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the cpd of the node. If node is not specified returns all the CPDs</span>
+<span class="sd">        that have been added till now to the graph</span>
+
+<span class="sd">        Parameter</span>
+<span class="sd">        ---------</span>
+<span class="sd">        node: any hashable python object (optional)</span>
+<span class="sd">            The node whose CPD we want. If node not specified returns all the</span>
+<span class="sd">            CPDs added to the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A list of TabularCPDs.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; cpd = TabularCPD(&#39;grade&#39;, 2, [[0.1, 0.9, 0.2, 0.7],</span>
+<span class="sd">        ...                               [0.9, 0.1, 0.8, 0.3]],</span>
+<span class="sd">        ...                  [&#39;intel&#39;, &#39;diff&#39;], [2, 2])</span>
+<span class="sd">        &gt;&gt;&gt; student.add_cpds(cpd)</span>
+<span class="sd">        &gt;&gt;&gt; student.get_cpds()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Node not present in the Directed Graph&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cpd</span><span class="o">.</span><span class="n">variable</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">cpd</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span></div>
+
+<div class="viewcode-block" id="BayesianModel.remove_cpds"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.remove_cpds">[docs]</a>    <span class="k">def</span> <span class="nf">remove_cpds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">cpds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes the cpds that are provided in the argument.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        *cpds: TabularCPD object</span>
+<span class="sd">            A CPD object on any subset of the variables of the model which</span>
+<span class="sd">            is to be associated with the model.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; cpd = TabularCPD(&#39;grade&#39;, 2, [[0.1, 0.9, 0.2, 0.7],</span>
+<span class="sd">        ...                               [0.9, 0.1, 0.8, 0.3]],</span>
+<span class="sd">        ...                  [&#39;intel&#39;, &#39;diff&#39;], [2, 2])</span>
+<span class="sd">        &gt;&gt;&gt; student.add_cpds(cpd)</span>
+<span class="sd">        &gt;&gt;&gt; student.remove_cpds(cpd)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="n">cpds</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cpd</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+                <span class="n">cpd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">(</span><span class="n">cpd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cpd</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BayesianModel.get_cardinality"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.get_cardinality">[docs]</a>    <span class="k">def</span> <span class="nf">get_cardinality</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the cardinality of the node. Throws an error if the CPD for the</span>
+<span class="sd">        queried node hasn&#39;t been added to the network.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node: Any hashable python object(optional).</span>
+<span class="sd">              The node whose cardinality we want. If node is not specified returns a</span>
+<span class="sd">              dictionary with the given variable as keys and their respective cardinality</span>
+<span class="sd">              as values.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int or dict : If node is specified returns the cardinality of the node.</span>
+<span class="sd">                      If node is not specified returns a dictionary with the given</span>
+<span class="sd">                      variable as keys and their respective cardinality as values.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; cpd_diff = TabularCPD(&#39;diff&#39;,2,[[0.6,0.4]]);</span>
+<span class="sd">        &gt;&gt;&gt; cpd_intel = TabularCPD(&#39;intel&#39;,2,[[0.7,0.3]]);</span>
+<span class="sd">        &gt;&gt;&gt; cpd_grade = TabularCPD(&#39;grade&#39;, 2, [[0.1, 0.9, 0.2, 0.7],</span>
+<span class="sd">        ...                                     [0.9, 0.1, 0.8, 0.3]],</span>
+<span class="sd">        ...                                 [&#39;intel&#39;, &#39;diff&#39;], [2, 2])</span>
+<span class="sd">        &gt;&gt;&gt; student.add_cpds(cpd_diff,cpd_intel,cpd_grade)</span>
+<span class="sd">        &gt;&gt;&gt; student.get_cardinality()</span>
+<span class="sd">        defaultdict(int, {&#39;diff&#39;: 2, &#39;grade&#39;: 2, &#39;intel&#39;: 2})</span>
+
+<span class="sd">        &gt;&gt;&gt; student.get_cardinality(&#39;intel&#39;)</span>
+<span class="sd">        2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">.</span><span class="n">cardinality</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cardinalities</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">:</span>
+                <span class="n">cardinalities</span><span class="p">[</span><span class="n">cpd</span><span class="o">.</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpd</span><span class="o">.</span><span class="n">cardinality</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">cardinalities</span></div>
+
+<div class="viewcode-block" id="BayesianModel.check_model"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.check_model">[docs]</a>    <span class="k">def</span> <span class="nf">check_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the model for various errors. This method checks for the following</span>
+<span class="sd">        errors.</span>
+
+<span class="sd">        * Checks if the sum of the probabilities for each state is equal to 1 (tol=0.01).</span>
+<span class="sd">        * Checks if the CPDs associated with nodes are consistent with their parents.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check: boolean</span>
+<span class="sd">            True if all the checks are passed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="n">cpd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">cpd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No CPD associated with </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cpd</span><span class="p">,</span> <span class="p">(</span><span class="n">TabularCPD</span><span class="p">,</span> <span class="n">ContinuousFactor</span><span class="p">)):</span>
+                <span class="n">evidence</span> <span class="o">=</span> <span class="n">cpd</span><span class="o">.</span><span class="n">get_evidence</span><span class="p">()</span>
+                <span class="n">parents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parents</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">evidence</span> <span class="k">if</span> <span class="n">evidence</span> <span class="k">else</span> <span class="p">[])</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">(</span><span class="n">parents</span> <span class="k">if</span> <span class="n">parents</span> <span class="k">else</span> <span class="p">[]):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CPD associated with </span><span class="si">%s</span><span class="s2"> doesn&#39;t have &quot;</span>
+                                        <span class="s2">&quot;proper parents associated with it.&quot;</span> <span class="o">%</span> <span class="n">node</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">cpd</span><span class="o">.</span><span class="n">is_valid_cpd</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Sum or integral of conditional probabilites for node </span><span class="si">%s</span><span class="s1">&#39;</span>
+                                        <span class="s1">&#39; is not equal to 1.&#39;</span> <span class="o">%</span> <span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_ancestors_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs_nodes_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary of all ancestors of all the observed nodes including the</span>
+<span class="sd">        node itself.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obs_nodes_list: string, list-type</span>
+<span class="sd">            name of all the observed nodes</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; model = BayesianModel([(&#39;D&#39;, &#39;G&#39;), (&#39;I&#39;, &#39;G&#39;), (&#39;G&#39;, &#39;L&#39;),</span>
+<span class="sd">        ...                        (&#39;I&#39;, &#39;L&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; model._get_ancestors_of(&#39;G&#39;)</span>
+<span class="sd">        {&#39;D&#39;, &#39;G&#39;, &#39;I&#39;}</span>
+<span class="sd">        &gt;&gt;&gt; model._get_ancestors_of([&#39;G&#39;, &#39;I&#39;])</span>
+<span class="sd">        {&#39;D&#39;, &#39;G&#39;, &#39;I&#39;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obs_nodes_list</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">obs_nodes_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">obs_nodes_list</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">obs_nodes_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Node </span><span class="si">{s}</span><span class="s1"> not in not in graph&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">node</span><span class="p">))</span>
+
+        <span class="n">ancestors_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">nodes_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">obs_nodes_list</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">nodes_list</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">nodes_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ancestors_list</span><span class="p">:</span>
+                <span class="n">nodes_list</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+            <span class="n">ancestors_list</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ancestors_list</span>
+
+<div class="viewcode-block" id="BayesianModel.active_trail_nodes"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.active_trail_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">active_trail_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary with the given variables as keys and all the nodes reachable</span>
+<span class="sd">        from that respective variable as values.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        variables: str or array like</span>
+<span class="sd">            variables whose active trails are to be found.</span>
+
+<span class="sd">        observed : List of nodes (optional)</span>
+<span class="sd">            If given the active trails would be computed assuming these nodes to be observed.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel()</span>
+<span class="sd">        &gt;&gt;&gt; student.add_nodes_from([&#39;diff&#39;, &#39;intel&#39;, &#39;grades&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; student.add_edges_from([(&#39;diff&#39;, &#39;grades&#39;), (&#39;intel&#39;, &#39;grades&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; student.active_trail_nodes(&#39;diff&#39;)</span>
+<span class="sd">        {&#39;diff&#39;: {&#39;diff&#39;, &#39;grades&#39;}}</span>
+<span class="sd">        &gt;&gt;&gt; student.active_trail_nodes([&#39;diff&#39;, &#39;intel&#39;], observed=&#39;grades&#39;)</span>
+<span class="sd">        {&#39;diff&#39;: {&#39;diff&#39;, &#39;intel&#39;}, &#39;intel&#39;: {&#39;diff&#39;, &#39;intel&#39;}}</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Details of the algorithm can be found in &#39;Probabilistic Graphical Model</span>
+<span class="sd">        Principles and Techniques&#39; - Koller and Friedman</span>
+<span class="sd">        Page 75 Algorithm 3.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">observed</span><span class="p">:</span>
+            <span class="n">observed_list</span> <span class="o">=</span> <span class="n">observed</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observed</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="k">else</span> <span class="p">[</span><span class="n">observed</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">observed_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ancestors_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_ancestors_of</span><span class="p">(</span><span class="n">observed_list</span><span class="p">)</span>
+
+        <span class="c1"># Direction of flow of information</span>
+        <span class="c1"># up -&gt;  from parent to child</span>
+        <span class="c1"># down -&gt; from child to parent</span>
+
+        <span class="n">active_trails</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="n">variables</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="k">else</span> <span class="p">[</span><span class="n">variables</span><span class="p">]:</span>
+            <span class="n">visit_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">visit_list</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">))</span>
+            <span class="n">traversed_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">active_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">while</span> <span class="n">visit_list</span><span class="p">:</span>
+                <span class="n">node</span><span class="p">,</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">visit_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">traversed_list</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">observed_list</span><span class="p">:</span>
+                        <span class="n">active_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                    <span class="n">traversed_list</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">node</span><span class="p">,</span> <span class="n">direction</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;up&#39;</span> <span class="ow">and</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">observed_list</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                            <span class="n">visit_list</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">))</span>
+                        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                            <span class="n">visit_list</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">child</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;down&#39;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">observed_list</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                                <span class="n">visit_list</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">child</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ancestors_list</span><span class="p">:</span>
+                            <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                                <span class="n">visit_list</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">))</span>
+            <span class="n">active_trails</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="n">active_nodes</span>
+        <span class="k">return</span> <span class="n">active_trails</span></div>
+
+<div class="viewcode-block" id="BayesianModel.local_independencies"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.local_independencies">[docs]</a>    <span class="k">def</span> <span class="nf">local_independencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an instance of Independencies containing the local independencies</span>
+<span class="sd">        of each of the variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        variables: str or array like</span>
+<span class="sd">            variables whose local independencies are to be found.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel()</span>
+<span class="sd">        &gt;&gt;&gt; student.add_edges_from([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;),</span>
+<span class="sd">        &gt;&gt;&gt;                         (&#39;grade&#39;, &#39;letter&#39;), (&#39;intel&#39;, &#39;SAT&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; ind = student.local_independencies(&#39;grade&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ind</span>
+<span class="sd">        (grade _|_ SAT | diff, intel)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the descendents of node.</span>
+
+<span class="sd">            Since Bayesian Networks are acyclic, this is a very simple dfs</span>
+<span class="sd">            which does not remember which nodes it has visited.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">descendents</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">visit</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">]</span>
+            <span class="k">while</span> <span class="n">visit</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">visit</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">visit</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">neighbors</span><span class="p">)</span>
+                <span class="n">descendents</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">neighbors</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">descendents</span>
+
+        <span class="n">independencies</span> <span class="o">=</span> <span class="n">Independencies</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="k">else</span> <span class="p">[</span><span class="n">variables</span><span class="p">]:</span>
+            <span class="n">non_descendents</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">variable</span><span class="p">}</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">dfs</span><span class="p">(</span><span class="n">variable</span><span class="p">))</span>
+            <span class="n">parents</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_parents</span><span class="p">(</span><span class="n">variable</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">non_descendents</span> <span class="o">-</span> <span class="n">parents</span><span class="p">:</span>
+                <span class="n">independencies</span><span class="o">.</span><span class="n">add_assertions</span><span class="p">([</span><span class="n">variable</span><span class="p">,</span> <span class="n">non_descendents</span> <span class="o">-</span> <span class="n">parents</span><span class="p">,</span> <span class="n">parents</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">independencies</span></div>
+
+<div class="viewcode-block" id="BayesianModel.is_active_trail"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.is_active_trail">[docs]</a>    <span class="k">def</span> <span class="nf">is_active_trail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if there is any active trail between start and end node</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : Graph Node</span>
+
+<span class="sd">        end : Graph Node</span>
+
+<span class="sd">        observed : List of nodes (optional)</span>
+<span class="sd">            If given the active trail would be computed assuming these nodes to be observed.</span>
+
+<span class="sd">        additional_observed : List of nodes (optional)</span>
+<span class="sd">            If given the active trail would be computed assuming these nodes to be observed along with</span>
+<span class="sd">            the nodes marked as observed in the model.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel()</span>
+<span class="sd">        &gt;&gt;&gt; student.add_nodes_from([&#39;diff&#39;, &#39;intel&#39;, &#39;grades&#39;, &#39;letter&#39;, &#39;sat&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; student.add_edges_from([(&#39;diff&#39;, &#39;grades&#39;), (&#39;intel&#39;, &#39;grades&#39;), (&#39;grades&#39;, &#39;letter&#39;),</span>
+<span class="sd">        ...                         (&#39;intel&#39;, &#39;sat&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; student.is_active_trail(&#39;diff&#39;, &#39;intel&#39;)</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; student.is_active_trail(&#39;grades&#39;, &#39;sat&#39;)</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">end</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_trail_nodes</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">observed</span><span class="p">)[</span><span class="n">start</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="BayesianModel.get_independencies"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.get_independencies">[docs]</a>    <span class="k">def</span> <span class="nf">get_independencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latex</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes independencies in the Bayesian Network, by checking d-seperation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        latex: boolean</span>
+<span class="sd">            If latex=True then latex string of the independence assertion</span>
+<span class="sd">            would be created.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; chain = BayesianModel([(&#39;X&#39;, &#39;Y&#39;), (&#39;Y&#39;, &#39;Z&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; chain.get_independencies()</span>
+<span class="sd">        (X _|_ Z | Y)</span>
+<span class="sd">        (Z _|_ X | Y)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">independencies</span> <span class="o">=</span> <span class="n">Independencies</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+            <span class="n">rest</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">start</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rest</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">observed</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+                    <span class="n">d_seperated_variables</span> <span class="o">=</span> <span class="n">rest</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">observed</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">active_trail_nodes</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">observed</span><span class="p">)[</span><span class="n">start</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">d_seperated_variables</span><span class="p">:</span>
+                        <span class="n">independencies</span><span class="o">.</span><span class="n">add_assertions</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">d_seperated_variables</span><span class="p">,</span> <span class="n">observed</span><span class="p">])</span>
+
+        <span class="n">independencies</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">latex</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">independencies</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">independencies</span><span class="o">.</span><span class="n">latex_string</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BayesianModel.to_markov_model"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.to_markov_model">[docs]</a>    <span class="k">def</span> <span class="nf">to_markov_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts bayesian model to markov model. The markov model created would</span>
+<span class="sd">        be the moral graph of the bayesian model.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; G = BayesianModel([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;),</span>
+<span class="sd">        ...                    (&#39;intel&#39;, &#39;SAT&#39;), (&#39;grade&#39;, &#39;letter&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; mm = G.to_markov_model()</span>
+<span class="sd">        &gt;&gt;&gt; mm.nodes()</span>
+<span class="sd">        [&#39;diff&#39;, &#39;grade&#39;, &#39;intel&#39;, &#39;SAT&#39;, &#39;letter&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; mm.edges()</span>
+<span class="sd">        [(&#39;diff&#39;, &#39;intel&#39;), (&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;),</span>
+<span class="sd">        (&#39;intel&#39;, &#39;SAT&#39;), (&#39;grade&#39;, &#39;letter&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">moral_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moralize</span><span class="p">()</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="n">MarkovModel</span><span class="p">(</span><span class="n">moral_graph</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+        <span class="n">mm</span><span class="o">.</span><span class="n">add_factors</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">cpd</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span> <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">mm</span></div>
+
+<div class="viewcode-block" id="BayesianModel.to_junction_tree"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.to_junction_tree">[docs]</a>    <span class="k">def</span> <span class="nf">to_junction_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a junction tree (or clique tree) for a given bayesian model.</span>
+
+<span class="sd">        For converting a Bayesian Model into a Clique tree, first it is converted</span>
+<span class="sd">        into a Markov one.</span>
+
+<span class="sd">        For a given markov model (H) a junction tree (G) is a graph</span>
+<span class="sd">        1. where each node in G corresponds to a maximal clique in H</span>
+<span class="sd">        2. each sepset in G separates the variables strictly on one side of the</span>
+<span class="sd">        edge to other.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; G = BayesianModel([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;),</span>
+<span class="sd">        ...                    (&#39;intel&#39;, &#39;SAT&#39;), (&#39;grade&#39;, &#39;letter&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; diff_cpd = TabularCPD(&#39;diff&#39;, 2, [[0.2], [0.8]])</span>
+<span class="sd">        &gt;&gt;&gt; intel_cpd = TabularCPD(&#39;intel&#39;, 3, [[0.5], [0.3], [0.2]])</span>
+<span class="sd">        &gt;&gt;&gt; grade_cpd = TabularCPD(&#39;grade&#39;, 3,</span>
+<span class="sd">        ...                        [[0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                         [0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                         [0.8,0.8,0.8,0.8,0.8,0.8]],</span>
+<span class="sd">        ...                        evidence=[&#39;diff&#39;, &#39;intel&#39;],</span>
+<span class="sd">        ...                        evidence_card=[2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; sat_cpd = TabularCPD(&#39;SAT&#39;, 2,</span>
+<span class="sd">        ...                      [[0.1, 0.2, 0.7],</span>
+<span class="sd">        ...                       [0.9, 0.8, 0.3]],</span>
+<span class="sd">        ...                      evidence=[&#39;intel&#39;], evidence_card=[3])</span>
+<span class="sd">        &gt;&gt;&gt; letter_cpd = TabularCPD(&#39;letter&#39;, 2,</span>
+<span class="sd">        ...                         [[0.1, 0.4, 0.8],</span>
+<span class="sd">        ...                          [0.9, 0.6, 0.2]],</span>
+<span class="sd">        ...                         evidence=[&#39;grade&#39;], evidence_card=[3])</span>
+<span class="sd">        &gt;&gt;&gt; G.add_cpds(diff_cpd, intel_cpd, grade_cpd, sat_cpd, letter_cpd)</span>
+<span class="sd">        &gt;&gt;&gt; jt = G.to_junction_tree()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_markov_model</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">mm</span><span class="o">.</span><span class="n">to_junction_tree</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BayesianModel.fit"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state_names</span><span class="o">=</span><span class="p">[],</span> <span class="n">complete_samples_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimates the CPD for each variable based on a given data set.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data: pandas DataFrame object</span>
+<span class="sd">            DataFrame object with column names identical to the variable names of the network.</span>
+<span class="sd">            (If some values in the data are missing the data cells should be set to `numpy.NaN`.</span>
+<span class="sd">            Note that pandas converts each column containing `numpy.NaN`s to dtype `float`.)</span>
+
+<span class="sd">        estimator: Estimator class</span>
+<span class="sd">            One of:</span>
+<span class="sd">            - MaximumLikelihoodEstimator (default)</span>
+<span class="sd">            - BayesianEstimator: In this case, pass &#39;prior_type&#39; and either &#39;pseudo_counts&#39;</span>
+<span class="sd">                or &#39;equivalent_sample_size&#39; as additional keyword arguments.</span>
+<span class="sd">                See `BayesianEstimator.get_parameters()` for usage.</span>
+
+<span class="sd">        state_names: dict (optional)</span>
+<span class="sd">            A dict indicating, for each variable, the discrete set of states</span>
+<span class="sd">            that the variable can take. If unspecified, the observed values</span>
+<span class="sd">            in the data set are taken to be the only possible states.</span>
+
+<span class="sd">        complete_samples_only: bool (default `True`)</span>
+<span class="sd">            Specifies how to deal with missing data, if present. If set to `True` all rows</span>
+<span class="sd">            that contain `np.Nan` somewhere are ignored. If `False` then, for each variable,</span>
+<span class="sd">            every row where neither the variable nor its parents are `np.NaN` is used.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.estimators import MaximumLikelihoodEstimator</span>
+<span class="sd">        &gt;&gt;&gt; data = pd.DataFrame(data={&#39;A&#39;: [0, 0, 1], &#39;B&#39;: [0, 1, 0], &#39;C&#39;: [1, 1, 0]})</span>
+<span class="sd">        &gt;&gt;&gt; model = BayesianModel([(&#39;A&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;C&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(data)</span>
+<span class="sd">        &gt;&gt;&gt; model.get_cpds()</span>
+<span class="sd">        [&lt;TabularCPD representing P(A:2) at 0x7fb98a7d50f0&gt;,</span>
+<span class="sd">        &lt;TabularCPD representing P(B:2) at 0x7fb98a7d5588&gt;,</span>
+<span class="sd">        &lt;TabularCPD representing P(C:2 | A:2, B:2) at 0x7fb98a7b1f98&gt;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">MaximumLikelihoodEstimator</span><span class="p">,</span> <span class="n">BayesianEstimator</span><span class="p">,</span> <span class="n">BaseEstimator</span>
+
+        <span class="k">if</span> <span class="n">estimator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">estimator</span> <span class="o">=</span> <span class="n">MaximumLikelihoodEstimator</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">BaseEstimator</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Estimator object should be a valid pgmpy estimator.&quot;</span><span class="p">)</span>
+
+        <span class="n">_estimator</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">state_names</span><span class="o">=</span><span class="n">state_names</span><span class="p">,</span>
+                               <span class="n">complete_samples_only</span><span class="o">=</span><span class="n">complete_samples_only</span><span class="p">)</span>
+        <span class="n">cpds_list</span> <span class="o">=</span> <span class="n">_estimator</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="o">*</span><span class="n">cpds_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BayesianModel.predict"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predicts states of all the missing variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : pandas DataFrame object</span>
+<span class="sd">            A DataFrame object with column names same as the variables in the model.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; values = pd.DataFrame(np.random.randint(low=0, high=2, size=(1000, 5)),</span>
+<span class="sd">        ...                       columns=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; train_data = values[:800]</span>
+<span class="sd">        &gt;&gt;&gt; predict_data = values[800:]</span>
+<span class="sd">        &gt;&gt;&gt; model = BayesianModel([(&#39;A&#39;, &#39;B&#39;), (&#39;C&#39;, &#39;B&#39;), (&#39;C&#39;, &#39;D&#39;), (&#39;B&#39;, &#39;E&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(values)</span>
+<span class="sd">        &gt;&gt;&gt; predict_data = predict_data.copy()</span>
+<span class="sd">        &gt;&gt;&gt; predict_data.drop(&#39;E&#39;, axis=1, inplace=True)</span>
+<span class="sd">        &gt;&gt;&gt; y_pred = model.predict(predict_data)</span>
+<span class="sd">        &gt;&gt;&gt; y_pred</span>
+<span class="sd">            E</span>
+<span class="sd">        800 0</span>
+<span class="sd">        801 1</span>
+<span class="sd">        802 1</span>
+<span class="sd">        803 1</span>
+<span class="sd">        804 0</span>
+<span class="sd">        ... ...</span>
+<span class="sd">        993 0</span>
+<span class="sd">        994 0</span>
+<span class="sd">        995 1</span>
+<span class="sd">        996 1</span>
+<span class="sd">        997 0</span>
+<span class="sd">        998 0</span>
+<span class="sd">        999 0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="k">import</span> <span class="n">VariableElimination</span>
+
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No variable missing in data. Nothing to predict&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Data has variables which are not in the model&quot;</span><span class="p">)</span>
+
+        <span class="n">missing_variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">pred_values</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="c1"># Send state_names dict from one of the estimated CPDs to the inference class.</span>
+        <span class="n">model_inference</span> <span class="o">=</span> <span class="n">VariableElimination</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_names</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">state_names</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">data_point</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">states_dict</span> <span class="o">=</span> <span class="n">model_inference</span><span class="o">.</span><span class="n">map_query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="n">missing_variables</span><span class="p">,</span> <span class="n">evidence</span><span class="o">=</span><span class="n">data_point</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">states_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">pred_values</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pred_values</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BayesianModel.predict_probability"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.predict_probability">[docs]</a>    <span class="k">def</span> <span class="nf">predict_probability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predicts probabilities of all states of the missing variables.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : pandas DataFrame object</span>
+<span class="sd">            A DataFrame object with column names same as the variables in the model.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; values = pd.DataFrame(np.random.randint(low=0, high=2, size=(100, 5)),</span>
+<span class="sd">        ...                       columns=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; train_data = values[:80]</span>
+<span class="sd">        &gt;&gt;&gt; predict_data = values[80:]</span>
+<span class="sd">        &gt;&gt;&gt; model = BayesianModel([(&#39;A&#39;, &#39;B&#39;), (&#39;C&#39;, &#39;B&#39;), (&#39;C&#39;, &#39;D&#39;), (&#39;B&#39;, &#39;E&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(values)</span>
+<span class="sd">        &gt;&gt;&gt; predict_data = predict_data.copy()</span>
+<span class="sd">        &gt;&gt;&gt; predict_data.drop(&#39;B&#39;, axis=1, inplace=True)</span>
+<span class="sd">        &gt;&gt;&gt; y_prob = model.predict_probability(predict_data)</span>
+<span class="sd">        &gt;&gt;&gt; y_prob</span>
+<span class="sd">            B_0         B_1</span>
+<span class="sd">        80  0.439178    0.560822</span>
+<span class="sd">        81  0.581970    0.418030</span>
+<span class="sd">        82  0.488275    0.511725</span>
+<span class="sd">        83  0.581970    0.418030</span>
+<span class="sd">        84  0.510794    0.489206</span>
+<span class="sd">        85  0.439178    0.560822</span>
+<span class="sd">        86  0.439178    0.560822</span>
+<span class="sd">        87  0.417124    0.582876</span>
+<span class="sd">        88  0.407978    0.592022</span>
+<span class="sd">        89  0.429905    0.570095</span>
+<span class="sd">        90  0.581970    0.418030</span>
+<span class="sd">        91  0.407978    0.592022</span>
+<span class="sd">        92  0.429905    0.570095</span>
+<span class="sd">        93  0.429905    0.570095</span>
+<span class="sd">        94  0.439178    0.560822</span>
+<span class="sd">        95  0.407978    0.592022</span>
+<span class="sd">        96  0.559904    0.440096</span>
+<span class="sd">        97  0.417124    0.582876</span>
+<span class="sd">        98  0.488275    0.511725</span>
+<span class="sd">        99  0.407978    0.592022</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="k">import</span> <span class="n">VariableElimination</span>
+
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No variable missing in data. Nothing to predict&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Data has variables which are not in the model&quot;</span><span class="p">)</span>
+
+        <span class="n">missing_variables</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="n">pred_values</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="n">model_inference</span> <span class="o">=</span> <span class="n">VariableElimination</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">data_point</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">states_dict</span> <span class="o">=</span> <span class="n">model_inference</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="n">missing_variables</span><span class="p">,</span> <span class="n">evidence</span><span class="o">=</span><span class="n">data_point</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">states_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">)):</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">state_names</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">l</span><span class="p">]</span>
+                    <span class="n">pred_values</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">state</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pred_values</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">get_factorized_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latex</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># TODO: refer to IMap class for explanation why this is not implemented.</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="BayesianModel.get_immoralities"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.get_immoralities">[docs]</a>    <span class="k">def</span> <span class="nf">get_immoralities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds all the immoralities in the model</span>
+<span class="sd">        A v-structure X -&gt; Z &lt;- Y is an immorality if there is no direct edge between X and Y .</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        set: A set of all the immoralities in the model</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        ---------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; student = BayesianModel()</span>
+<span class="sd">        &gt;&gt;&gt; student.add_edges_from([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;),</span>
+<span class="sd">        ...                         (&#39;intel&#39;, &#39;SAT&#39;), (&#39;grade&#39;, &#39;letter&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; student.get_immoralities()</span>
+<span class="sd">        {(&#39;diff&#39;,&#39;intel&#39;)}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">immoralities</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">parents</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="n">immoralities</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">parents</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">immoralities</span></div>
+
+<div class="viewcode-block" id="BayesianModel.is_iequivalent"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.is_iequivalent">[docs]</a>    <span class="k">def</span> <span class="nf">is_iequivalent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether the given model is I-equivalent</span>
+
+<span class="sd">        Two graphs G1 and G2 are said to be I-equivalent if they have same skeleton</span>
+<span class="sd">        and have same set of immoralities.</span>
+
+<span class="sd">        Note: For same skeleton different names of nodes can work but for immoralities</span>
+<span class="sd">        names of nodes must be same</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : A Bayesian model object, for which you want to check I-equivalence</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        boolean : True if both are I-equivalent, False otherwise</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; G = BayesianModel()</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edges_from([(&#39;V&#39;, &#39;W&#39;), (&#39;W&#39;, &#39;X&#39;),</span>
+<span class="sd">        ...                   (&#39;X&#39;, &#39;Y&#39;), (&#39;Z&#39;, &#39;Y&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; G1 = BayesianModel()</span>
+<span class="sd">        &gt;&gt;&gt; G1.add_edges_from([(&#39;W&#39;, &#39;V&#39;), (&#39;X&#39;, &#39;W&#39;),</span>
+<span class="sd">        ...                    (&#39;X&#39;, &#39;Y&#39;), (&#39;Z&#39;, &#39;Y&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; G.is_iequivalent(G1)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">BayesianModel</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;model must be an instance of Bayesian Model&#39;</span><span class="p">)</span>
+        <span class="n">skeleton</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">isomorphism</span><span class="o">.</span><span class="n">GraphMatcher</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">(),</span> <span class="n">model</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">skeleton</span><span class="o">.</span><span class="n">is_isomorphic</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_immoralities</span><span class="p">()</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">get_immoralities</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="BayesianModel.is_imap"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.is_imap">[docs]</a>    <span class="k">def</span> <span class="nf">is_imap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">JPD</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks whether the bayesian model is Imap of given JointProbabilityDistribution</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        JPD : An instance of JointProbabilityDistribution Class, for which you want to</span>
+<span class="sd">            check the Imap</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        boolean : True if bayesian model is Imap for given Joint Probability Distribution</span>
+<span class="sd">                False otherwise</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete import JointProbabilityDistribution</span>
+<span class="sd">        &gt;&gt;&gt; G = BayesianModel([(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; diff_cpd = TabularCPD(&#39;diff&#39;, 2, [[0.2], [0.8]])</span>
+<span class="sd">        &gt;&gt;&gt; intel_cpd = TabularCPD(&#39;intel&#39;, 3, [[0.5], [0.3], [0.2]])</span>
+<span class="sd">        &gt;&gt;&gt; grade_cpd = TabularCPD(&#39;grade&#39;, 3,</span>
+<span class="sd">        ...                        [[0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                         [0.1,0.1,0.1,0.1,0.1,0.1],</span>
+<span class="sd">        ...                         [0.8,0.8,0.8,0.8,0.8,0.8]],</span>
+<span class="sd">        ...                        evidence=[&#39;diff&#39;, &#39;intel&#39;],</span>
+<span class="sd">        ...                        evidence_card=[2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; G.add_cpds(diff_cpd, intel_cpd, grade_cpd)</span>
+<span class="sd">        &gt;&gt;&gt; val = [0.01, 0.01, 0.08, 0.006, 0.006, 0.048, 0.004, 0.004, 0.032,</span>
+<span class="sd">                   0.04, 0.04, 0.32, 0.024, 0.024, 0.192, 0.016, 0.016, 0.128]</span>
+<span class="sd">        &gt;&gt;&gt; JPD = JointProbabilityDistribution([&#39;diff&#39;, &#39;intel&#39;, &#39;grade&#39;], [2, 3, 3], val)</span>
+<span class="sd">        &gt;&gt;&gt; G.is_imap(JPD)</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">JPD</span><span class="p">,</span> <span class="n">JointProbabilityDistribution</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;JPD must be an instance of JointProbabilityDistribution&quot;</span><span class="p">)</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="n">cpd</span><span class="o">.</span><span class="n">to_factor</span><span class="p">()</span> <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cpds</span><span class="p">()]</span>
+        <span class="n">factor_prod</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">factors</span><span class="p">)</span>
+        <span class="n">JPD_fact</span> <span class="o">=</span> <span class="n">DiscreteFactor</span><span class="p">(</span><span class="n">JPD</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">JPD</span><span class="o">.</span><span class="n">cardinality</span><span class="p">,</span> <span class="n">JPD</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">JPD_fact</span> <span class="o">==</span> <span class="n">factor_prod</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="BayesianModel.copy"><a class="viewcode-back" href="../../../models.html#pgmpy.models.BayesianModel.BayesianModel.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a copy of the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BayesianModel: Copy of the model on which the method was called.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import BayesianModel</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.factors.discrete import TabularCPD</span>
+<span class="sd">        &gt;&gt;&gt; model = BayesianModel([(&#39;A&#39;, &#39;B&#39;), (&#39;B&#39;, &#39;C&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; cpd_a = TabularCPD(&#39;A&#39;, 2, [[0.2], [0.8]])</span>
+<span class="sd">        &gt;&gt;&gt; cpd_b = TabularCPD(&#39;B&#39;, 2, [[0.3, 0.7], [0.7, 0.3]],</span>
+<span class="sd">                               evidence=[&#39;A&#39;],</span>
+<span class="sd">                               evidence_card=[2])</span>
+<span class="sd">        &gt;&gt;&gt; cpd_c = TabularCPD(&#39;C&#39;, 2, [[0.1, 0.9], [0.9, 0.1]],</span>
+<span class="sd">                               evidence=[&#39;B&#39;],</span>
+<span class="sd">                               evidence_card=[2])</span>
+<span class="sd">        &gt;&gt;&gt; model.add_cpds(cpd_a, cpd_b, cpd_c)</span>
+<span class="sd">        &gt;&gt;&gt; copy_model = model.copy()</span>
+<span class="sd">        &gt;&gt;&gt; copy_model.nodes()</span>
+<span class="sd">        [&#39;C&#39;, &#39;A&#39;, &#39;B&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; copy_model.edges()</span>
+<span class="sd">        [(&#39;A&#39;, &#39;B&#39;), (&#39;B&#39;, &#39;C&#39;)]</span>
+<span class="sd">        &gt;&gt;&gt; copy_model.get_cpds()</span>
+<span class="sd">        [&lt;TabularCPD representing P(A:2) at 0x7f2824930a58&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(B:2 | A:2) at 0x7f2824930a90&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(C:2 | B:2) at 0x7f2824944240&gt;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model_copy</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">()</span>
+        <span class="n">model_copy</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+        <span class="n">model_copy</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">:</span>
+            <span class="n">model_copy</span><span class="o">.</span><span class="n">add_cpds</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">cpd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">cpd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpds</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">model_copy</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Ankur Ankan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

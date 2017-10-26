@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.models.NaiveBayes &#8212; pgmpy 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pgmpy.models.NaiveBayes</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pgmpy.independencies</span> <span class="k">import</span> <span class="n">Independencies</span>
+<span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+
+
+<div class="viewcode-block" id="NaiveBayes"><a class="viewcode-back" href="../../../models.html#pgmpy.models.NaiveBayes.NaiveBayes">[docs]</a><span class="k">class</span> <span class="nc">NaiveBayes</span><span class="p">(</span><span class="n">BayesianModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to represent Naive Bayes.</span>
+<span class="sd">    Subclass of Bayesian Model.</span>
+<span class="sd">    Model holds directed edges from one parent node to multiple</span>
+<span class="sd">    children nodes only.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : input graph</span>
+<span class="sd">        Data to initialize graph.  If data=None (default) an empty</span>
+<span class="sd">        graph is created.  The data can be an edge list, or any</span>
+<span class="sd">        NetworkX graph object.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create an empty Naive Bayes Model with no nodes and no edges.</span>
+
+<span class="sd">    &gt;&gt;&gt; from pgmpy.models import NaiveBayes</span>
+<span class="sd">    &gt;&gt;&gt; G = NaiveBayes()</span>
+
+<span class="sd">    G can be grown in several ways.</span>
+
+<span class="sd">    **Nodes:**</span>
+
+<span class="sd">    Add one node at a time:</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_node(&#39;a&#39;)</span>
+
+<span class="sd">    Add the nodes from any container (a list, set or tuple or the nodes</span>
+<span class="sd">    from another graph).</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_nodes_from([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;])</span>
+
+<span class="sd">    **Edges:**</span>
+
+<span class="sd">    G can also be grown by adding edges.</span>
+
+<span class="sd">    Add one edge,</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_edge(&#39;a&#39;, &#39;b&#39;)</span>
+
+<span class="sd">    a list of edges,</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_edges_from([(&#39;a&#39;, &#39;b&#39;), (&#39;a&#39;, &#39;c&#39;)])</span>
+
+<span class="sd">    If some edges connect nodes not yet in the model, the nodes</span>
+<span class="sd">    are added automatically.  There are no errors when adding</span>
+<span class="sd">    nodes or edges that already exist.</span>
+
+<span class="sd">    **Shortcuts:**</span>
+
+<span class="sd">    Many common graph features allow python syntax for speed reporting.</span>
+
+<span class="sd">    &gt;&gt;&gt; &#39;a&#39; in G     # check if node in graph</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; len(G)  # number of nodes in graph</span>
+<span class="sd">    3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ebunch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NaiveBayes</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ebunch</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NaiveBayes.add_edge"><a class="viewcode-back" href="../../../models.html#pgmpy.models.NaiveBayes.NaiveBayes.add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add an edge between u and v.</span>
+
+<span class="sd">        The nodes u and v will be automatically added if they are</span>
+<span class="sd">        not already in the graph</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u,v : nodes</span>
+<span class="sd">              Nodes can be any hashable python object.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import NaiveBayes</span>
+<span class="sd">        &gt;&gt;&gt; G = NaiveBayes()</span>
+<span class="sd">        &gt;&gt;&gt; G.add_nodes_from([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edge(&#39;a&#39;, &#39;b&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edge(&#39;a&#39;, &#39;c&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; G.edges()</span>
+<span class="sd">        [(&#39;a&#39;, &#39;c&#39;), (&#39;a&#39;, &#39;b&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span> <span class="ow">and</span> <span class="n">u</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Model can have only one parent node.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span> <span class="o">=</span> <span class="n">u</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NaiveBayes</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_ancestors_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obs_nodes_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of all ancestors of all the observed nodes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obs_nodes_list: string, list-type</span>
+<span class="sd">            name of all the observed nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">obs_nodes_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">obs_nodes_list</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NaiveBayes.active_trail_nodes"><a class="viewcode-back" href="../../../models.html#pgmpy.models.NaiveBayes.NaiveBayes.active_trail_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">active_trail_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns all the nodes reachable from start via an active trail.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start: Graph node</span>
+
+<span class="sd">        observed : List of nodes (optional)</span>
+<span class="sd">            If given the active trail would be computed assuming these nodes to be observed.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import NaiveBayes</span>
+<span class="sd">        &gt;&gt;&gt; model = NaiveBayes()</span>
+<span class="sd">        &gt;&gt;&gt; model.add_nodes_from([&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; model.add_edges_from([(&#39;a&#39;, &#39;b&#39;), (&#39;a&#39;, &#39;c&#39;), (&#39;a&#39;, &#39;d&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; model.active_trail_nodes(&#39;a&#39;)</span>
+<span class="sd">        {&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;}</span>
+<span class="sd">        &gt;&gt;&gt; model.active_trail_nodes(&#39;a&#39;, [&#39;b&#39;, &#39;c&#39;])</span>
+<span class="sd">        {&#39;a&#39;, &#39;d&#39;}</span>
+<span class="sd">        &gt;&gt;&gt; model.active_trail_nodes(&#39;b&#39;, [&#39;a&#39;])</span>
+<span class="sd">        {&#39;b&#39;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">observed</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span> <span class="ow">in</span> <span class="n">observed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">observed</span> <span class="k">if</span> <span class="n">observed</span> <span class="k">else</span> <span class="p">[])</span></div>
+
+<div class="viewcode-block" id="NaiveBayes.local_independencies"><a class="viewcode-back" href="../../../models.html#pgmpy.models.NaiveBayes.NaiveBayes.local_independencies">[docs]</a>    <span class="k">def</span> <span class="nf">local_independencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an instance of Independencies containing the local independencies</span>
+<span class="sd">        of each of the variables.</span>
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        variables: str or array like</span>
+<span class="sd">            variables whose local independencies are to found.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import NaiveBayes</span>
+<span class="sd">        &gt;&gt;&gt; model = NaiveBayes()</span>
+<span class="sd">        &gt;&gt;&gt; model.add_edges_from([(&#39;a&#39;, &#39;b&#39;), (&#39;a&#39;, &#39;c&#39;), (&#39;a&#39;, &#39;d&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; ind = model.local_independencies(&#39;b&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ind</span>
+<span class="sd">        (b _|_ d, c | a)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">independencies</span> <span class="o">=</span> <span class="n">Independencies</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="n">variables</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">variable</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span><span class="p">:</span>
+                <span class="n">independencies</span><span class="o">.</span><span class="n">add_assertions</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">variable</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span>
+                        <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children_nodes</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">variable</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">independencies</span></div>
+
+<div class="viewcode-block" id="NaiveBayes.fit"><a class="viewcode-back" href="../../../models.html#pgmpy.models.NaiveBayes.NaiveBayes.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">parent_node</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the CPD for each node from a given data in the form of a pandas dataframe.</span>
+<span class="sd">        If a variable from the data is not present in the model, it adds that node into the model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : pandas DataFrame object</span>
+<span class="sd">            A DataFrame object with column names same as the variable names of network</span>
+
+<span class="sd">        parent_node: any hashable python object (optional)</span>
+<span class="sd">            Parent node of the model, if not specified it looks for a previously specified</span>
+<span class="sd">            parent node.</span>
+
+<span class="sd">        estimator: Estimator class</span>
+<span class="sd">            Any pgmpy estimator. If nothing is specified, the default ``MaximumLikelihoodEstimator``</span>
+<span class="sd">            would be used.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.models import NaiveBayes</span>
+<span class="sd">        &gt;&gt;&gt; model = NaiveBayes()</span>
+<span class="sd">        &gt;&gt;&gt; values = pd.DataFrame(np.random.randint(low=0, high=2, size=(1000, 5)),</span>
+<span class="sd">        ...                       columns=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; model.fit(values, &#39;A&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; model.get_cpds()</span>
+<span class="sd">        [&lt;TabularCPD representing P(D:2 | A:2) at 0x4b72870&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(E:2 | A:2) at 0x4bb2150&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(A:2) at 0x4bb23d0&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(B:2 | A:2) at 0x4bb24b0&gt;,</span>
+<span class="sd">         &lt;TabularCPD representing P(C:2 | A:2) at 0x4bb2750&gt;]</span>
+<span class="sd">        &gt;&gt;&gt; model.edges()</span>
+<span class="sd">        [(&#39;A&#39;, &#39;D&#39;), (&#39;A&#39;, &#39;E&#39;), (&#39;A&#39;, &#39;B&#39;), (&#39;A&#39;, &#39;C&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_node</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;parent node must be specified for the model&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">parent_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_node</span>
+        <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;parent node: </span><span class="si">{node}</span><span class="s2"> is not present in the given data&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">parent_node</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">child_node</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">child_node</span> <span class="o">!=</span> <span class="n">parent_node</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">child_node</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NaiveBayes</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">estimator</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Ankur Ankan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

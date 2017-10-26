@@ -1,0 +1,1066 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Estimators for Parameter and Structure Learning &#8212; pgmpy 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing to pgmpy" href="contributing.html" />
+    <link rel="prev" title="Reading and Writing from files" href="readwrite.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing to pgmpy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="readwrite.html" title="Reading and Writing from files"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pgmpy 0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Estimators for Parameter and Structure Learning</a><ul>
+<li><a class="reference internal" href="#bayesian-estimator">Bayesian Estimator</a></li>
+<li><a class="reference internal" href="#bdeu-score">Bdeu Score</a></li>
+<li><a class="reference internal" href="#bic-score">Bic Score</a></li>
+<li><a class="reference internal" href="#contraint-based-estimator">Contraint Based Estimator</a></li>
+<li><a class="reference internal" href="#exhaustive-search">Exhaustive Search</a></li>
+<li><a class="reference internal" href="#hill-climb-search">Hill Climb Search</a></li>
+<li><a class="reference internal" href="#k2-score">K2 Score</a></li>
+<li><a class="reference internal" href="#maximum-likelihood-estimator">Maximum Likelihood Estimator</a></li>
+<li><a class="reference internal" href="#structure-score">Structure Score</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="readwrite.html"
+                        title="previous chapter">Reading and Writing from files</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="contributing.html"
+                        title="next chapter">Contributing to pgmpy</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/estimators.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="estimators-for-parameter-and-structure-learning">
+<h1>Estimators for Parameter and Structure Learning<a class="headerlink" href="#estimators-for-parameter-and-structure-learning" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="bayesian-estimator">
+<h2>Bayesian Estimator<a class="headerlink" href="#bayesian-estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.BayesianEstimator.BayesianEstimator">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.BayesianEstimator.</code><code class="descname">BayesianEstimator</code><span class="sig-paren">(</span><em>model</em>, <em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/BayesianEstimator.html#BayesianEstimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.BayesianEstimator.BayesianEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.BayesianEstimator.BayesianEstimator.estimate_cpd">
+<code class="descname">estimate_cpd</code><span class="sig-paren">(</span><em>node</em>, <em>prior_type='BDeu'</em>, <em>pseudo_counts=[]</em>, <em>equivalent_sample_size=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/BayesianEstimator.html#BayesianEstimator.estimate_cpd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.BayesianEstimator.BayesianEstimator.estimate_cpd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to estimate the CPD for a given variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node: int, string (any hashable python object)</strong></p>
+<blockquote>
+<div><p>The name of the variable for which the CPD is to be estimated.</p>
+</div></blockquote>
+<p><strong>prior_type: &#8216;dirichlet&#8217;, &#8216;BDeu&#8217;, &#8216;K2&#8217;,</strong></p>
+<blockquote>
+<div><p>string indicting which type of prior to use for the model parameters.
+- If &#8216;prior_type&#8217; is &#8216;dirichlet&#8217;, the following must be provided:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&#8216;pseudo_counts&#8217; = dirichlet hyperparameters; a list or dict</dt>
+<dd><p class="first last">with a &#8220;virtual&#8221; count for each variable state.
+The virtual counts are added to the actual state counts found in the data.
+(if a list is provided, a lexicographic ordering of states is assumed)</p>
+</dd>
+</dl>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>If &#8216;prior_type&#8217; is &#8216;BDeu&#8217;, then an &#8216;equivalent_sample_size&#8217;</dt>
+<dd>must be specified instead of &#8216;pseudo_counts&#8217;. This is equivalent to
+&#8216;prior_type=dirichlet&#8217; and using uniform &#8216;pseudo_counts&#8217; of
+<cite>equivalent_sample_size/(node_cardinality*np.prod(parents_cardinalities))</cite>.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A prior_type of &#8216;K2&#8217; is a shorthand for &#8216;dirichlet&#8217; + setting every pseudo_count to 1,</dt>
+<dd>regardless of the cardinality of the variable.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">CPD: TabularCPD</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">BayesianEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">estimator</span> <span class="o">=</span> <span class="n">BayesianEstimator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_C</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">estimate_cpd</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">prior_type</span><span class="o">=</span><span class="s2">&quot;dirichlet&quot;</span><span class="p">,</span> <span class="n">pseudo_counts</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cpd_C</span><span class="p">)</span>
+<span class="go">╒══════╤══════╤══════╤══════╤════════════════════╕</span>
+<span class="go">│ A    │ A(0) │ A(0) │ A(1) │ A(1)               │</span>
+<span class="go">├──────┼──────┼──────┼──────┼────────────────────┤</span>
+<span class="go">│ B    │ B(0) │ B(1) │ B(0) │ B(1)               │</span>
+<span class="go">├──────┼──────┼──────┼──────┼────────────────────┤</span>
+<span class="go">│ C(0) │ 0.25 │ 0.25 │ 0.5  │ 0.3333333333333333 │</span>
+<span class="go">├──────┼──────┼──────┼──────┼────────────────────┤</span>
+<span class="go">│ C(1) │ 0.75 │ 0.75 │ 0.5  │ 0.6666666666666666 │</span>
+<span class="go">╘══════╧══════╧══════╧══════╧════════════════════╛</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.estimators.BayesianEstimator.BayesianEstimator.get_parameters">
+<code class="descname">get_parameters</code><span class="sig-paren">(</span><em>prior_type='BDeu'</em>, <em>equivalent_sample_size=5</em>, <em>pseudo_counts=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/BayesianEstimator.html#BayesianEstimator.get_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.BayesianEstimator.BayesianEstimator.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to estimate the model parameters (CPDs).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>prior_type: &#8216;dirichlet&#8217;, &#8216;BDeu&#8217;, or &#8216;K2&#8217;</strong></p>
+<blockquote>
+<div><p>string indicting which type of prior to use for the model parameters.
+- If &#8216;prior_type&#8217; is &#8216;dirichlet&#8217;, the following must be provided:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&#8216;pseudo_counts&#8217; = dirichlet hyperparameters; a dict containing, for each variable, a list</dt>
+<dd><p class="first last">with a &#8220;virtual&#8221; count for each variable state, that is added to the state counts.
+(lexicographic ordering of states assumed)</p>
+</dd>
+</dl>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>If &#8216;prior_type&#8217; is &#8216;BDeu&#8217;, then an &#8216;equivalent_sample_size&#8217;</dt>
+<dd>must be specified instead of &#8216;pseudo_counts&#8217;. This is equivalent to
+&#8216;prior_type=dirichlet&#8217; and using uniform &#8216;pseudo_counts&#8217; of
+<cite>equivalent_sample_size/(node_cardinality*np.prod(parents_cardinalities))</cite> for each node.
+&#8216;equivalent_sample_size&#8217; can either be a numerical value or a dict that specifies
+the size for each variable seperately.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A prior_type of &#8216;K2&#8217; is a shorthand for &#8216;dirichlet&#8217; + setting every pseudo_count to 1,</dt>
+<dd>regardless of the cardinality of the variable.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">parameters: list</p>
+<blockquote class="last">
+<div><p>List of TabularCPDs, one for each variable of the model</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">BayesianEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span>
+<span class="gp">... </span>                      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">estimator</span> <span class="o">=</span> <span class="n">BayesianEstimator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">estimator</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">prior_type</span><span class="o">=</span><span class="s1">&#39;BDeu&#39;</span><span class="p">,</span> <span class="n">equivalent_sample_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">[&lt;TabularCPD representing P(C:2) at 0x7f7b534251d0&gt;,</span>
+<span class="go">&lt;TabularCPD representing P(B:2 | C:2, A:2) at 0x7f7b4dfd4da0&gt;,</span>
+<span class="go">&lt;TabularCPD representing P(A:2) at 0x7f7b4dfd4fd0&gt;,</span>
+<span class="go">&lt;TabularCPD representing P(D:2 | C:2) at 0x7f7b4df822b0&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="bdeu-score">
+<h2>Bdeu Score<a class="headerlink" href="#bdeu-score" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.BdeuScore.BdeuScore">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.BdeuScore.</code><code class="descname">BdeuScore</code><span class="sig-paren">(</span><em>data</em>, <em>equivalent_sample_size=10</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/BdeuScore.html#BdeuScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.BdeuScore.BdeuScore" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.BdeuScore.BdeuScore.local_score">
+<code class="descname">local_score</code><span class="sig-paren">(</span><em>variable</em>, <em>parents</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/BdeuScore.html#BdeuScore.local_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.BdeuScore.BdeuScore.local_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a score that measures how much a         given variable is &#8220;influenced&#8221; by a given list of potential parents.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="bic-score">
+<h2>Bic Score<a class="headerlink" href="#bic-score" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.BicScore.BicScore">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.BicScore.</code><code class="descname">BicScore</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/BicScore.html#BicScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.BicScore.BicScore" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.BicScore.BicScore.local_score">
+<code class="descname">local_score</code><span class="sig-paren">(</span><em>variable</em>, <em>parents</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/BicScore.html#BicScore.local_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.BicScore.BicScore.local_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a score that measures how much a         given variable is &#8220;influenced&#8221; by a given list of potential parents.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="contraint-based-estimator">
+<h2>Contraint Based Estimator<a class="headerlink" href="#contraint-based-estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.ConstraintBasedEstimator.</code><code class="descname">ConstraintBasedEstimator</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="staticmethod">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.build_skeleton">
+<em class="property">static </em><code class="descname">build_skeleton</code><span class="sig-paren">(</span><em>nodes</em>, <em>independencies</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator.build_skeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.build_skeleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates a graph skeleton (UndirectedGraph) from a set of independencies
+using (the first part of) the PC algorithm. The independencies can either be
+provided as an instance of the <cite>Independencies</cite>-class or by passing a
+decision function that decides any conditional independency assertion.
+Returns a tuple <cite>(skeleton, separating_sets)</cite>.</p>
+<p>If an Independencies-instance is passed, the contained IndependenceAssertions
+have to admit a faithful BN representation. This is the case if
+they are obtained as a set of d-seperations of some Bayesian network or
+if the independence assertions are closed under the semi-graphoid axioms.
+Otherwise the procedure may fail to identify the correct structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nodes: list, array-like</strong></p>
+<blockquote>
+<div><p>A list of node/variable names of the network skeleton.</p>
+</div></blockquote>
+<p><strong>independencies: Independencies-instance or function.</strong></p>
+<blockquote>
+<div><p>The source of independency information from which to build the skeleton.
+The provided Independencies should admit a faithful representation.
+Can either be provided as an Independencies()-instance or by passing a
+function <cite>f(X, Y, Zs)</cite> that returns <cite>True</cite> when X _|_ Y | Zs,
+otherwise <cite>False</cite>. (X, Y being individual nodes and Zs a list of nodes).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">skeleton: UndirectedGraph</p>
+<blockquote>
+<div><p>An estimate for the undirected graph skeleton of the BN underlying the data.</p>
+</div></blockquote>
+<p>separating_sets: dict</p>
+<blockquote class="last">
+<div><p>A dict containing for each pair of not directly connected nodes a
+separating set (&#8220;witnessing set&#8221;) of variables that makes then
+conditionally independent. (needed for edge orientation procedures)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ConstraintBasedEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.independencies</span> <span class="k">import</span> <span class="n">Independencies</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># build skeleton from list of independencies:</span>
+<span class="gp">... </span><span class="n">ind</span> <span class="o">=</span> <span class="n">Independencies</span><span class="p">([</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># we need to compute closure, otherwise this set of independencies doesn&#39;t</span>
+<span class="gp">... </span><span class="c1"># admit a faithful representation:</span>
+<span class="gp">... </span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span><span class="o">.</span><span class="n">closure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="p">,</span> <span class="n">sep_sets</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="o">.</span><span class="n">build_skeleton</span><span class="p">(</span><span class="s2">&quot;ABCD&quot;</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+<span class="go">[(&#39;A&#39;, &#39;D&#39;), (&#39;B&#39;, &#39;D&#39;), (&#39;C&#39;, &#39;D&#39;)]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># build skeleton from d-seperations of BayesianModel:</span>
+<span class="gp">... </span><span class="n">model</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="p">,</span> <span class="n">sep_sets</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="o">.</span><span class="n">build_skeleton</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">nodes</span><span class="p">(),</span> <span class="n">model</span><span class="o">.</span><span class="n">get_independencies</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+<span class="go">[(&#39;A&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;D&#39;), (&#39;C&#39;, &#39;E&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.estimate">
+<code class="descname">estimate</code><span class="sig-paren">(</span><em>significance_level=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator.estimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates a BayesianModel for the data set, using the PC contraint-based
+structure learning algorithm. Independencies are identified from the
+data set using a chi-squared statistic with the acceptance threshold of
+<cite>significance_level</cite>. PC identifies a partially directed acyclic graph (PDAG), given
+that the tested independencies admit a faithful Bayesian network representation.
+This method returns a BayesianModel that is a completion of this PDAG.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>significance_level: float, default: 0.01</strong></p>
+<blockquote>
+<div><p>The significance level to use for conditional independence tests in the data set.</p>
+<p><cite>significance_level</cite> is the desired Type 1 error probability of
+falsely rejecting the null hypothesis that variables are independent,
+given that they are. The lower <cite>significance_level</cite>, the less likely
+we are to accept dependencies, resulting in a sparser graph.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">model: BayesianModel()-instance</p>
+<blockquote class="last">
+<div><p>An estimate for the BayesianModel for the data set (not yet parametrized).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ConstraintBasedEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;XYZ&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">      X  Y  Z  sum</span>
+<span class="go">0     3  0  1    4</span>
+<span class="go">1     1  4  3    8</span>
+<span class="go">2     0  0  3    3</span>
+<span class="go">3     0  2  3    5</span>
+<span class="go">4     2  1  1    4</span>
+<span class="gp">... </span> <span class="o">..</span> <span class="o">..</span> <span class="o">..</span>  <span class="o">...</span>
+<span class="go">2495  2  3  0    5</span>
+<span class="go">2496  1  1  2    4</span>
+<span class="go">2497  0  4  2    6</span>
+<span class="go">2498  0  0  0    0</span>
+<span class="go">2499  2  4  0    6</span>
+</pre></div>
+</div>
+<p>[2500 rows x 4 columns]
+&gt;&gt;&gt; c = ConstraintBasedEstimator(data)
+&gt;&gt;&gt; model = c.estimate()
+&gt;&gt;&gt; print(model.edges())
+[(&#8216;Z&#8217;, &#8216;sum&#8217;), (&#8216;X&#8217;, &#8216;sum&#8217;), (&#8216;Y&#8217;, &#8216;sum&#8217;)]</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.estimate_from_independencies">
+<em class="property">static </em><code class="descname">estimate_from_independencies</code><span class="sig-paren">(</span><em>nodes</em>, <em>independencies</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator.estimate_from_independencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.estimate_from_independencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates a BayesianModel from an Independencies()-object or a
+decision function for conditional independencies. This requires that
+the set of independencies admits a faithful representation (e.g. is a
+set of d-seperation for some BN or is closed under the semi-graphoid
+axioms). See <cite>build_skeleton</cite>, <cite>skeleton_to_pdag</cite>, <cite>pdag_to_dag</cite> for
+details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nodes: list, array-like</strong></p>
+<blockquote>
+<div><p>A list of node/variable names of the network skeleton.</p>
+</div></blockquote>
+<p><strong>independencies: Independencies-instance or function.</strong></p>
+<blockquote>
+<div><p>The source of independency information from which to build the skeleton.
+The provided Independencies should admit a faithful representation.
+Can either be provided as an Independencies()-instance or by passing a
+function <cite>f(X, Y, Zs)</cite> that returns <cite>True</cite> when X _|_ Y | Zs,
+otherwise <cite>False</cite>. (X, Y being individual nodes and Zs a list of nodes).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">model: BayesianModel instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ConstraintBasedEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.independencies</span> <span class="k">import</span> <span class="n">Independencies</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ind</span> <span class="o">=</span> <span class="n">Independencies</span><span class="p">([</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ind</span> <span class="o">=</span> <span class="n">ind</span><span class="o">.</span><span class="n">closure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="o">.</span><span class="n">estimate_from_independencies</span><span class="p">(</span><span class="s2">&quot;ABCD&quot;</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+<span class="go">[(&#39;B&#39;, &#39;D&#39;), (&#39;A&#39;, &#39;D&#39;), (&#39;C&#39;, &#39;D&#39;)]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="o">.</span><span class="n">estimate_from_independencies</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">nodes</span><span class="p">(),</span> <span class="n">model</span><span class="o">.</span><span class="n">get_independencies</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">skel</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+<span class="go">[(&#39;B&#39;, &#39;C&#39;), (&#39;A&#39;, &#39;C&#39;), (&#39;C&#39;, &#39;E&#39;), (&#39;D&#39;, &#39;B&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># note that (&#39;D&#39;, &#39;B&#39;) is flipped compared to the original network;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Both networks belong to the same PDAG/are I-equivalent</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.estimate_skeleton">
+<code class="descname">estimate_skeleton</code><span class="sig-paren">(</span><em>significance_level=0.01</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator.estimate_skeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.estimate_skeleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates a graph skeleton (UndirectedGraph) for the data set.
+Uses the build_skeleton method (PC algorithm); independencies are
+determined using a chisquare statistic with the acceptance threshold
+of <cite>significance_level</cite>. Returns a tuple <a href="#id1"><span class="problematic" id="id2">`</span></a>(skeleton, separating_sets).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>significance_level: float, default: 0.01</strong></p>
+<blockquote>
+<div><p>The significance level to use for conditional independence tests in the data set.</p>
+<p><cite>significance_level</cite> is the desired Type 1 error probability of
+falsely rejecting the null hypothesis that variables are independent,
+given that they are. The lower <cite>significance_level</cite>, the less likely
+we are to accept dependencies, resulting in a sparser graph.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">skeleton: UndirectedGraph</p>
+<blockquote>
+<div><p>An estimate for the undirected graph skeleton of the BN underlying the data.</p>
+</div></blockquote>
+<p>separating_sets: dict</p>
+<blockquote class="last">
+<div><p>A dict containing for each pair of not directly connected nodes a
+separating set of variables that makes then conditionally independent.
+(needed for edge orientation procedures)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ConstraintBasedEstimator</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABCDE&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">data</span> <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">est</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="p">,</span> <span class="n">sep_sets</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">estimate_skeleton</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;A&#39;, &#39;F&#39;), (&#39;B&#39;, &#39;F&#39;), (&#39;C&#39;, &#39;F&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># all independencies are unconditional:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sep_sets</span>
+<span class="go">{(&#39;D&#39;, &#39;A&#39;): (), (&#39;C&#39;, &#39;A&#39;): (), (&#39;C&#39;, &#39;E&#39;): (), (&#39;E&#39;, &#39;F&#39;): (), (&#39;B&#39;, &#39;D&#39;): (),</span>
+<span class="go"> (&#39;B&#39;, &#39;E&#39;): (), (&#39;D&#39;, &#39;F&#39;): (), (&#39;D&#39;, &#39;E&#39;): (), (&#39;A&#39;, &#39;E&#39;): (), (&#39;B&#39;, &#39;A&#39;): (),</span>
+<span class="go"> (&#39;B&#39;, &#39;C&#39;): (), (&#39;C&#39;, &#39;D&#39;): ()}</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;XYZ&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">est</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="p">,</span> <span class="n">sep_sets</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">estimate_skeleton</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;X&#39;, &#39;Z&#39;), (&#39;Y&#39;, &#39;Z&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># X, Y dependent, but conditionally independent given Z:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sep_sets</span>
+<span class="go">{(&#39;X&#39;, &#39;Y&#39;): (&#39;Z&#39;,)}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.model_to_pdag">
+<em class="property">static </em><code class="descname">model_to_pdag</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator.model_to_pdag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.model_to_pdag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct the DAG pattern (representing the I-equivalence class) for
+a given BayesianModel. This is the &#8220;inverse&#8221; to pdag_to_dag.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.pdag_to_dag">
+<em class="property">static </em><code class="descname">pdag_to_dag</code><span class="sig-paren">(</span><em>pdag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator.pdag_to_dag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.pdag_to_dag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Completes a PDAG to a DAG, without adding v-structures, if such a
+completion exists. If no faithful extension is possible, some fully
+oriented DAG that corresponds to the PDAG is returned and a warning is
+generated. This is a static method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pdag: DirectedGraph</strong></p>
+<blockquote>
+<div><p>A directed acyclic graph pattern, consisting in (acyclic) directed edges
+as well as &#8220;undirected&#8221; edges, represented as both-way edges between
+nodes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dag: BayesianModel</p>
+<blockquote class="last">
+<div><p>A faithful orientation of pdag, if one exists. Otherwise any
+fully orientated DAG/BayesianModel with the structure of pdag.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<dl class="docutils">
+<dt>[1] Chickering, Learning Equivalence Classes of Bayesian-Network Structures,</dt>
+<dd>2002; See page 454 (last paragraph) for the algorithm pdag_to_dag
+<a class="reference external" href="http://www.jmlr.org/papers/volume2/chickering02a/chickering02a.pdf">http://www.jmlr.org/papers/volume2/chickering02a/chickering02a.pdf</a></dd>
+<dt>[2] Dor &amp; Tarsi, A simple algorithm to construct a consistent extension</dt>
+<dd>of a partially oriented graph, 1992,
+<a class="reference external" href="http://ftp.cs.ucla.edu/pub/stat_ser/r185-dor-tarsi.pdf">http://ftp.cs.ucla.edu/pub/stat_ser/r185-dor-tarsi.pdf</a></dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.base</span> <span class="k">import</span> <span class="n">DirectedGraph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ConstraintBasedEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABD&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdag</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">skeleton_to_pdag</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">estimate_skeleton</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdag</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;B&#39;, &#39;C&#39;), (&#39;D&#39;, &#39;A&#39;), (&#39;A&#39;, &#39;D&#39;), (&#39;A&#39;, &#39;C&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">pdag_to_dag</span><span class="p">(</span><span class="n">pdag</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;B&#39;, &#39;C&#39;), (&#39;A&#39;, &#39;D&#39;), (&#39;A&#39;, &#39;C&#39;)]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># pdag_to_dag is static:</span>
+<span class="gp">... </span><span class="n">pdag1</span> <span class="o">=</span> <span class="n">DirectedGraph</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConstraintBasedEstimator</span><span class="o">.</span><span class="n">pdag_to_dag</span><span class="p">(</span><span class="n">pdag1</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;D&#39;, &#39;C&#39;), (&#39;C&#39;, &#39;B&#39;), (&#39;A&#39;, &#39;B&#39;), (&#39;A&#39;, &#39;D&#39;)]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># example of a pdag with no faithful extension:</span>
+<span class="gp">... </span><span class="n">pdag2</span> <span class="o">=</span> <span class="n">DirectedGraph</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ConstraintBasedEstimator</span><span class="o">.</span><span class="n">pdag_to_dag</span><span class="p">(</span><span class="n">pdag2</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">UserWarning: PDAG has no faithful extension (= no oriented DAG with the same v-structures as PDAG).</span>
+<span class="go">Remaining undirected PDAG edges oriented arbitrarily.</span>
+<span class="go">[(&#39;B&#39;, &#39;C&#39;), (&#39;A&#39;, &#39;B&#39;), (&#39;A&#39;, &#39;C&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.skeleton_to_pdag">
+<em class="property">static </em><code class="descname">skeleton_to_pdag</code><span class="sig-paren">(</span><em>skel</em>, <em>separating_sets</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ConstraintBasedEstimator.html#ConstraintBasedEstimator.skeleton_to_pdag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ConstraintBasedEstimator.ConstraintBasedEstimator.skeleton_to_pdag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orients the edges of a graph skeleton based on information from
+<cite>separating_sets</cite> to form a DAG pattern (DirectedGraph).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>skel: UndirectedGraph</strong></p>
+<blockquote>
+<div><p>An undirected graph skeleton as e.g. produced by the
+estimate_skeleton method.</p>
+</div></blockquote>
+<p><strong>separating_sets: dict</strong></p>
+<blockquote>
+<div><p>A dict containing for each pair of not directly connected nodes a
+separating set (&#8220;witnessing set&#8221;) of variables that makes then
+conditionally independent. (needed for edge orientation)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">pdag: DirectedGraph</p>
+<blockquote class="last">
+<div><p>An estimate for the DAG pattern of the BN underlying the data. The
+graph might contain some nodes with both-way edges (X-&gt;Y and Y-&gt;X).
+Any completion by (removing one of the both-way edges for each such
+pair) results in a I-equivalent Bayesian network DAG.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ConstraintBasedEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABD&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">ConstraintBasedEstimator</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdag</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">skeleton_to_pdag</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="o">.</span><span class="n">estimate_skeleton</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdag</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span> <span class="c1"># edges: A-&gt;C, B-&gt;C, A--D (not directed)</span>
+<span class="go">[(&#39;B&#39;, &#39;C&#39;), (&#39;A&#39;, &#39;C&#39;), (&#39;A&#39;, &#39;D&#39;), (&#39;D&#39;, &#39;A&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exhaustive-search">
+<h2>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.ExhaustiveSearch.</code><code class="descname">ExhaustiveSearch</code><span class="sig-paren">(</span><em>data</em>, <em>scoring_method=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ExhaustiveSearch.html#ExhaustiveSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch.all_dags">
+<code class="descname">all_dags</code><span class="sig-paren">(</span><em>nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ExhaustiveSearch.html#ExhaustiveSearch.all_dags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch.all_dags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes all possible directed acyclic graphs with a given set of nodes,
+sparse ones first. <cite>2**(n*(n-1))</cite> graphs need to be searched, given <cite>n</cite> nodes,
+so this is likely not feasible for n&gt;6. This is a generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nodes: list of nodes for the DAGs (optional)</strong></p>
+<blockquote>
+<div><p>A list of the node names that the generated DAGs should have.
+If not provided, nodes are taken from data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dags: Generator object for nx.DiGraphs</p>
+<blockquote class="last">
+<div><p>Generator that yields all acyclic nx.DiGraphs, ordered by number of edges. Empty DAG first.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ExhaustiveSearch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">ExhaustiveSearch</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Temperature&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">23</span><span class="p">,</span> <span class="mi">19</span><span class="p">],</span>
+<span class="go">                                            &#39;Weather&#39;: [&#39;sunny&#39;, &#39;cloudy&#39;],</span>
+<span class="go">                                            &#39;Humidity&#39;: [65, 75]}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">all_dags</span><span class="p">())</span>
+<span class="go">[&lt;networkx.classes.digraph.DiGraph object at 0x7f6955216438&gt;,</span>
+<span class="go"> &lt;networkx.classes.digraph.DiGraph object at 0x7f6955216518&gt;,</span>
+<span class="go">....</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">dag</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span> <span class="k">for</span> <span class="n">dag</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">all_dags</span><span class="p">()]</span>
+<span class="go">[[], [(&#39;Humidity&#39;, &#39;Temperature&#39;)], [(&#39;Humidity&#39;, &#39;Weather&#39;)],</span>
+<span class="go">[(&#39;Temperature&#39;, &#39;Weather&#39;)], [(&#39;Temperature&#39;, &#39;Humidity&#39;)],</span>
+<span class="go">....</span>
+<span class="go">[(&#39;Weather&#39;, &#39;Humidity&#39;), (&#39;Weather&#39;, &#39;Temperature&#39;), (&#39;Temperature&#39;, &#39;Humidity&#39;)]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch.all_scores">
+<code class="descname">all_scores</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ExhaustiveSearch.html#ExhaustiveSearch.all_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch.all_scores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a list of DAGs and their structure scores, ordered by score.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list: a list of (score, dag) pairs</p>
+<blockquote class="last">
+<div><p>A list of (score, dag)-tuples, where score is a float and model a acyclic nx.DiGraph.
+The list is ordered by score values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ExhaustiveSearch</span><span class="p">,</span> <span class="n">K2Score</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create random data sample with 3 variables, where B and C are identical:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;AB&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span> <span class="o">=</span> <span class="n">ExhaustiveSearch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">scoring_method</span><span class="o">=</span><span class="n">K2Score</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">score</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">searcher</span><span class="o">.</span><span class="n">all_scores</span><span class="p">():</span>
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">        </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">edges</span><span class="p">()))</span>
+<span class="go">-24234.44977974726      [(&#39;A&#39;, &#39;B&#39;), (&#39;A&#39;, &#39;C&#39;)]</span>
+<span class="go">-24234.449760691063     [(&#39;A&#39;, &#39;B&#39;), (&#39;C&#39;, &#39;A&#39;)]</span>
+<span class="go">-24234.449760691063     [(&#39;A&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;A&#39;)]</span>
+<span class="go">-24203.700955937973     [(&#39;A&#39;, &#39;B&#39;)]</span>
+<span class="go">-24203.700955937973     [(&#39;A&#39;, &#39;C&#39;)]</span>
+<span class="go">-24203.700936881774     [(&#39;B&#39;, &#39;A&#39;)]</span>
+<span class="go">-24203.700936881774     [(&#39;C&#39;, &#39;A&#39;)]</span>
+<span class="go">-24203.700936881774     [(&#39;B&#39;, &#39;A&#39;), (&#39;C&#39;, &#39;A&#39;)]</span>
+<span class="go">-24172.952132128685     []</span>
+<span class="go">-16597.30920265254      [(&#39;A&#39;, &#39;B&#39;), (&#39;A&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;C&#39;)]</span>
+<span class="go">-16597.30920265254      [(&#39;A&#39;, &#39;B&#39;), (&#39;A&#39;, &#39;C&#39;), (&#39;C&#39;, &#39;B&#39;)]</span>
+<span class="go">-16597.309183596342     [(&#39;A&#39;, &#39;B&#39;), (&#39;C&#39;, &#39;A&#39;), (&#39;C&#39;, &#39;B&#39;)]</span>
+<span class="go">-16597.309183596342     [(&#39;A&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;A&#39;), (&#39;B&#39;, &#39;C&#39;)]</span>
+<span class="go">-16566.560378843253     [(&#39;A&#39;, &#39;B&#39;), (&#39;C&#39;, &#39;B&#39;)]</span>
+<span class="go">-16566.560378843253     [(&#39;A&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;C&#39;)]</span>
+<span class="go">-16268.324549347722     [(&#39;A&#39;, &#39;B&#39;), (&#39;B&#39;, &#39;C&#39;)]</span>
+<span class="go">-16268.324549347722     [(&#39;A&#39;, &#39;C&#39;), (&#39;C&#39;, &#39;B&#39;)]</span>
+<span class="go">-16268.324530291524     [(&#39;B&#39;, &#39;A&#39;), (&#39;B&#39;, &#39;C&#39;)]</span>
+<span class="go">-16268.324530291524     [(&#39;B&#39;, &#39;C&#39;), (&#39;C&#39;, &#39;A&#39;)]</span>
+<span class="go">-16268.324530291524     [(&#39;B&#39;, &#39;A&#39;), (&#39;C&#39;, &#39;B&#39;)]</span>
+<span class="go">-16268.324530291524     [(&#39;C&#39;, &#39;A&#39;), (&#39;C&#39;, &#39;B&#39;)]</span>
+<span class="go">-16268.324530291524     [(&#39;B&#39;, &#39;A&#39;), (&#39;B&#39;, &#39;C&#39;), (&#39;C&#39;, &#39;A&#39;)]</span>
+<span class="go">-16268.324530291524     [(&#39;B&#39;, &#39;A&#39;), (&#39;C&#39;, &#39;A&#39;), (&#39;C&#39;, &#39;B&#39;)]</span>
+<span class="go">-16237.575725538434     [(&#39;B&#39;, &#39;C&#39;)]</span>
+<span class="go">-16237.575725538434     [(&#39;C&#39;, &#39;B&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch.estimate">
+<code class="descname">estimate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/ExhaustiveSearch.html#ExhaustiveSearch.estimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.ExhaustiveSearch.ExhaustiveSearch.estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates the <cite>BayesianModel</cite> structure that fits best to the given data set,
+according to the scoring method supplied in the constructor.
+Exhaustively searches through all models. Only estimates network structure, no parametrization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">model: <cite>BayesianModel</cite> instance</p>
+<blockquote class="last">
+<div><p>A <cite>BayesianModel</cite> with maximal score.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">ExhaustiveSearch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create random data sample with 3 variables, where B and C are identical:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;AB&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">est</span> <span class="o">=</span> <span class="n">ExhaustiveSearch</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_model</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">estimate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_model</span>
+<span class="go">&lt;pgmpy.models.BayesianModel.BayesianModel object at 0x7f695c535470&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;B&#39;, &#39;C&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="hill-climb-search">
+<h2>Hill Climb Search<a class="headerlink" href="#hill-climb-search" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.HillClimbSearch.HillClimbSearch">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.HillClimbSearch.</code><code class="descname">HillClimbSearch</code><span class="sig-paren">(</span><em>data</em>, <em>scoring_method=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/HillClimbSearch.html#HillClimbSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.HillClimbSearch.HillClimbSearch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.HillClimbSearch.HillClimbSearch.estimate">
+<code class="descname">estimate</code><span class="sig-paren">(</span><em>start=None</em>, <em>tabu_length=0</em>, <em>max_indegree=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/HillClimbSearch.html#HillClimbSearch.estimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.HillClimbSearch.HillClimbSearch.estimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs local hill climb search to estimates the <cite>BayesianModel</cite> structure
+that has optimal score, according to the scoring method supplied in the constructor.
+Starts at model <cite>start</cite> and proceeds by step-by-step network modifications
+until a local maximum is reached. Only estimates network structure, no parametrization.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>start: BayesianModel instance</strong></p>
+<blockquote>
+<div><p>The starting point for the local search. By default a completely disconnected network is used.</p>
+</div></blockquote>
+<p><strong>tabu_length: int</strong></p>
+<blockquote>
+<div><p>If provided, the last <cite>tabu_length</cite> graph modifications cannot be reversed
+during the search procedure. This serves to enforce a wider exploration
+of the search space. Default value: 100.</p>
+</div></blockquote>
+<p><strong>max_indegree: int or None</strong></p>
+<blockquote>
+<div><p>If provided and unequal None, the procedure only searches among models
+where all nodes have at most <cite>max_indegree</cite> parents. Defaults to None.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">model: <cite>BayesianModel</cite> instance</p>
+<blockquote class="last">
+<div><p>A <cite>BayesianModel</cite> at a (local) score maximum.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">HillClimbSearch</span><span class="p">,</span> <span class="n">BicScore</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create data sample with 9 random variables:</span>
+<span class="gp">... </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">9</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;ABCDEFGHI&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># add 10th dependent variable</span>
+<span class="gp">... </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;J&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">est</span> <span class="o">=</span> <span class="n">HillClimbSearch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">scoring_method</span><span class="o">=</span><span class="n">BicScore</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_model</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">estimate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">best_model</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+<span class="go">[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;J&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">best_model</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;B&#39;, &#39;J&#39;), (&#39;A&#39;, &#39;J&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># search a model with restriction on the number of parents:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">est</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">max_indegree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">edges</span><span class="p">()</span>
+<span class="go">[(&#39;J&#39;, &#39;A&#39;), (&#39;B&#39;, &#39;J&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="k2-score">
+<h2>K2 Score<a class="headerlink" href="#k2-score" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.K2Score.K2Score">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.K2Score.</code><code class="descname">K2Score</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/K2Score.html#K2Score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.K2Score.K2Score" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.K2Score.K2Score.local_score">
+<code class="descname">local_score</code><span class="sig-paren">(</span><em>variable</em>, <em>parents</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/K2Score.html#K2Score.local_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.K2Score.K2Score.local_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a score that measures how much a         given variable is &#8220;influenced&#8221; by a given list of potential parents.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="maximum-likelihood-estimator">
+<h2>Maximum Likelihood Estimator<a class="headerlink" href="#maximum-likelihood-estimator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.MLE.MaximumLikelihoodEstimator">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.MLE.</code><code class="descname">MaximumLikelihoodEstimator</code><span class="sig-paren">(</span><em>model</em>, <em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/MLE.html#MaximumLikelihoodEstimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.MLE.MaximumLikelihoodEstimator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.MLE.MaximumLikelihoodEstimator.estimate_cpd">
+<code class="descname">estimate_cpd</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/MLE.html#MaximumLikelihoodEstimator.estimate_cpd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.MLE.MaximumLikelihoodEstimator.estimate_cpd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to estimate the CPD for a given variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>node: int, string (any hashable python object)</strong></p>
+<blockquote>
+<div><p>The name of the variable for which the CPD is to be estimated.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">CPD: TabularCPD</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">MaximumLikelihoodEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_A</span> <span class="o">=</span> <span class="n">MaximumLikelihoodEstimator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">estimate_cpd</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cpd_A</span><span class="p">)</span>
+<span class="go">╒══════╤══════════╕</span>
+<span class="go">│ A(0) │ 0.666667 │</span>
+<span class="go">├──────┼──────────┤</span>
+<span class="go">│ A(1) │ 0.333333 │</span>
+<span class="go">╘══════╧══════════╛</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cpd_C</span> <span class="o">=</span> <span class="n">MaximumLikelihoodEstimator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">estimate_cpd</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cpd_C</span><span class="p">)</span>
+<span class="go">╒══════╤══════╤══════╤══════╤══════╕</span>
+<span class="go">│ A    │ A(0) │ A(0) │ A(1) │ A(1) │</span>
+<span class="go">├──────┼──────┼──────┼──────┼──────┤</span>
+<span class="go">│ B    │ B(0) │ B(1) │ B(0) │ B(1) │</span>
+<span class="go">├──────┼──────┼──────┼──────┼──────┤</span>
+<span class="go">│ C(0) │ 0.0  │ 0.0  │ 1.0  │ 0.5  │</span>
+<span class="go">├──────┼──────┼──────┼──────┼──────┤</span>
+<span class="go">│ C(1) │ 1.0  │ 1.0  │ 0.0  │ 0.5  │</span>
+<span class="go">╘══════╧══════╧══════╧══════╧══════╛</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.estimators.MLE.MaximumLikelihoodEstimator.get_parameters">
+<code class="descname">get_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/MLE.html#MaximumLikelihoodEstimator.get_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.MLE.MaximumLikelihoodEstimator.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to estimate the model parameters (CPDs) using Maximum Likelihood Estimation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">parameters: list</p>
+<blockquote class="last">
+<div><p>List of TabularCPDs, one for each variable of the model</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="k">import</span> <span class="n">BayesianModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">MaximumLikelihoodEstimator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span>
+<span class="gp">... </span>                      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">BayesianModel</span><span class="p">([(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">estimator</span> <span class="o">=</span> <span class="n">MaximumLikelihoodEstimator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">estimator</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">()</span>
+<span class="go">[&lt;TabularCPD representing P(C:2) at 0x7f7b534251d0&gt;,</span>
+<span class="go">&lt;TabularCPD representing P(B:2 | C:2, A:2) at 0x7f7b4dfd4da0&gt;,</span>
+<span class="go">&lt;TabularCPD representing P(A:2) at 0x7f7b4dfd4fd0&gt;,</span>
+<span class="go">&lt;TabularCPD representing P(D:2 | C:2) at 0x7f7b4df822b0&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="structure-score">
+<h2>Structure Score<a class="headerlink" href="#structure-score" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pgmpy.estimators.StructureScore.StructureScore">
+<em class="property">class </em><code class="descclassname">pgmpy.estimators.StructureScore.</code><code class="descname">StructureScore</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/StructureScore.html#StructureScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.StructureScore.StructureScore" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pgmpy.estimators.StructureScore.StructureScore.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/StructureScore.html#StructureScore.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.StructureScore.StructureScore.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a score to measure how well the given <cite>BayesianModel</cite> fits to the data set.
+(This method relies on the <cite>local_score</cite>-method that is implemented in each subclass.)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model: `BayesianModel` instance</strong></p>
+<blockquote>
+<div><p>The Bayesian network that is to be scored. Nodes of the BayesianModel need to coincide
+with column names of data set.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">score: float</p>
+<blockquote>
+<div><p>A number indicating the degree of fit between data and model</p>
+</div></blockquote>
+<p>Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pgmpy.estimators</span> <span class="k">import</span> <span class="n">K2Score</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># create random data sample with 3 variables, where B and C are identical:</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s1">&#39;AB&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K2Score</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">BayesianModel</span><span class="p">([[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">]]))</span>
+</pre></div>
+</div>
+<p>-24242.367348745247</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">K2Score</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">BayesianModel</span><span class="p">([[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">]]))</span>
+</pre></div>
+</div>
+<p class="last">-16273.793897051042</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pgmpy.estimators.StructureScore.StructureScore.structure_prior">
+<code class="descname">structure_prior</code><span class="sig-paren">(</span><em>model</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pgmpy/estimators/StructureScore.html#StructureScore.structure_prior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pgmpy.estimators.StructureScore.StructureScore.structure_prior" title="Permalink to this definition">¶</a></dt>
+<dd><p>A (log) prior distribution over models. Currently unused (= uniform).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing to pgmpy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="readwrite.html" title="Reading and Writing from files"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pgmpy 0.1.2 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Ankur Ankan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
