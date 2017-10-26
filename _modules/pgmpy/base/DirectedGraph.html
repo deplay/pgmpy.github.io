@@ -1,0 +1,410 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pgmpy.base.DirectedGraph &#8212; pgmpy 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.png" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pgmpy.base.DirectedGraph</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+<span class="kn">from</span> <span class="nn">pgmpy.base</span> <span class="k">import</span> <span class="n">UndirectedGraph</span>
+
+
+<span class="k">class</span> <span class="nc">DirectedGraph</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for all Directed Graphical Models.</span>
+
+<span class="sd">    Each node in the graph can represent either a random variable, `Factor`,</span>
+<span class="sd">    or a cluster of random variables. Edges in the graph represent the</span>
+<span class="sd">    dependencies between these.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data: input graph</span>
+<span class="sd">        Data to initialize graph. If data=None (default) an empty graph is</span>
+<span class="sd">        created. The data can be an edge list or any Networkx graph object.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create an empty DirectedGraph with no nodes and no edges</span>
+
+<span class="sd">    &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">    &gt;&gt;&gt; G = DirectedGraph()</span>
+
+<span class="sd">    G can be grown in several ways:</span>
+
+<span class="sd">    **Nodes:**</span>
+
+<span class="sd">    Add one node at a time:</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_node(node=&#39;a&#39;)</span>
+
+<span class="sd">    Add the nodes from any container (a list, set or tuple or the nodes</span>
+<span class="sd">    from another graph).</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_nodes_from(nodes=[&#39;a&#39;, &#39;b&#39;])</span>
+
+<span class="sd">    **Edges:**</span>
+
+<span class="sd">    G can also be grown by adding edges.</span>
+
+<span class="sd">    Add one edge,</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_edge(u=&#39;a&#39;, v=&#39;b&#39;)</span>
+
+<span class="sd">    a list of edges,</span>
+
+<span class="sd">    &gt;&gt;&gt; G.add_edges_from(ebunch=[(&#39;a&#39;, &#39;b&#39;), (&#39;b&#39;, &#39;c&#39;)])</span>
+
+<span class="sd">    If some edges connect nodes not yet in the model, the nodes</span>
+<span class="sd">    are added automatically. There are no errors when adding</span>
+<span class="sd">    nodes or edges that already exist.</span>
+
+<span class="sd">    **Shortcuts:**</span>
+
+<span class="sd">    Many common graph features allow python syntax for speed reporting.</span>
+
+<span class="sd">    &gt;&gt;&gt; &#39;a&#39; in G     # check if node in graph</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; len(G)  # number of nodes in graph</span>
+<span class="sd">    3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ebunch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DirectedGraph</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ebunch</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a single node to the Graph.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node: str, int, or any hashable python object.</span>
+<span class="sd">            The node to add to the graph.</span>
+
+<span class="sd">        weight: int, float</span>
+<span class="sd">            The weight of the node.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; G = DirectedGraph()</span>
+<span class="sd">        &gt;&gt;&gt; G.add_node(node=&#39;A&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; G.nodes()</span>
+<span class="sd">        [&#39;A&#39;]</span>
+
+<span class="sd">        Adding a node with some weight.</span>
+<span class="sd">        &gt;&gt;&gt; G.add_node(node=&#39;B&#39;, weight=0.3)</span>
+
+<span class="sd">        The weight of these nodes can be accessed as:</span>
+<span class="sd">        &gt;&gt;&gt; G.node[&#39;B&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: 0.3}</span>
+<span class="sd">        &gt;&gt;&gt; G.node[&#39;A&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: None}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DirectedGraph</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_nodes_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add multiple nodes to the Graph.</span>
+
+<span class="sd">        **The behviour of adding weights is different than in networkx.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        nodes: iterable container</span>
+<span class="sd">            A container of nodes (list, dict, set, or any hashable python</span>
+<span class="sd">            object).</span>
+
+<span class="sd">        weights: list, tuple (default=None)</span>
+<span class="sd">            A container of weights (int, float). The weight value at index i</span>
+<span class="sd">            is associated with the variable at index i.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; G = DirectedGraph()</span>
+<span class="sd">        &gt;&gt;&gt; G.add_nodes_from(nodes=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; G.nodes()</span>
+<span class="sd">        [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]</span>
+
+<span class="sd">        Adding nodes with weights:</span>
+<span class="sd">        &gt;&gt;&gt; G.add_nodes_from(nodes=[&#39;D&#39;, &#39;E&#39;], weights=[0.3, 0.6])</span>
+<span class="sd">        &gt;&gt;&gt; G.node[&#39;D&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: 0.3}</span>
+<span class="sd">        &gt;&gt;&gt; G.node[&#39;E&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: 0.6}</span>
+<span class="sd">        &gt;&gt;&gt; G.node[&#39;A&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: None}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">weights</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of elements in nodes and weights&quot;</span>
+                                 <span class="s2">&quot;should be equal.&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">nodes</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add an edge between u and v.</span>
+
+<span class="sd">        The nodes u and v will be automatically added if they are</span>
+<span class="sd">        not already in the graph.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u, v : nodes</span>
+<span class="sd">            Nodes can be any hashable Python object.</span>
+
+<span class="sd">        weight: int, float (default=None)</span>
+<span class="sd">            The weight of the edge</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; G = DirectedGraph()</span>
+<span class="sd">        &gt;&gt;&gt; G.add_nodes_from(nodes=[&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charles&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edge(u=&#39;Alice&#39;, v=&#39;Bob&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; G.nodes()</span>
+<span class="sd">        [&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charles&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; G.edges()</span>
+<span class="sd">        [(&#39;Alice&#39;, &#39;Bob&#39;)]</span>
+
+<span class="sd">        When the node is not already present in the graph:</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edge(u=&#39;Alice&#39;, v=&#39;Ankur&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; G.nodes()</span>
+<span class="sd">        [&#39;Alice&#39;, &#39;Ankur&#39;, &#39;Bob&#39;, &#39;Charles&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; G.edges()</span>
+<span class="sd">        [(&#39;Alice&#39;, &#39;Bob&#39;), (&#39;Alice&#39;, &#39;Ankur&#39;)]</span>
+
+<span class="sd">        Adding edges with weight:</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edge(&#39;Ankur&#39;, &#39;Maria&#39;, weight=0.1)</span>
+<span class="sd">        &gt;&gt;&gt; G.edge[&#39;Ankur&#39;][&#39;Maria&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: 0.1}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DirectedGraph</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_edges_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ebunch</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add all the edges in ebunch.</span>
+
+<span class="sd">        If nodes referred in the ebunch are not already present, they</span>
+<span class="sd">        will be automatically added. Node names can be any hashable python</span>
+<span class="sd">        object.</span>
+
+<span class="sd">        **The behavior of adding weights is different than networkx.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ebunch : container of edges</span>
+<span class="sd">            Each edge given in the container will be added to the graph.</span>
+<span class="sd">            The edges must be given as 2-tuples (u, v).</span>
+
+<span class="sd">        weights: list, tuple (default=None)</span>
+<span class="sd">            A container of weights (int, float). The weight value at index i</span>
+<span class="sd">            is associated with the edge at index i.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; G = DirectedGraph()</span>
+<span class="sd">        &gt;&gt;&gt; G.add_nodes_from(nodes=[&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charles&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edges_from(ebunch=[(&#39;Alice&#39;, &#39;Bob&#39;), (&#39;Bob&#39;, &#39;Charles&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; G.nodes()</span>
+<span class="sd">        [&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charles&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; G.edges()</span>
+<span class="sd">        [(&#39;Alice&#39;, &#39;Bob&#39;), (&#39;Bob&#39;, &#39;Charles&#39;)]</span>
+
+<span class="sd">        When the node is not already in the model:</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edges_from(ebunch=[(&#39;Alice&#39;, &#39;Ankur&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; G.nodes()</span>
+<span class="sd">        [&#39;Alice&#39;, &#39;Bob&#39;, &#39;Charles&#39;, &#39;Ankur&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; G.edges()</span>
+<span class="sd">        [(&#39;Alice&#39;, &#39;Bob&#39;), (&#39;Bob&#39;, &#39;Charles&#39;), (&#39;Alice&#39;, &#39;Ankur&#39;)]</span>
+
+<span class="sd">        Adding edges with weights:</span>
+<span class="sd">        &gt;&gt;&gt; G.add_edges_from([(&#39;Ankur&#39;, &#39;Maria&#39;), (&#39;Maria&#39;, &#39;Mason&#39;)],</span>
+<span class="sd">        ...                  weights=[0.3, 0.5])</span>
+<span class="sd">        &gt;&gt;&gt; G.edge[&#39;Ankur&#39;][&#39;Maria&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: 0.3}</span>
+<span class="sd">        &gt;&gt;&gt; G.edge[&#39;Maria&#39;][&#39;Mason&#39;]</span>
+<span class="sd">        {&#39;weight&#39;: 0.5}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ebunch</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ebunch</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">weights</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ebunch</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of elements in ebunch and weights&quot;</span>
+                                 <span class="s2">&quot;should be equal&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ebunch</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">ebunch</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ebunch</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                              <span class="n">weight</span><span class="o">=</span><span class="n">weights</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">ebunch</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">get_parents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of parents of node.</span>
+
+<span class="sd">        Throws an error if the node is not present in the graph.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node: string, int or any hashable python object.</span>
+<span class="sd">            The node whose parents would be returned.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; G = DirectedGraph(ebunch=[(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; G.parents(node=&#39;grade&#39;)</span>
+<span class="sd">        [&#39;diff&#39;, &#39;intel&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">moralize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes all the immoralities in the DirectedGraph and creates a moral</span>
+<span class="sd">        graph (UndirectedGraph).</span>
+
+<span class="sd">        A v-structure X-&gt;Z&lt;-Y is an immorality if there is no directed edge</span>
+<span class="sd">        between X and Y.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; G = DirectedGraph(ebunch=[(&#39;diff&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;grade&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; moral_graph = G.moralize()</span>
+<span class="sd">        &gt;&gt;&gt; moral_graph.edges()</span>
+<span class="sd">        [(&#39;intel&#39;, &#39;grade&#39;), (&#39;intel&#39;, &#39;diff&#39;), (&#39;grade&#39;, &#39;diff&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">moral_graph</span> <span class="o">=</span> <span class="n">UndirectedGraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">()</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="n">moral_graph</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span>
+                <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_parents</span><span class="p">(</span><span class="n">node</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">moral_graph</span>
+
+    <span class="k">def</span> <span class="nf">get_leaves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of leaves of the graph.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; graph = DirectedGraph([(&#39;A&#39;, &#39;B&#39;), (&#39;B&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;D&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; graph.get_leaves()</span>
+<span class="sd">        [&#39;C&#39;, &#39;D&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">out_degree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_degree_iter</span><span class="p">()</span> <span class="k">if</span>
+                <span class="n">out_degree</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_roots</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of roots of the graph.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pgmpy.base import DirectedGraph</span>
+<span class="sd">        &gt;&gt;&gt; graph = DirectedGraph([(&#39;A&#39;, &#39;B&#39;), (&#39;B&#39;, &#39;C&#39;), (&#39;B&#39;, &#39;D&#39;), (&#39;E&#39;, &#39;B&#39;)])</span>
+<span class="sd">        &gt;&gt;&gt; graph.get_roots()</span>
+<span class="sd">        [&#39;A&#39;, &#39;E&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">in_degree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_degree</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">in_degree</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">pgmpy 0.1.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Ankur Ankan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
